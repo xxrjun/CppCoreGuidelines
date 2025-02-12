@@ -1,0 +1,72 @@
+site_name: C++ Core Guidelines
+repo_url: https://github.com/xxrjun/CppCoreGuidelines
+repo_name: xxrjun/CppCoreGuidelines
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+
+markdown_extensions:
+  - toc:
+      permalink: true
+      toc_depth: 3
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - open-in-new-tab
+  - with-pdf:
+
+nav:
+  - Home: index.md
+  - NOTICE: NOTICE.md
+  - 'Abstract': abstract.md
+  - 'In: Introduction': in-introduction.md
+  - 'P: Philosophy': p-philosophy.md
+  - 'I: Interfaces': i-interfaces.md
+  - 'F: Functions': f-functions.md
+  - 'C: Classes and class hierarchies': c-classes-and-class-hierarchies.md
+  - 'Enum: Enumerations': enum-enumerations.md
+  - 'R: Resource management': r-resource-management.md
+  - 'ES: Expressions and statements': es-expressions-and-statements.md
+  - 'Per: Performance': per-performance.md
+  - 'CP: Concurrency and parallelism': cp-concurrency-and-parallelism.md
+  - 'E: Error handling': e-error-handling.md
+  - 'Con: Constants and immutability': con-constants-and-immutability.md
+  - 'T: Templates and generic programming': t-templates-and-generic-programming.md
+  - 'CPL: C-style programming': cpl-c-style-programming.md
+  - 'SF: Source files': sf-source-files.md
+  - 'SL: The Standard Library': sl-the-standard-library.md
+  - 'A: Architectural ideas': a-architectural-ideas.md
+  - 'NR: Non-Rules and myths': nr-non-rules-and-myths.md
+  - 'RF: References': rf-references.md
+  - 'Pro: Profiles': pro-profiles.md
+  - 'GSL: Guidelines support library': gsl-guidelines-support-library.md
+  - 'NL: Naming and layout suggestions': nl-naming-and-layout-suggestions.md
+  - 'FAQ: Answers to frequently asked questions': faq-answers-to-frequently-asked-questions.md
+  - 'Appendix A: Libraries': appendix-a-libraries.md
+  - 'Appendix B: Modernizing code': appendix-b-modernizing-code.md
+  - 'Appendix C: Discussion': appendix-c-discussion.md
+  - 'Appendix D: Supporting tools': appendix-d-supporting-tools.md
+  - 'Glossary': glossary.md
+  - 'To-do: Unclassified proto-rules': to-do-unclassified-proto-rules.md
+  - 'Bibliography': bibliography.md

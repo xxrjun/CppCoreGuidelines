@@ -1,0 +1,42 @@
+name: Build & Deploy Docs
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          pip install mkdocs mkdocs-material mkdocs-with-pdf mkdocs-open-in-new-tab
+
+      - name: Configure Upstream Remote
+        run: |
+          git remote add upstream https://github.com/isocpp/CppCoreGuidelines.git || true
+          git fetch upstream
+          git merge upstream/master --no-edit || true
+
+      - name: Build Documentation
+        run: scripts/build_mkdocs.sh
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
