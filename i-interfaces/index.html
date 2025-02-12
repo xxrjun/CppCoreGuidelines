@@ -1,0 +1,2279 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../p-philosophy/">
+      
+      
+        <link rel="next" href="../f-functions/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>I: Interfaces - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#i-interfaces-s-interfaces" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              I: Interfaces
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i1-make-interfaces-explicit" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.1: Make interfaces explicit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2-avoid-non-const-global-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.2: Avoid non-const global variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i3-avoid-singletons" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.3: Avoid singletons
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i4-make-interfaces-precisely-and-strongly-typed" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.4: Make interfaces precisely and strongly typed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i5-state-preconditions-if-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.5: State preconditions (if any)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i6-prefer-expects-for-expressing-preconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.6: Prefer Expects() for expressing preconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i7-state-postconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.7: State postconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i8-prefer-ensures-for-expressing-postconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.8: Prefer Ensures() for expressing postconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i9-if-an-interface-is-a-template-document-its-parameters-using-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.9: If an interface is a template, document its parameters using concepts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i10-use-exceptions-to-signal-a-failure-to-perform-a-required-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.10: Use exceptions to signal a failure to perform a required task
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i11-never-transfer-ownership-by-a-raw-pointer-t-or-reference-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.11: Never transfer ownership by a raw pointer (T*) or reference (T&amp;)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i12-declare-a-pointer-that-must-not-be-null-as-not_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.12: Declare a pointer that must not be null as not_null
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i13-do-not-pass-an-array-as-a-single-pointer" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.13: Do not pass an array as a single pointer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i22-avoid-complex-initialization-of-global-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.22: Avoid complex initialization of global objects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i23-keep-the-number-of-function-arguments-low" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.23: Keep the number of function arguments low
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i24-avoid-adjacent-parameters-that-can-be-invoked-by-the-same-arguments-in-either-order-with-different-meaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.24: Avoid adjacent parameters that can be invoked by the same arguments in either order with different meaning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i25-prefer-empty-abstract-classes-as-interfaces-to-class-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.25: Prefer empty abstract classes as interfaces to class hierarchies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i26-if-you-want-a-cross-compiler-abi-use-a-c-style-subset" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.26: If you want a cross-compiler ABI, use a C-style subset
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i27-for-stable-library-abi-consider-the-pimpl-idiom" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.27: For stable library ABI, consider the Pimpl idiom
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i30-encapsulate-rule-violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.30: Encapsulate rule violations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i1-make-interfaces-explicit" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.1: Make interfaces explicit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2-avoid-non-const-global-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.2: Avoid non-const global variables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i3-avoid-singletons" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.3: Avoid singletons
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i4-make-interfaces-precisely-and-strongly-typed" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.4: Make interfaces precisely and strongly typed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i5-state-preconditions-if-any" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.5: State preconditions (if any)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i6-prefer-expects-for-expressing-preconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.6: Prefer Expects() for expressing preconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i7-state-postconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.7: State postconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i8-prefer-ensures-for-expressing-postconditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.8: Prefer Ensures() for expressing postconditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i9-if-an-interface-is-a-template-document-its-parameters-using-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.9: If an interface is a template, document its parameters using concepts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i10-use-exceptions-to-signal-a-failure-to-perform-a-required-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.10: Use exceptions to signal a failure to perform a required task
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i11-never-transfer-ownership-by-a-raw-pointer-t-or-reference-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.11: Never transfer ownership by a raw pointer (T*) or reference (T&amp;)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i12-declare-a-pointer-that-must-not-be-null-as-not_null" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.12: Declare a pointer that must not be null as not_null
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i13-do-not-pass-an-array-as-a-single-pointer" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.13: Do not pass an array as a single pointer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i22-avoid-complex-initialization-of-global-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.22: Avoid complex initialization of global objects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i23-keep-the-number-of-function-arguments-low" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.23: Keep the number of function arguments low
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i24-avoid-adjacent-parameters-that-can-be-invoked-by-the-same-arguments-in-either-order-with-different-meaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.24: Avoid adjacent parameters that can be invoked by the same arguments in either order with different meaning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i25-prefer-empty-abstract-classes-as-interfaces-to-class-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.25: Prefer empty abstract classes as interfaces to class hierarchies
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i26-if-you-want-a-cross-compiler-abi-use-a-c-style-subset" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.26: If you want a cross-compiler ABI, use a C-style subset
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i27-for-stable-library-abi-consider-the-pimpl-idiom" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.27: For stable library ABI, consider the Pimpl idiom
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i30-encapsulate-rule-violations" class="md-nav__link">
+    <span class="md-ellipsis">
+      I.30: Encapsulate rule violations
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="i-interfaces-s-interfaces">I: Interfaces {#S-interfaces}<a class="headerlink" href="#i-interfaces-s-interfaces" title="Permanent link">&para;</a></h1>
+<p>An interface is a contract between two parts of a program. Precisely stating what is expected of a supplier of a service and a user of that service is essential.
+Having good (easy-to-understand, encouraging efficient use, not error-prone, supporting testing, etc.) interfaces is probably the most important single aspect of code organization.</p>
+<p>Interface rule summary:</p>
+<ul>
+<li><a href="#Ri-explicit">I.1: Make interfaces explicit</a></li>
+<li><a href="#Ri-global">I.2: Avoid non-<code>const</code> global variables</a></li>
+<li><a href="#Ri-singleton">I.3: Avoid singletons</a></li>
+<li><a href="#Ri-typed">I.4: Make interfaces precisely and strongly typed</a></li>
+<li><a href="#Ri-pre">I.5: State preconditions (if any)</a></li>
+<li><a href="#Ri-expects">I.6: Prefer <code>Expects()</code> for expressing preconditions</a></li>
+<li><a href="#Ri-post">I.7: State postconditions</a></li>
+<li><a href="#Ri-ensures">I.8: Prefer <code>Ensures()</code> for expressing postconditions</a></li>
+<li><a href="#Ri-concepts">I.9: If an interface is a template, document its parameters using concepts</a></li>
+<li><a href="#Ri-except">I.10: Use exceptions to signal a failure to perform a required task</a></li>
+<li><a href="#Ri-raw">I.11: Never transfer ownership by a raw pointer (<code>T*</code>) or reference (<code>T&amp;</code>)</a></li>
+<li><a href="#Ri-nullptr">I.12: Declare a pointer that must not be null as <code>not_null</code></a></li>
+<li><a href="#Ri-array">I.13: Do not pass an array as a single pointer</a></li>
+<li><a href="#Ri-global-init">I.22: Avoid complex initialization of global objects</a></li>
+<li><a href="#Ri-nargs">I.23: Keep the number of function arguments low</a></li>
+<li><a href="#Ri-unrelated">I.24: Avoid adjacent parameters that can be invoked by the same arguments in either order with different meaning</a></li>
+<li><a href="#Ri-abstract">I.25: Prefer empty abstract classes as interfaces to class hierarchies</a></li>
+<li><a href="#Ri-abi">I.26: If you want a cross-compiler ABI, use a C-style subset</a></li>
+<li><a href="#Ri-pimpl">I.27: For stable library ABI, consider the Pimpl idiom</a></li>
+<li><a href="#Ri-encapsulate">I.30: Encapsulate rule violations</a></li>
+</ul>
+<p><strong>See also</strong>:</p>
+<ul>
+<li><a href="#S-functions">F: Functions</a></li>
+<li><a href="#SS-concrete">C.concrete: Concrete types</a></li>
+<li><a href="#SS-hier">C.hier: Class hierarchies</a></li>
+<li><a href="#SS-overload">C.over: Overloading and overloaded operators</a></li>
+<li><a href="#SS-containers">C.con: Containers and other resource handles</a></li>
+<li><a href="#S-errors">E: Error handling</a></li>
+<li><a href="#S-templates">T: Templates and generic programming</a></li>
+</ul>
+<h3 id="i1-make-interfaces-explicit"><a name="Ri-explicit"></a>I.1: Make interfaces explicit<a class="headerlink" href="#i1-make-interfaces-explicit" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Correctness. Assumptions not stated in an interface are easily overlooked and hard to test.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<p>Controlling the behavior of a function through a global (namespace scope) variable (a call mode) is implicit and potentially confusing. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>int round(double d)
+{
+    return (round_up) ? ceil(d) : d;    // don&#39;t: &quot;invisible&quot; dependency
+}
+</code></pre></div>
+<p>It will not be obvious to a caller that the meaning of two calls of <code>round(7.2)</code> might give different results.</p>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>Sometimes we control the details of a set of operations by an environment variable, e.g., normal vs. verbose output or debug vs. optimized.
+The use of a non-local control is potentially confusing, but controls only implementation details of otherwise fixed semantics.</p>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<p>Reporting through non-local variables (e.g., <code>errno</code>) is easily ignored. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>// don&#39;t: no test of fprintf&#39;s return value
+fprintf(connection, &quot;logging: %d %d %d\n&quot;, x, y, s);
+</code></pre></div>
+<p>What if the connection goes down so that no logging output is produced? See I.???.</p>
+<p><strong>Alternative</strong>: Throw an exception. An exception cannot be ignored.</p>
+<p><strong>Alternative formulation</strong>: Avoid passing information across an interface through non-local or implicit state.
+Note that non-<code>const</code> member functions pass information to other member functions through their object's state.</p>
+<p><strong>Alternative formulation</strong>: An interface should be a function or a set of functions.
+Functions can be function templates and sets of functions can be classes or class templates.</p>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) A function should not make control-flow decisions based on the values of variables declared at namespace scope.</li>
+<li>(Simple) A function should not write to variables declared at namespace scope.</li>
+</ul>
+<h3 id="i2-avoid-non-const-global-variables"><a name="Ri-global"></a>I.2: Avoid non-<code>const</code> global variables<a class="headerlink" href="#i2-avoid-non-const-global-variables" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Non-<code>const</code> global variables hide dependencies and make the dependencies subject to unpredictable changes.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct Data {
+    // ... lots of stuff ...
+} data;            // non-const data
+
+void compute()     // don&#39;t
+{
+    // ... use data ...
+}
+
+void output()     // don&#39;t
+{
+    // ... use data ...
+}
+</code></pre></div>
+<p>Who else might modify <code>data</code>?</p>
+<p><strong>Warning</strong>: The initialization of global objects is not totally ordered.
+If you use a global object initialize it with a constant.
+Note that it is possible to get undefined initialization order even for <code>const</code> objects.</p>
+<h5 id="exception_1">Exception<a class="headerlink" href="#exception_1" title="Permanent link">&para;</a></h5>
+<p>A global object is often better than a singleton.</p>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>Global constants are useful.</p>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>The rule against global variables applies to namespace scope variables as well.</p>
+<p><strong>Alternative</strong>: If you use global (more generally namespace scope) data to avoid copying, consider passing the data as an object by reference to <code>const</code>.
+Another solution is to define the data as the state of some object and the operations as member functions.</p>
+<p><strong>Warning</strong>: Beware of data races: If one thread can access non-local data (or data passed by reference) while another thread executes the callee, we can have a data race.
+Every pointer or reference to mutable data is a potential data race.</p>
+<p>Using global pointers or references to access and change non-const, and otherwise non-global,
+data isn't a better alternative to non-const global variables since that doesn't solve the issues of hidden dependencies or potential race conditions.</p>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>You cannot have a race condition on immutable data.</p>
+<p><strong>References</strong>: See the <a href="#SS-call">rules for calling functions</a>.</p>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p>The rule is "avoid", not "don't use." Of course there will be (rare) exceptions, such as <code>cin</code>, <code>cout</code>, and <code>cerr</code>.</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<p>(Simple) Report all non-<code>const</code> variables declared at namespace scope and global pointers/references to non-const data.</p>
+<h3 id="i3-avoid-singletons"><a name="Ri-singleton"></a>I.3: Avoid singletons<a class="headerlink" href="#i3-avoid-singletons" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Singletons are basically complicated global objects in disguise.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Singleton {
+    // ... lots of stuff to ensure that only one Singleton object is created,
+    // that it is initialized properly, etc.
+};
+</code></pre></div>
+<p>There are many variants of the singleton idea.
+That's part of the problem.</p>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>If you don't want a global object to change, declare it <code>const</code> or <code>constexpr</code>.</p>
+<h5 id="exception_2">Exception<a class="headerlink" href="#exception_2" title="Permanent link">&para;</a></h5>
+<p>You can use the simplest "singleton" (so simple that it is often not considered a singleton) to get initialization on first use, if any:</p>
+<div class="language-text highlight"><pre><span></span><code>X&amp; myX()
+{
+    static X my_x {3};
+    return my_x;
+}
+</code></pre></div>
+<p>This is one of the most effective solutions to problems related to initialization order.
+In a multi-threaded environment, the initialization of the static object does not introduce a race condition
+(unless you carelessly access a shared object from within its constructor).</p>
+<p>Note that the initialization of a local <code>static</code> does not imply a race condition.
+However, if the destruction of <code>X</code> involves an operation that needs to be synchronized we must use a less simple solution.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>X&amp; myX()
+{
+    static auto p = new X {3};
+    return *p;  // potential leak
+}
+</code></pre></div>
+<p>Now someone must <code>delete</code> that object in some suitably thread-safe way.
+That's error-prone, so we don't use that technique unless</p>
+<ul>
+<li><code>myX</code> is in multi-threaded code,</li>
+<li>that <code>X</code> object needs to be destroyed (e.g., because it releases a resource), and</li>
+<li><code>X</code>'s destructor's code needs to be synchronized.</li>
+</ul>
+<p>If you, as many do, define a singleton as a class for which only one object is created, functions like <code>myX</code> are not singletons, and this useful technique is not an exception to the no-singleton rule.</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<p>Very hard in general.</p>
+<ul>
+<li>Look for classes with names that include <code>singleton</code>.</li>
+<li>Look for classes for which only a single object is created (by counting objects or by examining constructors).</li>
+<li>If a class X has a public static function that contains a function-local static of the class' type X and returns a pointer or reference to it, ban that.</li>
+</ul>
+<h3 id="i4-make-interfaces-precisely-and-strongly-typed"><a name="Ri-typed"></a>I.4: Make interfaces precisely and strongly typed<a class="headerlink" href="#i4-make-interfaces-precisely-and-strongly-typed" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>Types are the simplest and best documentation, improve legibility due to their well-defined meaning, and are checked at compile time.
+Also, precisely typed code is often optimized better.</p>
+<h5 id="example-dont">Example, don't<a class="headerlink" href="#example-dont" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>void pass(void* data);    // weak and under qualified type void* is suspicious
+</code></pre></div>
+<p>Callers are unsure what types are allowed and if the data may
+be mutated as <code>const</code> is not specified. Note all pointer types
+implicitly convert to <code>void*</code>, so it is easy for callers to provide this value.</p>
+<p>The callee must <code>static_cast</code> data to an unverified type to use it.
+That is error-prone and verbose.</p>
+<p>Only use <code>const void*</code> for passing in data in designs that are indescribable in C++. Consider using a <code>variant</code> or a pointer to base instead.</p>
+<p><strong>Alternative</strong>: Often, a template parameter can eliminate the <code>void*</code> turning it into a <code>T*</code> or <code>T&amp;</code>.
+For generic code these <code>T</code>s can be general or concept constrained template parameters.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>draw_rect(100, 200, 100, 500); // what do the numbers specify?
+
+draw_rect(p.x, p.y, 10, 20); // what units are 10 and 20 in?
+</code></pre></div>
+<p>It is clear that the caller is describing a rectangle, but it is unclear what parts they relate to. Also, an <code>int</code> can carry arbitrary forms of information, including values of many units, so we must guess about the meaning of the four <code>int</code>s. Most likely, the first two are an <code>x</code>,<code>y</code> coordinate pair, but what are the last two?</p>
+<p>Comments and parameter names can help, but we could be explicit:</p>
+<div class="language-text highlight"><pre><span></span><code>void draw_rectangle(Point top_left, Point bottom_right);
+void draw_rectangle(Point top_left, Size height_width);
+
+draw_rectangle(p, Point{10, 20});  // two corners
+draw_rectangle(p, Size{10, 20});   // one corner and a (height, width) pair
+</code></pre></div>
+<p>Obviously, we cannot catch all errors through the static type system
+(e.g., the fact that a first argument is supposed to be a top-left point is left to convention (naming and comments)).</p>
+<h5 id="example-bad_3">Example, bad<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>set_settings(true, false, 42); // what do the numbers specify?
+</code></pre></div>
+<p>The parameter types and their values do not communicate what settings are being specified or what those values mean.</p>
+<p>This design is more explicit, safe and legible:</p>
+<div class="language-text highlight"><pre><span></span><code>alarm_settings s{};
+s.enabled = true;
+s.displayMode = alarm_settings::mode::spinning_light;
+s.frequency = alarm_settings::every_10_seconds;
+set_settings(s);
+</code></pre></div>
+<p>For the case of a set of boolean values consider using a flags <code>enum</code>; a pattern that expresses a set of boolean values.</p>
+<div class="language-text highlight"><pre><span></span><code>enable_lamp_options(lamp_option::on | lamp_option::animate_state_transitions);
+</code></pre></div>
+<h5 id="example-bad_4">Example, bad<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<p>In the following example, it is not clear from the interface what <code>time_to_blink</code> means: Seconds? Milliseconds?</p>
+<div class="language-text highlight"><pre><span></span><code>void blink_led(int time_to_blink) // bad -- the unit is ambiguous
+{
+    // ...
+    // do something with time_to_blink
+    // ...
+}
+
+void use()
+{
+    blink_led(2);
+}
+</code></pre></div>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<p><code>std::chrono::duration</code> types helps making the unit of time duration explicit.</p>
+<div class="language-text highlight"><pre><span></span><code>void blink_led(milliseconds time_to_blink) // good -- the unit is explicit
+{
+    // ...
+    // do something with time_to_blink
+    // ...
+}
+
+void use()
+{
+    blink_led(1500ms);
+}
+</code></pre></div>
+<p>The function can also be written in such a way that it will accept any time duration unit.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class rep, class period&gt;
+void blink_led(duration&lt;rep, period&gt; time_to_blink) // good -- accepts any unit
+{
+    // assuming that millisecond is the smallest relevant unit
+    auto milliseconds_to_blink = duration_cast&lt;milliseconds&gt;(time_to_blink);
+    // ...
+    // do something with milliseconds_to_blink
+    // ...
+}
+
+void use()
+{
+    blink_led(2s);
+    blink_led(1500ms);
+}
+</code></pre></div>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) Report the use of <code>void*</code> as a parameter or return type.</li>
+<li>(Simple) Report the use of more than one <code>bool</code> parameter.</li>
+<li>(Hard to do well) Look for functions that use too many primitive type arguments.</li>
+</ul>
+<h3 id="i5-state-preconditions-if-any"><a name="Ri-pre"></a>I.5: State preconditions (if any)<a class="headerlink" href="#i5-state-preconditions-if-any" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>Arguments have meaning that might constrain their proper use in the callee.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>double sqrt(double x);
+</code></pre></div>
+<p>Here <code>x</code> must be non-negative. The type system cannot (easily and naturally) express that, so we must use other means. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>double sqrt(double x); // x must be non-negative
+</code></pre></div>
+<p>Some preconditions can be expressed as assertions. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>double sqrt(double x) { Expects(x &gt;= 0); /* ... */ }
+</code></pre></div>
+<p>Ideally, that <code>Expects(x &gt;= 0)</code> should be part of the interface of <code>sqrt()</code> but that's not easily done. For now, we place it in the definition (function body).</p>
+<p><strong>References</strong>: <code>Expects()</code> is described in <a href="#gsl-guidelines-support-library">GSL</a>.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>Prefer a formal specification of requirements, such as <code>Expects(p);</code>.
+If that is infeasible, use English text in comments, such as <code>// the sequence [p:q) is ordered using &lt;</code>.</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>Most member functions have as a precondition that some class invariant holds.
+That invariant is established by a constructor and must be reestablished upon exit by every member function called from outside the class.
+We don't need to mention it for each member function.</p>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable)</p>
+<p><strong>See also</strong>: The rules for passing pointers. ???</p>
+<h3 id="i6-prefer-expects-for-expressing-preconditions"><a name="Ri-expects"></a>I.6: Prefer <code>Expects()</code> for expressing preconditions<a class="headerlink" href="#i6-prefer-expects-for-expressing-preconditions" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>To make it clear that the condition is a precondition and to enable tool use.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int area(int height, int width)
+{
+    Expects(height &gt; 0 &amp;&amp; width &gt; 0);            // good
+    if (height &lt;= 0 || width &lt;= 0) my_error();   // obscure
+    // ...
+}
+</code></pre></div>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>Preconditions can be stated in many ways, including comments, <code>if</code>-statements, and <code>assert()</code>.
+This can make them hard to distinguish from ordinary code, hard to update, hard to manipulate by tools, and might have the wrong semantics (do you always want to abort in debug mode and check nothing in productions runs?).</p>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>Preconditions should be part of the interface rather than part of the implementation,
+but we don't yet have the language facilities to do that.
+Once language support becomes available (e.g., see the <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0380r1.pdf">contract proposal</a>) we will adopt the standard version of preconditions, postconditions, and assertions.</p>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p><code>Expects()</code> can also be used to check a condition in the middle of an algorithm.</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>No, using <code>unsigned</code> is not a good way to sidestep the problem of <a href="#Res-nonnegative">ensuring that a value is non-negative</a>.</p>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) Finding the variety of ways preconditions can be asserted is not feasible. Warning about those that can be easily identified (<code>assert()</code>) has questionable value in the absence of a language facility.</p>
+<h3 id="i7-state-postconditions"><a name="Ri-post"></a>I.7: State postconditions<a class="headerlink" href="#i7-state-postconditions" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>To detect misunderstandings about the result and possibly catch erroneous implementations.</p>
+<h5 id="example-bad_5">Example, bad<a class="headerlink" href="#example-bad_5" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>int area(int height, int width) { return height * width; }  // bad
+</code></pre></div>
+<p>Here, we (incautiously) left out the precondition specification, so it is not explicit that height and width must be positive.
+We also left out the postcondition specification, so it is not obvious that the algorithm (<code>height * width</code>) is wrong for areas larger than the largest integer.
+Overflow can happen.
+Consider using:</p>
+<div class="language-text highlight"><pre><span></span><code>int area(int height, int width)
+{
+    auto res = height * width;
+    Ensures(res &gt; 0);
+    return res;
+}
+</code></pre></div>
+<h5 id="example-bad_6">Example, bad<a class="headerlink" href="#example-bad_6" title="Permanent link">&para;</a></h5>
+<p>Consider a famous security bug:</p>
+<div class="language-text highlight"><pre><span></span><code>void f()    // problematic
+{
+    char buffer[MAX];
+    // ...
+    memset(buffer, 0, sizeof(buffer));
+}
+</code></pre></div>
+<p>There was no postcondition stating that the buffer should be cleared and the optimizer eliminated the apparently redundant <code>memset()</code> call:</p>
+<div class="language-text highlight"><pre><span></span><code>void f()    // better
+{
+    char buffer[MAX];
+    // ...
+    memset(buffer, 0, sizeof(buffer));
+    Ensures(buffer[0] == 0);
+}
+</code></pre></div>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<p>Postconditions are often informally stated in a comment that states the purpose of a function; <code>Ensures()</code> can be used to make this more systematic, visible, and checkable.</p>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>Postconditions are especially important when they relate to something that is not directly reflected in a returned result, such as a state of a data structure used.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<p>Consider a function that manipulates a <code>Record</code>, using a <code>mutex</code> to avoid race conditions:</p>
+<div class="language-text highlight"><pre><span></span><code>mutex m;
+
+void manipulate(Record&amp; r)    // don&#39;t
+{
+    m.lock();
+    // ... no m.unlock() ...
+}
+</code></pre></div>
+<p>Here, we "forgot" to state that the <code>mutex</code> should be released, so we don't know if the failure to ensure release of the <code>mutex</code> was a bug or a feature.
+Stating the postcondition would have made it clear:</p>
+<div class="language-text highlight"><pre><span></span><code>void manipulate(Record&amp; r)    // postcondition: m is unlocked upon exit
+{
+    m.lock();
+    // ... no m.unlock() ...
+}
+</code></pre></div>
+<p>The bug is now obvious (but only to a human reading comments).</p>
+<p>Better still, use <a href="#Rr-raii">RAII</a> to ensure that the postcondition ("the lock must be released") is enforced in code:</p>
+<div class="language-text highlight"><pre><span></span><code>void manipulate(Record&amp; r)    // best
+{
+    lock_guard&lt;mutex&gt; _ {m};
+    // ...
+}
+</code></pre></div>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>Ideally, postconditions are stated in the interface/declaration so that users can easily see them.
+Only postconditions related to the users can be stated in the interface.
+Postconditions related only to internal state belongs in the definition/implementation.</p>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) This is a philosophical guideline that is infeasible to check
+directly in the general case. Domain specific checkers (like lock-holding
+checkers) exist for many toolchains.</p>
+<h3 id="i8-prefer-ensures-for-expressing-postconditions"><a name="Ri-ensures"></a>I.8: Prefer <code>Ensures()</code> for expressing postconditions<a class="headerlink" href="#i8-prefer-ensures-for-expressing-postconditions" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>To make it clear that the condition is a postcondition and to enable tool use.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    char buffer[MAX];
+    // ...
+    memset(buffer, 0, MAX);
+    Ensures(buffer[0] == 0);
+}
+</code></pre></div>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>Postconditions can be stated in many ways, including comments, <code>if</code>-statements, and <code>assert()</code>.
+This can make them hard to distinguish from ordinary code, hard to update, hard to manipulate by tools, and might have the wrong semantics.</p>
+<p><strong>Alternative</strong>: Postconditions of the form "this resource must be released" are best expressed by <a href="#Rr-raii">RAII</a>.</p>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>Ideally, that <code>Ensures</code> should be part of the interface, but that's not easily done.
+For now, we place it in the definition (function body).
+Once language support becomes available (e.g., see the <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0380r1.pdf">contract proposal</a>) we will adopt the standard version of preconditions, postconditions, and assertions.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) Finding the variety of ways postconditions can be asserted is not feasible. Warning about those that can be easily identified (<code>assert()</code>) has questionable value in the absence of a language facility.</p>
+<h3 id="i9-if-an-interface-is-a-template-document-its-parameters-using-concepts"><a name="Ri-concepts"></a>I.9: If an interface is a template, document its parameters using concepts<a class="headerlink" href="#i9-if-an-interface-is-a-template-document-its-parameters-using-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>Make the interface precisely specified and compile-time checkable in the (not so distant) future.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<p>Use the C++20 style of requirements specification. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename Iter, typename Val&gt;
+  requires input_iterator&lt;Iter&gt; &amp;&amp; equality_comparable_with&lt;iter_value_t&lt;Iter&gt;, Val&gt;
+Iter find(Iter first, Iter last, Val v)
+{
+    // ...
+}
+</code></pre></div>
+<p><strong>See also</strong>: <a href="#SS-GP">Generic programming</a> and <a href="#SS-concepts">concepts</a>.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<p>Warn if any non-variadic template parameter is not constrained by a concept (in its declaration or mentioned in a <code>requires</code> clause).</p>
+<h3 id="i10-use-exceptions-to-signal-a-failure-to-perform-a-required-task"><a name="Ri-except"></a>I.10: Use exceptions to signal a failure to perform a required task<a class="headerlink" href="#i10-use-exceptions-to-signal-a-failure-to-perform-a-required-task" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>It should not be possible to ignore an error because that could leave the system or a computation in an undefined (or unexpected) state.
+This is a major source of errors.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int printf(const char* ...);    // bad: return negative number if output fails
+
+template&lt;class F, class ...Args&gt;
+// good: throw system_error if unable to start the new thread
+explicit thread(F&amp;&amp; f, Args&amp;&amp;... args);
+</code></pre></div>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>What is an error?</p>
+<p>An error means that the function cannot achieve its advertised purpose (including establishing postconditions).
+Calling code that ignores an error could lead to wrong results or undefined systems state.
+For example, not being able to connect to a remote server is not by itself an error:
+the server can refuse a connection for all kinds of reasons, so the natural thing is to return a result that the caller should always check.
+However, if failing to make a connection is considered an error, then a failure should throw an exception.</p>
+<h5 id="exception_3">Exception<a class="headerlink" href="#exception_3" title="Permanent link">&para;</a></h5>
+<p>Many traditional interface functions (e.g., UNIX signal handlers) use error codes (e.g., <code>errno</code>) to report what are really status codes, rather than errors. You don't have a good alternative to using such, so calling these does not violate the rule.</p>
+<h5 id="alternative">Alternative<a class="headerlink" href="#alternative" title="Permanent link">&para;</a></h5>
+<p>If you can't use exceptions (e.g., because your code is full of old-style raw-pointer use or because there are hard-real-time constraints), consider using a style that returns a pair of values:</p>
+<div class="language-text highlight"><pre><span></span><code>int val;
+int error_code;
+tie(val, error_code) = do_something();
+if (error_code) {
+    // ... handle the error or exit ...
+}
+// ... use val ...
+</code></pre></div>
+<p>This style unfortunately leads to uninitialized variables.
+Since C++17 the "structured bindings" feature can be used to initialize variables directly from the return value:</p>
+<div class="language-text highlight"><pre><span></span><code>auto [val, error_code] = do_something();
+if (error_code) {
+    // ... handle the error or exit ...
+}
+// ... use val ...
+</code></pre></div>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>We don't consider "performance" a valid reason not to use exceptions.</p>
+<ul>
+<li>Often, explicit error checking and handling consume as much time and space as exception handling.</li>
+<li>Often, cleaner code yields better performance with exceptions (simplifying the tracing of paths through the program and their optimization).</li>
+<li>A good rule for performance critical code is to move checking outside the <a href="#Rper-critical">critical</a> part of the code.</li>
+<li>In the longer term, more regular code gets better optimized.</li>
+<li>Always carefully <a href="#Rper-measure">measure</a> before making performance claims.</li>
+</ul>
+<p><strong>See also</strong>: <a href="#Ri-pre">I.5</a> and <a href="#Ri-post">I.7</a> for reporting precondition and postcondition violations.</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Not enforceable) This is a philosophical guideline that is infeasible to check directly.</li>
+<li>Look for <code>errno</code>.</li>
+</ul>
+<h3 id="i11-never-transfer-ownership-by-a-raw-pointer-t-or-reference-t"><a name="Ri-raw"></a>I.11: Never transfer ownership by a raw pointer (<code>T*</code>) or reference (<code>T&amp;</code>)<a class="headerlink" href="#i11-never-transfer-ownership-by-a-raw-pointer-t-or-reference-t" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>If there is any doubt whether the caller or the callee owns an object, leaks or premature destruction will occur.</p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>X* compute(args)    // don&#39;t
+{
+    X* res = new X{};
+    // ...
+    return res;
+}
+</code></pre></div>
+<p>Who deletes the returned <code>X</code>? The problem would be harder to spot if <code>compute</code> returned a reference.
+Consider returning the result by value (use move semantics if the result is large):</p>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;double&gt; compute(args)  // good
+{
+    vector&lt;double&gt; res(10000);
+    // ...
+    return res;
+}
+</code></pre></div>
+<p><strong>Alternative</strong>: <a href="#Rr-smartptrparam">Pass ownership</a> using a "smart pointer", such as <code>unique_ptr</code> (for exclusive ownership) and <code>shared_ptr</code> (for shared ownership).
+However, that is less elegant and often less efficient than returning the object itself,
+so use smart pointers only if reference semantics are needed.</p>
+<p><strong>Alternative</strong>: Sometimes older code can't be modified because of ABI compatibility requirements or lack of resources.
+In that case, mark owning pointers using <code>owner</code> from the <a href="#gsl-guidelines-support-library">guidelines support library</a>:</p>
+<div class="language-text highlight"><pre><span></span><code>owner&lt;X*&gt; compute(args)    // It is now clear that ownership is transferred
+{
+    owner&lt;X*&gt; res = new X{};
+    // ...
+    return res;
+}
+</code></pre></div>
+<p>This tells analysis tools that <code>res</code> is an owner.
+That is, its value must be <code>delete</code>d or transferred to another owner, as is done here by the <code>return</code>.</p>
+<p><code>owner</code> is used similarly in the implementation of resource handles.</p>
+<h5 id="note_18">Note<a class="headerlink" href="#note_18" title="Permanent link">&para;</a></h5>
+<p>Every object passed as a raw pointer (or iterator) is assumed to be owned by the
+caller, so that its lifetime is handled by the caller. Viewed another way:
+ownership transferring APIs are relatively rare compared to pointer-passing APIs,
+so the default is "no ownership transfer."</p>
+<p><strong>See also</strong>: <a href="#Rf-conventional">Argument passing</a>, <a href="#Rr-smartptrparam">use of smart pointer arguments</a>, and <a href="#Rf-value-return">value return</a>.</p>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) Warn on <code>delete</code> of a raw pointer that is not an <code>owner&lt;T&gt;</code>. Suggest use of standard-library resource handle or use of <code>owner&lt;T&gt;</code>.</li>
+<li>(Simple) Warn on failure to either <code>reset</code> or explicitly <code>delete</code> an <code>owner</code> pointer on every code path.</li>
+<li>(Simple) Warn if the return value of <code>new</code> or a function call with an <code>owner</code> return value is assigned to a raw pointer or non-<code>owner</code> reference.</li>
+</ul>
+<h3 id="i12-declare-a-pointer-that-must-not-be-null-as-not_null"><a name="Ri-nullptr"></a>I.12: Declare a pointer that must not be null as <code>not_null</code><a class="headerlink" href="#i12-declare-a-pointer-that-must-not-be-null-as-not_null" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>To help avoid dereferencing <code>nullptr</code> errors.
+To improve performance by avoiding redundant checks for <code>nullptr</code>.</p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int length(const char* p);            // it is not clear whether length(nullptr) is valid
+
+length(nullptr);                      // OK?
+
+int length(not_null&lt;const char*&gt; p);  // better: we can assume that p cannot be nullptr
+
+int length(const char* p);            // we must assume that p can be nullptr
+</code></pre></div>
+<p>By stating the intent in source, implementers and tools can provide better diagnostics, such as finding some classes of errors through static analysis, and perform optimizations, such as removing branches and null tests.</p>
+<h5 id="note_19">Note<a class="headerlink" href="#note_19" title="Permanent link">&para;</a></h5>
+<p><code>not_null</code> is defined in the <a href="#gsl-guidelines-support-library">guidelines support library</a>.</p>
+<h5 id="note_20">Note<a class="headerlink" href="#note_20" title="Permanent link">&para;</a></h5>
+<p>The assumption that the pointer to <code>char</code> pointed to a C-style string (a zero-terminated string of characters) was still implicit, and a potential source of confusion and errors. Use <code>czstring</code> in preference to <code>const char*</code>.</p>
+<div class="language-text highlight"><pre><span></span><code>// we can assume that p cannot be nullptr
+// we can assume that p points to a zero-terminated array of characters
+int length(not_null&lt;czstring&gt; p);
+</code></pre></div>
+<p>Note: <code>length()</code> is, of course, <code>std::strlen()</code> in disguise.</p>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) ((Foundation)) If a function checks a pointer parameter against <code>nullptr</code> before access, on all control-flow paths, then warn it should be declared <code>not_null</code>.</li>
+<li>(Complex) If a function with pointer return value ensures it is not <code>nullptr</code> on all return paths, then warn the return type should be declared <code>not_null</code>.</li>
+</ul>
+<h3 id="i13-do-not-pass-an-array-as-a-single-pointer"><a name="Ri-array"></a>I.13: Do not pass an array as a single pointer<a class="headerlink" href="#i13-do-not-pass-an-array-as-a-single-pointer" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>(pointer, size)-style interfaces are error-prone. Also, a plain pointer (to array) must rely on some convention to allow the callee to determine the size.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>void copy_n(const T* p, T* q, int n); // copy from [p:p+n) to [q:q+n)
+</code></pre></div>
+<p>What if there are fewer than <code>n</code> elements in the array pointed to by <code>q</code>? Then, we overwrite some probably unrelated memory.
+What if there are fewer than <code>n</code> elements in the array pointed to by <code>p</code>? Then, we read some probably unrelated memory.
+Either is undefined behavior and a potentially very nasty bug.</p>
+<h5 id="alternative_1">Alternative<a class="headerlink" href="#alternative_1" title="Permanent link">&para;</a></h5>
+<p>Consider using explicit spans:</p>
+<div class="language-text highlight"><pre><span></span><code>void copy(span&lt;const T&gt; r, span&lt;T&gt; r2); // copy r to r2
+</code></pre></div>
+<h5 id="example-bad_7">Example, bad<a class="headerlink" href="#example-bad_7" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>void draw(Shape* p, int n);  // poor interface; poor code
+Circle arr[10];
+// ...
+draw(arr, 10);
+</code></pre></div>
+<p>Passing <code>10</code> as the <code>n</code> argument might be a mistake: the most common convention is to assume <code>[0:n)</code> but that is nowhere stated. Worse is that the call of <code>draw()</code> compiled at all: there was an implicit conversion from array to pointer (array decay) and then another implicit conversion from <code>Circle</code> to <code>Shape</code>. There is no way that <code>draw()</code> can safely iterate through that array: it has no way of knowing the size of the elements.</p>
+<p><strong>Alternative</strong>: Use a support class that ensures that the number of elements is correct and prevents dangerous implicit conversions. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>void draw2(span&lt;Circle&gt;);
+Circle arr[10];
+// ...
+draw2(span&lt;Circle&gt;(arr));  // deduce the number of elements
+draw2(arr);    // deduce the element type and array size
+
+void draw3(span&lt;Shape&gt;);
+draw3(arr);    // error: cannot convert Circle[10] to span&lt;Shape&gt;
+</code></pre></div>
+<p>This <code>draw2()</code> passes the same amount of information to <code>draw()</code>, but makes the fact that it is supposed to be a range of <code>Circle</code>s explicit. See ???.</p>
+<h5 id="exception_4">Exception<a class="headerlink" href="#exception_4" title="Permanent link">&para;</a></h5>
+<p>Use <code>zstring</code> and <code>czstring</code> to represent C-style, zero-terminated strings.
+But when doing so, use <code>std::string_view</code> or <code>span&lt;char&gt;</code> from the <a href="#gsl-guidelines-support-library">GSL</a> to prevent range errors.</p>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) ((Bounds)) Warn for any expression that would rely on implicit conversion of an array type to a pointer type. Allow exception for zstring/czstring pointer types.</li>
+<li>(Simple) ((Bounds)) Warn for any arithmetic operation on an expression of pointer type that results in a value of pointer type. Allow exception for zstring/czstring pointer types.</li>
+</ul>
+<h3 id="i22-avoid-complex-initialization-of-global-objects"><a name="Ri-global-init"></a>I.22: Avoid complex initialization of global objects<a class="headerlink" href="#i22-avoid-complex-initialization-of-global-objects" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>Complex initialization can lead to undefined order of execution.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// file1.c
+
+extern const X x;
+
+const Y y = f(x);   // read x; write y
+
+// file2.c
+
+extern const Y y;
+
+const X x = g(y);   // read y; write x
+</code></pre></div>
+<p>Since <code>x</code> and <code>y</code> are in different translation units the order of calls to <code>f()</code> and <code>g()</code> is undefined;
+one will access an uninitialized <code>const</code>.
+This shows that the order-of-initialization problem for global (namespace scope) objects is not limited to global <em>variables</em>.</p>
+<h5 id="note_21">Note<a class="headerlink" href="#note_21" title="Permanent link">&para;</a></h5>
+<p>Order of initialization problems become particularly difficult to handle in concurrent code.
+It is usually best to avoid global (namespace scope) objects altogether.</p>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag initializers of globals that call non-<code>constexpr</code> functions</li>
+<li>Flag initializers of globals that access <code>extern</code> objects</li>
+</ul>
+<h3 id="i23-keep-the-number-of-function-arguments-low"><a name="Ri-nargs"></a>I.23: Keep the number of function arguments low<a class="headerlink" href="#i23-keep-the-number-of-function-arguments-low" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>Having many arguments opens opportunities for confusion. Passing lots of arguments is often costly compared to alternatives.</p>
+<h5 id="discussion">Discussion<a class="headerlink" href="#discussion" title="Permanent link">&para;</a></h5>
+<p>The two most common reasons why functions have too many parameters are:</p>
+<ol>
+<li>
+<p><em>Missing an abstraction.</em>
+   There is an abstraction missing, so that a compound value is being
+   passed as individual elements instead of as a single object that enforces an invariant.
+   This not only expands the parameter list, but it leads to errors because the component values
+   are no longer protected by an enforced invariant.</p>
+</li>
+<li>
+<p><em>Violating "one function, one responsibility."</em>
+   The function is trying to do more than one job and should probably be refactored.</p>
+</li>
+</ol>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<p>The standard-library <code>merge()</code> is at the limit of what we can comfortably handle:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class InputIterator1, class InputIterator2, class OutputIterator, class Compare&gt;
+OutputIterator merge(InputIterator1 first1, InputIterator1 last1,
+                     InputIterator2 first2, InputIterator2 last2,
+                     OutputIterator result, Compare comp);
+</code></pre></div>
+<p>Note that this is because of problem 1 above -- missing abstraction. Instead of passing a range (abstraction), STL passed iterator pairs (unencapsulated component values).</p>
+<p>Here, we have four template arguments and six function arguments.
+To simplify the most frequent and simplest uses, the comparison argument can be defaulted to <code>&lt;</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class InputIterator1, class InputIterator2, class OutputIterator&gt;
+OutputIterator merge(InputIterator1 first1, InputIterator1 last1,
+                     InputIterator2 first2, InputIterator2 last2,
+                     OutputIterator result);
+</code></pre></div>
+<p>This doesn't reduce the total complexity, but it reduces the surface complexity presented to many users.
+To really reduce the number of arguments, we need to bundle the arguments into higher-level abstractions:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class InputRange1, class InputRange2, class OutputIterator&gt;
+OutputIterator merge(InputRange1 r1, InputRange2 r2, OutputIterator result);
+</code></pre></div>
+<p>Grouping arguments into "bundles" is a general technique to reduce the number of arguments and to increase the opportunities for checking.</p>
+<p>Alternatively, we could use a standard library concept to define the notion of three types that must be usable for merging:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class In1, class In2, class Out&gt;
+  requires mergeable&lt;In1, In2, Out&gt;
+Out merge(In1 r1, In2 r2, Out result);
+</code></pre></div>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<p>The safety Profiles recommend replacing</p>
+<div class="language-text highlight"><pre><span></span><code>void f(int* some_ints, int some_ints_length);  // BAD: C style, unsafe
+</code></pre></div>
+<p>with</p>
+<div class="language-text highlight"><pre><span></span><code>void f(gsl::span&lt;int&gt; some_ints);              // GOOD: safe, bounds-checked
+</code></pre></div>
+<p>Here, using an abstraction has safety and robustness benefits, and naturally also reduces the number of parameters.</p>
+<h5 id="note_22">Note<a class="headerlink" href="#note_22" title="Permanent link">&para;</a></h5>
+<p>How many parameters are too many? Try to use fewer than four (4) parameters.
+There are functions that are best expressed with four individual parameters, but not many.</p>
+<p><strong>Alternative</strong>: Use better abstraction: Group arguments into meaningful objects and pass the objects (by value or by reference).</p>
+<p><strong>Alternative</strong>: Use default arguments or overloads to allow the most common forms of calls to be done with fewer arguments.</p>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Warn when a function declares two iterators (including pointers) of the same type instead of a range or a view.</li>
+<li>(Not enforceable) This is a philosophical guideline that is infeasible to check directly.</li>
+</ul>
+<h3 id="i24-avoid-adjacent-parameters-that-can-be-invoked-by-the-same-arguments-in-either-order-with-different-meaning"><a name="Ri-unrelated"></a>I.24: Avoid adjacent parameters that can be invoked by the same arguments in either order with different meaning<a class="headerlink" href="#i24-avoid-adjacent-parameters-that-can-be-invoked-by-the-same-arguments-in-either-order-with-different-meaning" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>Adjacent arguments of the same type are easily swapped by mistake.</p>
+<h5 id="example-bad_8">Example, bad<a class="headerlink" href="#example-bad_8" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>void copy_n(T* p, T* q, int n);  // copy from [p:p + n) to [q:q + n)
+</code></pre></div>
+<p>This is a nasty variant of a K&amp;R C-style interface. It is easy to reverse the "to" and "from" arguments.</p>
+<p>Use <code>const</code> for the "from" argument:</p>
+<div class="language-text highlight"><pre><span></span><code>void copy_n(const T* p, T* q, int n);  // copy from [p:p + n) to [q:q + n)
+</code></pre></div>
+<h5 id="exception_5">Exception<a class="headerlink" href="#exception_5" title="Permanent link">&para;</a></h5>
+<p>If the order of the parameters is not important, there is no problem:</p>
+<div class="language-text highlight"><pre><span></span><code>int max(int a, int b);
+</code></pre></div>
+<h5 id="alternative_2">Alternative<a class="headerlink" href="#alternative_2" title="Permanent link">&para;</a></h5>
+<p>Don't pass arrays as pointers, pass an object representing a range (e.g., a <code>span</code>):</p>
+<div class="language-text highlight"><pre><span></span><code>void copy_n(span&lt;const T&gt; p, span&lt;T&gt; q);  // copy from p to q
+</code></pre></div>
+<h5 id="alternative_3">Alternative<a class="headerlink" href="#alternative_3" title="Permanent link">&para;</a></h5>
+<p>Define a <code>struct</code> as the parameter type and name the fields for those parameters accordingly:</p>
+<div class="language-text highlight"><pre><span></span><code>struct SystemParams {
+    string config_file;
+    string output_path;
+    seconds timeout;
+};
+void initialize(SystemParams p);
+</code></pre></div>
+<p>This tends to make invocations of this clear to future readers, as the parameters
+are often filled in by name at the call site.</p>
+<h5 id="note_23">Note<a class="headerlink" href="#note_23" title="Permanent link">&para;</a></h5>
+<p>Only the interface's designer can adequately address the source of violations of this guideline.</p>
+<h5 id="enforcement-strategy">Enforcement strategy<a class="headerlink" href="#enforcement-strategy" title="Permanent link">&para;</a></h5>
+<p>(Simple) Warn if two consecutive parameters share the same type</p>
+<p>We are still looking for a less-simple enforcement.</p>
+<h3 id="i25-prefer-empty-abstract-classes-as-interfaces-to-class-hierarchies"><a name="Ri-abstract"></a>I.25: Prefer empty abstract classes as interfaces to class hierarchies<a class="headerlink" href="#i25-prefer-empty-abstract-classes-as-interfaces-to-class-hierarchies" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>Abstract classes that are empty (have no non-static member data) are more likely to be stable than base classes with state.</p>
+<h5 id="example-bad_9">Example, bad<a class="headerlink" href="#example-bad_9" title="Permanent link">&para;</a></h5>
+<p>You just knew that <code>Shape</code> would turn up somewhere :-)</p>
+<div class="language-text highlight"><pre><span></span><code>class Shape {  // bad: interface class loaded with data
+public:
+    Point center() const { return c; }
+    virtual void draw() const;
+    virtual void rotate(int);
+    // ...
+private:
+    Point c;
+    vector&lt;Point&gt; outline;
+    Color col;
+};
+</code></pre></div>
+<p>This will force every derived class to compute a center -- even if that's non-trivial and the center is never used. Similarly, not every <code>Shape</code> has a <code>Color</code>, and many <code>Shape</code>s are best represented without an outline defined as a sequence of <code>Point</code>s. Using an abstract class is better:</p>
+<div class="language-text highlight"><pre><span></span><code>class Shape {    // better: Shape is a pure interface
+public:
+    virtual Point center() const = 0;   // pure virtual functions
+    virtual void draw() const = 0;
+    virtual void rotate(int) = 0;
+    // ...
+    // ... no data members ...
+    // ...
+    virtual ~Shape() = default;
+};
+</code></pre></div>
+<h5 id="enforcement_15">Enforcement<a class="headerlink" href="#enforcement_15" title="Permanent link">&para;</a></h5>
+<p>(Simple) Warn if a pointer/reference to a class <code>C</code> is assigned to a pointer/reference to a base of <code>C</code> and the base class contains data members.</p>
+<h3 id="i26-if-you-want-a-cross-compiler-abi-use-a-c-style-subset"><a name="Ri-abi"></a>I.26: If you want a cross-compiler ABI, use a C-style subset<a class="headerlink" href="#i26-if-you-want-a-cross-compiler-abi-use-a-c-style-subset" title="Permanent link">&para;</a></h3>
+<h5 id="reason_17">Reason<a class="headerlink" href="#reason_17" title="Permanent link">&para;</a></h5>
+<p>Different compilers implement different binary layouts for classes, exception handling, function names, and other implementation details.</p>
+<h5 id="exception_6">Exception<a class="headerlink" href="#exception_6" title="Permanent link">&para;</a></h5>
+<p>Common ABIs are emerging on some platforms freeing you from the more draconian restrictions.</p>
+<h5 id="note_24">Note<a class="headerlink" href="#note_24" title="Permanent link">&para;</a></h5>
+<p>If you use a single compiler, you can use full C++ in interfaces. That might require recompilation after an upgrade to a new compiler version.</p>
+<h5 id="enforcement_16">Enforcement<a class="headerlink" href="#enforcement_16" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) It is difficult to reliably identify where an interface forms part of an ABI.</p>
+<h3 id="i27-for-stable-library-abi-consider-the-pimpl-idiom"><a name="Ri-pimpl"></a>I.27: For stable library ABI, consider the Pimpl idiom<a class="headerlink" href="#i27-for-stable-library-abi-consider-the-pimpl-idiom" title="Permanent link">&para;</a></h3>
+<h5 id="reason_18">Reason<a class="headerlink" href="#reason_18" title="Permanent link">&para;</a></h5>
+<p>Because private data members participate in class layout and private member functions participate in overload resolution, changes to those
+implementation details require recompilation of all users of a class that uses them. A non-polymorphic interface class holding a pointer to
+implementation (Pimpl) can isolate the users of a class from changes in its implementation at the cost of an indirection.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<p>interface (widget.h)</p>
+<div class="language-text highlight"><pre><span></span><code>class widget {
+    class impl;
+    std::unique_ptr&lt;impl&gt; pimpl;
+public:
+    void draw(); // public API that will be forwarded to the implementation
+    widget(int); // defined in the implementation file
+    ~widget();   // defined in the implementation file, where impl is a complete type
+    widget(widget&amp;&amp;) noexcept; // defined in the implementation file
+    widget(const widget&amp;) = delete;
+    widget&amp; operator=(widget&amp;&amp;) noexcept; // defined in the implementation file
+    widget&amp; operator=(const widget&amp;) = delete;
+};
+</code></pre></div>
+<p>implementation (widget.cpp)</p>
+<div class="language-text highlight"><pre><span></span><code>class widget::impl {
+    int n; // private data
+public:
+    void draw(const widget&amp; w) { /* ... */ }
+    impl(int n) : n(n) {}
+};
+void widget::draw() { pimpl-&gt;draw(*this); }
+widget::widget(int n) : pimpl{std::make_unique&lt;impl&gt;(n)} {}
+widget::widget(widget&amp;&amp;) noexcept = default;
+widget::~widget() = default;
+widget&amp; widget::operator=(widget&amp;&amp;) noexcept = default;
+</code></pre></div>
+<h5 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h5>
+<p>See <a href="https://herbsutter.com/gotw/_100/">GOTW #100</a> and <a href="http://en.cppreference.com/w/cpp/language/pimpl">cppreference</a> for the trade-offs and additional implementation details associated with this idiom.</p>
+<h5 id="enforcement_17">Enforcement<a class="headerlink" href="#enforcement_17" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) It is difficult to reliably identify where an interface forms part of an ABI.</p>
+<h3 id="i30-encapsulate-rule-violations"><a name="Ri-encapsulate"></a>I.30: Encapsulate rule violations<a class="headerlink" href="#i30-encapsulate-rule-violations" title="Permanent link">&para;</a></h3>
+<h5 id="reason_19">Reason<a class="headerlink" href="#reason_19" title="Permanent link">&para;</a></h5>
+<p>To keep code simple and safe.
+Sometimes, ugly, unsafe, or error-prone techniques are necessary for logical or performance reasons.
+If so, keep them local, rather than "infecting" interfaces so that larger groups of programmers have to be aware of the
+subtleties.
+Implementation complexity should, if at all possible, not leak through interfaces into user code.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<p>Consider a program that, depending on some form of input (e.g., arguments to <code>main</code>), should consume input
+from a file, from the command line, or from standard input.
+We might write</p>
+<div class="language-text highlight"><pre><span></span><code>bool owned;
+owner&lt;istream*&gt; inp;
+switch (source) {
+case std_in:        owned = false; inp = &amp;cin;                       break;
+case command_line:  owned = true;  inp = new istringstream{argv[2]}; break;
+case file:          owned = true;  inp = new ifstream{argv[2]};      break;
+}
+istream&amp; in = *inp;
+</code></pre></div>
+<p>This violated the rule <a href="#Res-always">against uninitialized variables</a>,
+the rule against <a href="#Ri-raw">ignoring ownership</a>,
+and the rule <a href="#Res-magic">against magic constants</a>.
+In particular, someone has to remember to somewhere write</p>
+<div class="language-text highlight"><pre><span></span><code>if (owned) delete inp;
+</code></pre></div>
+<p>We could handle this particular example by using <code>unique_ptr</code> with a special deleter that does nothing for <code>cin</code>,
+but that's complicated for novices (who can easily encounter this problem) and the example is an example of a more general
+problem where a property that we would like to consider static (here, ownership) needs infrequently be addressed
+at run time.
+The common, most frequent, and safest examples can be handled statically, so we don't want to add cost and complexity to those.
+But we must also cope with the uncommon, less-safe, and necessarily more expensive cases.
+Such examples are discussed in <a href="http://www.stroustrup.com/resource-model.pdf">[Str15]</a>.</p>
+<p>So, we write a class</p>
+<div class="language-text highlight"><pre><span></span><code>class Istream { [[gsl::suppress(&quot;lifetime&quot;)]]
+public:
+    enum Opt { from_line = 1 };
+    Istream() { }
+    Istream(czstring p) : owned{true}, inp{new ifstream{p}} {}            // read from file
+    Istream(czstring p, Opt) : owned{true}, inp{new istringstream{p}} {}  // read from command line
+    ~Istream() { if (owned) delete inp; }
+    operator istream&amp;() { return *inp; }
+private:
+    bool owned = false;
+    istream* inp = &amp;cin;
+};
+</code></pre></div>
+<p>Now, the dynamic nature of <code>istream</code> ownership has been encapsulated.
+Presumably, a bit of checking for potential errors would be added in real code.</p>
+<h5 id="enforcement_18">Enforcement<a class="headerlink" href="#enforcement_18" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Hard, it is hard to decide what rule-breaking code is essential</li>
+<li>Flag rule suppression that enable rule-violations to cross interfaces</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

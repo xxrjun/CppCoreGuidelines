@@ -1,0 +1,2181 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../sf-source-files/">
+      
+      
+        <link rel="next" href="../a-architectural-ideas/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>SL: The Standard Library - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sl-the-standard-library-s-stdlib" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SL: The Standard Library
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sl1-use-libraries-wherever-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.1: Use libraries wherever possible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl2-prefer-the-standard-library-to-other-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.2: Prefer the standard library to other libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl3-do-not-add-non-standard-entities-to-namespace-std" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.3: Do not add non-standard entities to namespace std
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl4-use-the-standard-library-in-a-type-safe-manner" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.4: Use the standard library in a type-safe manner
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slcon-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con: Containers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.con: Containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slcon1-prefer-using-stl-array-or-vector-instead-of-a-c-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.1: Prefer using STL array or vector instead of a C array
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon2-prefer-using-stl-vector-by-default-unless-you-have-a-reason-to-use-a-different-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.2: Prefer using STL vector by default unless you have a reason to use a different container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon3-avoid-bounds-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.3: Avoid bounds errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon4-dont-use-memset-or-memcpy-for-arguments-that-are-not-trivially-copyable" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.4: don't use memset or memcpy for arguments that are not trivially-copyable
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slstr-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str: String
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.str: String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slstr1-use-stdstring-to-own-character-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.1: Use std::string to own character sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr2-use-stdstring_view-or-gslspanchar-to-refer-to-character-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.2: Use std::string_view or gsl::span&lt;char&gt; to refer to character sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr3-use-zstring-or-czstring-to-refer-to-a-c-style-zero-terminated-sequence-of-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.3: Use zstring or czstring to refer to a C-style, zero-terminated, sequence of characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr4-use-char-to-refer-to-a-single-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.4: Use char* to refer to a single character
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr5-use-stdbyte-to-refer-to-byte-values-that-do-not-necessarily-represent-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.5: Use std::byte to refer to byte values that do not necessarily represent characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr10-use-stdstring-when-you-need-to-perform-locale-sensitive-string-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.10: Use std::string when you need to perform locale-sensitive string operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr11-use-gslspanchar-rather-than-stdstring_view-when-you-need-to-mutate-a-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.11: Use gsl::span&lt;char&gt; rather than std::string_view when you need to mutate a string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr12-use-the-s-suffix-for-string-literals-meant-to-be-standard-library-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.12: Use the s suffix for string literals meant to be standard-library strings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slio-iostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io: Iostream
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.io: Iostream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slio1-use-character-level-input-only-when-you-have-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.1: Use character-level input only when you have to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio2-when-reading-always-consider-ill-formed-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.2: When reading, always consider ill-formed input
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio3-prefer-iostreams-for-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.3: Prefer iostreams for I/O
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio10-unless-you-use-printf-family-functions-call-ios_basesync_with_stdiofalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.10: Unless you use printf-family functions call ios_base::sync_with_stdio(false)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio50-avoid-endl" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.50: Avoid endl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slregex-regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.regex: Regex
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slchrono-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.chrono: Time
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slc-the-c-standard-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.C: The C Standard Library
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.C: The C Standard Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slc1-dont-use-setjmplongjmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.C.1: Don't use setjmp/longjmp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sl1-use-libraries-wherever-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.1: Use libraries wherever possible
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl2-prefer-the-standard-library-to-other-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.2: Prefer the standard library to other libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl3-do-not-add-non-standard-entities-to-namespace-std" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.3: Do not add non-standard entities to namespace std
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sl4-use-the-standard-library-in-a-type-safe-manner" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.4: Use the standard library in a type-safe manner
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slcon-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con: Containers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.con: Containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slcon1-prefer-using-stl-array-or-vector-instead-of-a-c-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.1: Prefer using STL array or vector instead of a C array
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon2-prefer-using-stl-vector-by-default-unless-you-have-a-reason-to-use-a-different-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.2: Prefer using STL vector by default unless you have a reason to use a different container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon3-avoid-bounds-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.3: Avoid bounds errors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slcon4-dont-use-memset-or-memcpy-for-arguments-that-are-not-trivially-copyable" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.con.4: don't use memset or memcpy for arguments that are not trivially-copyable
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slstr-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str: String
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.str: String">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slstr1-use-stdstring-to-own-character-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.1: Use std::string to own character sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr2-use-stdstring_view-or-gslspanchar-to-refer-to-character-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.2: Use std::string_view or gsl::span&lt;char&gt; to refer to character sequences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr3-use-zstring-or-czstring-to-refer-to-a-c-style-zero-terminated-sequence-of-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.3: Use zstring or czstring to refer to a C-style, zero-terminated, sequence of characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr4-use-char-to-refer-to-a-single-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.4: Use char* to refer to a single character
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr5-use-stdbyte-to-refer-to-byte-values-that-do-not-necessarily-represent-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.5: Use std::byte to refer to byte values that do not necessarily represent characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr10-use-stdstring-when-you-need-to-perform-locale-sensitive-string-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.10: Use std::string when you need to perform locale-sensitive string operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr11-use-gslspanchar-rather-than-stdstring_view-when-you-need-to-mutate-a-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.11: Use gsl::span&lt;char&gt; rather than std::string_view when you need to mutate a string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slstr12-use-the-s-suffix-for-string-literals-meant-to-be-standard-library-strings" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.str.12: Use the s suffix for string literals meant to be standard-library strings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slio-iostream" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io: Iostream
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.io: Iostream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slio1-use-character-level-input-only-when-you-have-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.1: Use character-level input only when you have to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio2-when-reading-always-consider-ill-formed-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.2: When reading, always consider ill-formed input
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio3-prefer-iostreams-for-io" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.3: Prefer iostreams for I/O
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio10-unless-you-use-printf-family-functions-call-ios_basesync_with_stdiofalse" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.10: Unless you use printf-family functions call ios_base::sync_with_stdio(false)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slio50-avoid-endl" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.io.50: Avoid endl
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slregex-regex" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.regex: Regex
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slchrono-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.chrono: Time
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slc-the-c-standard-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.C: The C Standard Library
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SL.C: The C Standard Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#slc1-dont-use-setjmplongjmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SL.C.1: Don't use setjmp/longjmp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sl-the-standard-library-s-stdlib">SL: The Standard Library {#S-stdlib}<a class="headerlink" href="#sl-the-standard-library-s-stdlib" title="Permanent link">&para;</a></h1>
+<p>Using only the bare language, every task is tedious (in any language).
+Using a suitable library any task can be reasonably simple.</p>
+<p>The standard library has steadily grown over the years.
+Its description in the standard is now larger than that of the language features.
+So, it is likely that this library section of the guidelines will eventually grow in size to equal or exceed all the rest.</p>
+<p>&lt;&lt; ??? We need another level of rule numbering ??? &gt;&gt;</p>
+<p>C++ Standard Library component summary:</p>
+<ul>
+<li><a href="#SS-con">SL.con: Containers</a></li>
+<li><a href="#SS-string">SL.str: String</a></li>
+<li><a href="#SS-io">SL.io: Iostream</a></li>
+<li><a href="#SS-regex">SL.regex: Regex</a></li>
+<li><a href="#SS-chrono">SL.chrono: Time</a></li>
+<li><a href="#SS-clib">SL.C: The C Standard Library</a></li>
+</ul>
+<p>Standard-library rule summary:</p>
+<ul>
+<li><a href="#Rsl-lib">SL.1: Use libraries wherever possible</a></li>
+<li><a href="#Rsl-sl">SL.2: Prefer the standard library to other libraries</a></li>
+<li><a href="#sl-std">SL.3: Do not add non-standard entities to namespace <code>std</code></a></li>
+<li><a href="#sl-safe">SL.4: Use the standard library in a type-safe manner</a></li>
+<li>???</li>
+</ul>
+<h3 id="sl1-use-libraries-wherever-possible"><a name="Rsl-lib"></a>SL.1:  Use libraries wherever possible<a class="headerlink" href="#sl1-use-libraries-wherever-possible" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Save time. Don't re-invent the wheel.
+Don't replicate the work of others.
+Benefit from other people's work when they make improvements.
+Help other people when you make improvements.</p>
+<h3 id="sl2-prefer-the-standard-library-to-other-libraries"><a name="Rsl-sl"></a>SL.2: Prefer the standard library to other libraries<a class="headerlink" href="#sl2-prefer-the-standard-library-to-other-libraries" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>More people know the standard library.
+It is more likely to be stable, well-maintained, and widely available than your own code or most other libraries.</p>
+<h3 id="sl3-do-not-add-non-standard-entities-to-namespace-std"><a name="sl-std"></a>SL.3: Do not add non-standard entities to namespace <code>std</code><a class="headerlink" href="#sl3-do-not-add-non-standard-entities-to-namespace-std" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Adding to <code>std</code> might change the meaning of otherwise standards conforming code.
+Additions to <code>std</code> might clash with future versions of the standard.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>namespace std { // BAD: violates standard
+
+class My_vector {
+    //     . . .
+};
+
+}
+
+namespace Foo { // GOOD: user namespace is allowed
+
+class My_vector {
+    //     . . .
+};
+
+}
+</code></pre></div>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<p>Possible, but messy and likely to cause problems with platforms.</p>
+<h3 id="sl4-use-the-standard-library-in-a-type-safe-manner"><a name="sl-safe"></a>SL.4: Use the standard library in a type-safe manner<a class="headerlink" href="#sl4-use-the-standard-library-in-a-type-safe-manner" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>Because, obviously, breaking this rule can lead to undefined behavior, memory corruption, and all kinds of other bad errors.</p>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>This is a semi-philosophical meta-rule, which needs many supporting concrete rules.
+We need it as an umbrella for the more specific rules.</p>
+<p>Summary of more specific rules:</p>
+<ul>
+<li><a href="#sl-safe">SL.4: Use the standard library in a type-safe manner</a></li>
+</ul>
+<h2 id="slcon-containers"><a name="SS-con"></a>SL.con: Containers<a class="headerlink" href="#slcon-containers" title="Permanent link">&para;</a></h2>
+<p>???</p>
+<p>Container rule summary:</p>
+<ul>
+<li><a href="#Rsl-arrays">SL.con.1: Prefer using STL <code>array</code> or <code>vector</code> instead of a C array</a></li>
+<li><a href="#Rsl-vector">SL.con.2: Prefer using STL <code>vector</code> by default unless you have a reason to use a different container</a></li>
+<li><a href="#Rsl-bounds">SL.con.3: Avoid bounds errors</a></li>
+<li><a href="#Rsl-copy">SL.con.4: don't use <code>memset</code> or <code>memcpy</code> for arguments that are not trivially-copyable</a></li>
+</ul>
+<h3 id="slcon1-prefer-using-stl-array-or-vector-instead-of-a-c-array"><a name="Rsl-arrays"></a>SL.con.1: Prefer using STL <code>array</code> or <code>vector</code> instead of a C array<a class="headerlink" href="#slcon1-prefer-using-stl-array-or-vector-instead-of-a-c-array" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>C arrays are less safe, and have no advantages over <code>array</code> and <code>vector</code>.
+For a fixed-length array, use <code>std::array</code>, which does not degenerate to a pointer when passed to a function and does know its size.
+Also, like a built-in array, a stack-allocated <code>std::array</code> keeps its elements on the stack.
+For a variable-length array, use <code>std::vector</code>, which additionally can change its size and handles memory allocation.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int v[SIZE];                        // BAD
+
+std::array&lt;int, SIZE&gt; w;            // ok
+</code></pre></div>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int* v = new int[initial_size];     // BAD, owning raw pointer
+delete[] v;                         // BAD, manual delete
+
+std::vector&lt;int&gt; w(initial_size);   // ok
+</code></pre></div>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>Use <code>gsl::span</code> for non-owning references into a container.</p>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>Comparing the performance of a fixed-sized array allocated on the stack against a <code>vector</code> with its elements on the free store is bogus.
+You could just as well compare a <code>std::array</code> on the stack against the result of a <code>malloc()</code> accessed through a pointer.
+For most code, even the difference between stack allocation and free-store allocation doesn't matter, but the convenience and safety of <code>vector</code> does.
+People working with code for which that difference matters are quite capable of choosing between <code>array</code> and <code>vector</code>.</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag declaration of a C array inside a function or class that also declares an STL container (to avoid excessive noisy warnings on legacy non-STL code). To fix: At least change the C array to a <code>std::array</code>.</li>
+</ul>
+<h3 id="slcon2-prefer-using-stl-vector-by-default-unless-you-have-a-reason-to-use-a-different-container"><a name="Rsl-vector"></a>SL.con.2: Prefer using STL <code>vector</code> by default unless you have a reason to use a different container<a class="headerlink" href="#slcon2-prefer-using-stl-vector-by-default-unless-you-have-a-reason-to-use-a-different-container" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p><code>vector</code> and <code>array</code> are the only standard containers that offer the following advantages:</p>
+<ul>
+<li>the fastest general-purpose access (random access, including being vectorization-friendly);</li>
+<li>the fastest default access pattern (begin-to-end or end-to-begin is prefetcher-friendly);</li>
+<li>the lowest space overhead (contiguous layout has zero per-element overhead, which is cache-friendly).</li>
+</ul>
+<p>Usually you need to add and remove elements from the container, so use <code>vector</code> by default; if you don't need to modify the container's size, use <code>array</code>.</p>
+<p>Even when other containers seem more suited, such as <code>map</code> for O(log N) lookup performance or a <code>list</code> for efficient insertion in the middle, a <code>vector</code> will usually still perform better for containers up to a few KB in size.</p>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p><code>string</code> should not be used as a container of individual characters. A <code>string</code> is a textual string; if you want a container of characters, use <code>vector&lt;/*char_type*/&gt;</code> or <code>array&lt;/*char_type*/&gt;</code> instead.</p>
+<h5 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h5>
+<p>If you have a good reason to use another container, use that instead. For example:</p>
+<ul>
+<li>
+<p>If <code>vector</code> suits your needs but you don't need the container to be variable size, use <code>array</code> instead.</p>
+</li>
+<li>
+<p>If you want a dictionary-style lookup container that guarantees O(K) or O(log N) lookups, the container will be larger (more than a few KB) and you perform frequent inserts so that the overhead of maintaining a sorted <code>vector</code> is infeasible, go ahead and use an <code>unordered_map</code> or <code>map</code> instead.</p>
+</li>
+</ul>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>To initialize a vector with a number of elements, use <code>()</code>-initialization.
+To initialize a vector with a list of elements, use <code>{}</code>-initialization.</p>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;int&gt; v1(20);  // v1 has 20 elements with the value 0 (vector&lt;int&gt;{})
+vector&lt;int&gt; v2 {20}; // v2 has 1 element with the value 20
+</code></pre></div>
+<p><a href="#Res-list">Prefer the {}-initializer syntax</a>.</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag a <code>vector</code> whose size never changes after construction (such as because it's <code>const</code> or because no non-<code>const</code> functions are called on it). To fix: Use an <code>array</code> instead.</li>
+</ul>
+<h3 id="slcon3-avoid-bounds-errors"><a name="Rsl-bounds"></a>SL.con.3: Avoid bounds errors<a class="headerlink" href="#slcon3-avoid-bounds-errors" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>Read or write beyond an allocated range of elements typically leads to bad errors, wrong results, crashes, and security violations.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>The standard-library functions that apply to ranges of elements all have (or could have) bounds-safe overloads that take <code>span</code>.
+Standard types such as <code>vector</code> can be modified to perform bounds-checks under the bounds profile (in a compatible way, such as by adding contracts), or used with <code>at()</code>.</p>
+<p>Ideally, the in-bounds guarantee should be statically enforced.
+For example:</p>
+<ul>
+<li>a range-<code>for</code> cannot loop beyond the range of the container to which it is applied</li>
+<li>a <code>v.begin(),v.end()</code> is easily determined to be bounds safe</li>
+</ul>
+<p>Such loops are as fast as any unchecked/unsafe equivalent.</p>
+<p>Often a simple pre-check can eliminate the need for checking of individual indices.
+For example</p>
+<ul>
+<li>for <code>v.begin(),v.begin()+i</code> the <code>i</code> can easily be checked against <code>v.size()</code></li>
+</ul>
+<p>Such loops can be much faster than individually checked element accesses.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    array&lt;int, 10&gt; a, b;
+    memset(a.data(), 0, 10);         // BAD, and contains a length error (length = 10 * sizeof(int))
+    memcmp(a.data(), b.data(), 10);  // BAD, and contains a length error (length = 10 * sizeof(int))
+}
+</code></pre></div>
+<p>Also, <code>std::array&lt;&gt;::fill()</code> or <code>std::fill()</code> or even an empty initializer are better candidates than <code>memset()</code>.</p>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    array&lt;int, 10&gt; a, b, c{};       // c is initialized to zero
+    a.fill(0);
+    fill(b.begin(), b.end(), 0);    // std::fill()
+    fill(b, 0);                     // std::ranges::fill()
+
+    if ( a == b ) {
+      // ...
+    }
+}
+</code></pre></div>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<p>If code is using an unmodified standard library, then there are still workarounds that enable use of <code>std::array</code> and <code>std::vector</code> in a bounds-safe manner. Code can call the <code>.at()</code> member function on each class, which will result in an <code>std::out_of_range</code> exception being thrown. Alternatively, code can call the <code>at()</code> free function, which will result in fail-fast (or a customized action) on a bounds violation.</p>
+<div class="language-text highlight"><pre><span></span><code>void f(std::vector&lt;int&gt;&amp; v, std::array&lt;int, 12&gt; a, int i)
+{
+    v[0] = a[0];        // BAD
+    v.at(0) = a[0];     // OK (alternative 1)
+    at(v, 0) = a[0];    // OK (alternative 2)
+
+    v.at(0) = a[i];     // BAD
+    v.at(0) = a.at(i);  // OK (alternative 1)
+    v.at(0) = at(a, i); // OK (alternative 2)
+}
+</code></pre></div>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Issue a diagnostic for any call to a standard-library function that is not bounds-checked.
+??? insert link to a list of banned functions</li>
+</ul>
+<p>This rule is part of the <a href="#SS-bounds">bounds profile</a>.</p>
+<h3 id="slcon4-dont-use-memset-or-memcpy-for-arguments-that-are-not-trivially-copyable"><a name="Rsl-copy"></a>SL.con.4: don't use <code>memset</code> or <code>memcpy</code> for arguments that are not trivially-copyable<a class="headerlink" href="#slcon4-dont-use-memset-or-memcpy-for-arguments-that-are-not-trivially-copyable" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>Doing so messes the semantics of the objects (e.g., by overwriting a <code>vptr</code>).</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>Similarly for (w)memset, (w)memcpy, (w)memmove, and (w)memcmp</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct base {
+    virtual void update() = 0;
+};
+
+struct derived : public base {
+    void update() override {}
+};
+
+
+void f(derived&amp; a, derived&amp; b) // goodbye v-tables
+{
+    memset(&amp;a, 0, sizeof(derived));
+    memcpy(&amp;a, &amp;b, sizeof(derived));
+    memcmp(&amp;a, &amp;b, sizeof(derived));
+}
+</code></pre></div>
+<p>Instead, define proper default initialization, copy, and comparison functions</p>
+<div class="language-text highlight"><pre><span></span><code>void g(derived&amp; a, derived&amp; b)
+{
+    a = {};    // default initialize
+    b = a;     // copy
+    if (a == b) do_something(a, b);
+}
+</code></pre></div>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag the use of those functions for types that are not trivially copyable</li>
+</ul>
+<p><strong>TODO Notes</strong>:</p>
+<ul>
+<li>Impact on the standard library will require close coordination with WG21, if only to ensure compatibility even if never standardized.</li>
+<li>We are considering specifying bounds-safe overloads for stdlib (especially C stdlib) functions like <code>memcmp</code> and shipping them in the GSL.</li>
+<li>For existing stdlib functions and types like <code>vector</code> that are not fully bounds-checked, the goal is for these features to be bounds-checked when called from code with the bounds profile on, and unchecked when called from legacy code, possibly using contracts (concurrently being proposed by several WG21 members).</li>
+</ul>
+<h2 id="slstr-string"><a name="SS-string"></a>SL.str: String<a class="headerlink" href="#slstr-string" title="Permanent link">&para;</a></h2>
+<p>Text manipulation is a huge topic.
+<code>std::string</code> doesn't cover all of it.
+This section primarily tries to clarify <code>std::string</code>'s relation to <code>char*</code>, <code>zstring</code>, <code>string_view</code>, and <code>gsl::span&lt;char&gt;</code>.
+The important issue of non-ASCII character sets and encodings (e.g., <code>wchar_t</code>, Unicode, and UTF-8) will be covered elsewhere.</p>
+<p><strong>See also</strong>: <a href="#SS-regex">regular expressions</a></p>
+<p>Here, we use "sequence of characters" or "string" to refer to a sequence of characters meant to be read as text (somehow, eventually).
+We don't consider ???</p>
+<p>String summary:</p>
+<ul>
+<li><a href="#Rstr-string">SL.str.1: Use <code>std::string</code> to own character sequences</a></li>
+<li><a href="#Rstr-view">SL.str.2: Use <code>std::string_view</code> or <code>gsl::span&lt;char&gt;</code> to refer to character sequences</a></li>
+<li><a href="#Rstr-zstring">SL.str.3: Use <code>zstring</code> or <code>czstring</code> to refer to a C-style, zero-terminated, sequence of characters</a></li>
+<li><a href="#Rstr-char*">SL.str.4: Use <code>char*</code> to refer to a single character</a></li>
+<li>
+<p><a href="#Rstr-byte">SL.str.5: Use <code>std::byte</code> to refer to byte values that do not necessarily represent characters</a></p>
+</li>
+<li>
+<p><a href="#Rstr-locale">SL.str.10: Use <code>std::string</code> when you need to perform locale-sensitive string operations</a></p>
+</li>
+<li><a href="#Rstr-span">SL.str.11: Use <code>gsl::span&lt;char&gt;</code> rather than <code>std::string_view</code> when you need to mutate a string</a></li>
+<li><a href="#Rstr-s">SL.str.12: Use the <code>s</code> suffix for string literals meant to be standard-library <code>string</code>s</a></li>
+</ul>
+<p><strong>See also</strong>:</p>
+<ul>
+<li><a href="#Rf-range">F.24 span</a></li>
+<li><a href="#Rf-zstring">F.25 zstring</a></li>
+</ul>
+<h3 id="slstr1-use-stdstring-to-own-character-sequences"><a name="Rstr-string"></a>SL.str.1: Use <code>std::string</code> to own character sequences<a class="headerlink" href="#slstr1-use-stdstring-to-own-character-sequences" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p><code>string</code> correctly handles allocation, ownership, copying, gradual expansion, and offers a variety of useful operations.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;string&gt; read_until(const string&amp; terminator)
+{
+    vector&lt;string&gt; res;
+    for (string s; cin &gt;&gt; s &amp;&amp; s != terminator; ) // read a word
+        res.push_back(s);
+    return res;
+}
+</code></pre></div>
+<p>Note how <code>&gt;&gt;</code> and <code>!=</code> are provided for <code>string</code> (as examples of useful operations) and there are no explicit
+allocations, deallocations, or range checks (<code>string</code> takes care of those).</p>
+<p>In C++17, we might use <code>string_view</code> as the argument, rather than <code>const string&amp;</code> to allow more flexibility to callers:</p>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;string&gt; read_until(string_view terminator)   // C++17
+{
+    vector&lt;string&gt; res;
+    for (string s; cin &gt;&gt; s &amp;&amp; s != terminator; ) // read a word
+        res.push_back(s);
+    return res;
+}
+</code></pre></div>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<p>Don't use C-style strings for operations that require non-trivial memory management</p>
+<div class="language-text highlight"><pre><span></span><code>char* cat(const char* s1, const char* s2)   // beware!
+    // return s1 + &#39;.&#39; + s2
+{
+    int l1 = strlen(s1);
+    int l2 = strlen(s2);
+    char* p = (char*) malloc(l1 + l2 + 2);
+    strcpy(p, s1, l1);
+    p[l1] = &#39;.&#39;;
+    strcpy(p + l1 + 1, s2, l2);
+    p[l1 + l2 + 1] = 0;
+    return p;
+}
+</code></pre></div>
+<p>Did we get that right?
+Will the caller remember to <code>free()</code> the returned pointer?
+Will this code pass a security review?</p>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>Do not assume that <code>string</code> is slower than lower-level techniques without measurement and remember that not all code is performance critical.
+<a href="#Rper-Knuth">Don't optimize prematurely</a></p>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slstr2-use-stdstring_view-or-gslspanchar-to-refer-to-character-sequences"><a name="Rstr-view"></a>SL.str.2: Use <code>std::string_view</code> or <code>gsl::span&lt;char&gt;</code> to refer to character sequences<a class="headerlink" href="#slstr2-use-stdstring_view-or-gslspanchar-to-refer-to-character-sequences" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p><code>std::string_view</code> or <code>gsl::span&lt;char&gt;</code> provides simple and (potentially) safe access to character sequences independently of how
+those sequences are allocated and stored.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;string&gt; read_until(string_view terminator);
+
+void user(zstring p, const string&amp; s, string_view ss)
+{
+    auto v1 = read_until(p);
+    auto v2 = read_until(s);
+    auto v3 = read_until(ss);
+    // ...
+}
+</code></pre></div>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p><code>std::string_view</code> (C++17) is read-only.</p>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slstr3-use-zstring-or-czstring-to-refer-to-a-c-style-zero-terminated-sequence-of-characters"><a name="Rstr-zstring"></a>SL.str.3: Use <code>zstring</code> or <code>czstring</code> to refer to a C-style, zero-terminated, sequence of characters<a class="headerlink" href="#slstr3-use-zstring-or-czstring-to-refer-to-a-c-style-zero-terminated-sequence-of-characters" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>Readability.
+Statement of intent.
+A plain <code>char*</code> can be a pointer to a single character, a pointer to an array of characters, a pointer to a C-style (zero-terminated) string, or even to a small integer.
+Distinguishing these alternatives prevents misunderstandings and bugs.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f1(const char* s); // s is probably a string
+</code></pre></div>
+<p>All we know is that it is supposed to be the nullptr or point to at least one character</p>
+<div class="language-text highlight"><pre><span></span><code>void f1(zstring s);     // s is a C-style string or the nullptr
+void f1(czstring s);    // s is a C-style string constant or the nullptr
+void f1(std::byte* s);  // s is a pointer to a byte (C++17)
+</code></pre></div>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p>Don't convert a C-style string to <code>string</code> unless there is a reason to.</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>Like any other "plain pointer", a <code>zstring</code> should not represent ownership.</p>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<p>There are billions of lines of C++ "out there", most use <code>char*</code> and <code>const char*</code> without documenting intent.
+They are used in a wide variety of ways, including to represent ownership and as generic pointers to memory (instead of <code>void*</code>).
+It is hard to separate these uses, so this guideline is hard to follow.
+This is one of the major sources of bugs in C and C++ programs, so it is worthwhile to follow this guideline wherever feasible.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag uses of <code>[]</code> on a <code>char*</code></li>
+<li>Flag uses of <code>delete</code> on a <code>char*</code></li>
+<li>Flag uses of <code>free()</code> on a <code>char*</code></li>
+</ul>
+<h3 id="slstr4-use-char-to-refer-to-a-single-character"><a name="Rstr-char*"></a>SL.str.4: Use <code>char*</code> to refer to a single character<a class="headerlink" href="#slstr4-use-char-to-refer-to-a-single-character" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>The variety of uses of <code>char*</code> in current code is a major source of errors.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>char arr[] = {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;};
+
+void print(const char* p)
+{
+    cout &lt;&lt; p &lt;&lt; &#39;\n&#39;;
+}
+
+void use()
+{
+    print(arr);   // run-time error; potentially very bad
+}
+</code></pre></div>
+<p>The array <code>arr</code> is not a C-style string because it is not zero-terminated.</p>
+<h5 id="alternative">Alternative<a class="headerlink" href="#alternative" title="Permanent link">&para;</a></h5>
+<p>See <a href="#Rstr-zstring"><code>zstring</code></a>, <a href="#Rstr-string"><code>string</code></a>, and <a href="#Rstr-view"><code>string_view</code></a>.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag uses of <code>[]</code> on a <code>char*</code></li>
+</ul>
+<h3 id="slstr5-use-stdbyte-to-refer-to-byte-values-that-do-not-necessarily-represent-characters"><a name="Rstr-byte"></a>SL.str.5: Use <code>std::byte</code> to refer to byte values that do not necessarily represent characters<a class="headerlink" href="#slstr5-use-stdbyte-to-refer-to-byte-values-that-do-not-necessarily-represent-characters" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>Use of <code>char*</code> to represent a pointer to something that is not necessarily a character causes confusion
+and disables valuable optimizations.</p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>C++17</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slstr10-use-stdstring-when-you-need-to-perform-locale-sensitive-string-operations"><a name="Rstr-locale"></a>SL.str.10: Use <code>std::string</code> when you need to perform locale-sensitive string operations<a class="headerlink" href="#slstr10-use-stdstring-when-you-need-to-perform-locale-sensitive-string-operations" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p><code>std::string</code> supports standard-library <a href="#Rstr-locale"><code>locale</code> facilities</a></p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slstr11-use-gslspanchar-rather-than-stdstring_view-when-you-need-to-mutate-a-string"><a name="Rstr-span"></a>SL.str.11: Use <code>gsl::span&lt;char&gt;</code> rather than <code>std::string_view</code> when you need to mutate a string<a class="headerlink" href="#slstr11-use-gslspanchar-rather-than-stdstring_view-when-you-need-to-mutate-a-string" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p><code>std::string_view</code> is read-only.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<p>The compiler will flag attempts to write to a <code>string_view</code>.</p>
+<h3 id="slstr12-use-the-s-suffix-for-string-literals-meant-to-be-standard-library-strings"><a name="Rstr-s"></a>SL.str.12: Use the <code>s</code> suffix for string literals meant to be standard-library <code>string</code>s<a class="headerlink" href="#slstr12-use-the-s-suffix-for-string-literals-meant-to-be-standard-library-strings" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>Direct expression of an idea minimizes mistakes.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>auto pp1 = make_pair(&quot;Tokyo&quot;, 9.00);         // {C-style string,double} intended?
+pair&lt;string, double&gt; pp2 = {&quot;Tokyo&quot;, 9.00};  // a bit verbose
+auto pp3 = make_pair(&quot;Tokyo&quot;s, 9.00);        // {std::string,double}    // C++14
+pair pp4 = {&quot;Tokyo&quot;s, 9.00};                 // {std::string,double}    // C++17
+</code></pre></div>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="slio-iostream"><a name="SS-io"></a>SL.io: Iostream<a class="headerlink" href="#slio-iostream" title="Permanent link">&para;</a></h2>
+<p><code>iostream</code>s is a type safe, extensible, formatted and unformatted I/O library for streaming I/O.
+It supports multiple (and user extensible) buffering strategies and multiple locales.
+It can be used for conventional I/O, reading and writing to memory (string streams),
+and user-defined extensions, such as streaming across networks (asio: not yet standardized).</p>
+<p>Iostream rule summary:</p>
+<ul>
+<li><a href="#Rio-low">SL.io.1: Use character-level input only when you have to</a></li>
+<li><a href="#Rio-validate">SL.io.2: When reading, always consider ill-formed input</a></li>
+<li><a href="#Rio-streams">SL.io.3: Prefer iostreams for I/O</a></li>
+<li><a href="#Rio-sync">SL.io.10: Unless you use <code>printf</code>-family functions call <code>ios_base::sync_with_stdio(false)</code></a></li>
+<li><a href="#Rio-endl">SL.io.50: Avoid <code>endl</code></a></li>
+<li><a href="#???">???</a></li>
+</ul>
+<h3 id="slio1-use-character-level-input-only-when-you-have-to"><a name="Rio-low"></a>SL.io.1: Use character-level input only when you have to<a class="headerlink" href="#slio1-use-character-level-input-only-when-you-have-to" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>Unless you genuinely just deal with individual characters, using character-level input leads to the user code performing potentially error-prone
+and potentially inefficient composition of tokens out of characters.</p>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>char c;
+char buf[128];
+int i = 0;
+while (cin.get(c) &amp;&amp; !isspace(c) &amp;&amp; i &lt; 128)
+    buf[i++] = c;
+if (i == 128) {
+    // ... handle too long string ....
+}
+</code></pre></div>
+<p>Better (much simpler and probably faster):</p>
+<div class="language-text highlight"><pre><span></span><code>string s;
+s.reserve(128);
+cin &gt;&gt; s;
+</code></pre></div>
+<p>and the <code>reserve(128)</code> is probably not worthwhile.</p>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slio2-when-reading-always-consider-ill-formed-input"><a name="Rio-validate"></a>SL.io.2: When reading, always consider ill-formed input<a class="headerlink" href="#slio2-when-reading-always-consider-ill-formed-input" title="Permanent link">&para;</a></h3>
+<h5 id="reason_17">Reason<a class="headerlink" href="#reason_17" title="Permanent link">&para;</a></h5>
+<p>Errors are typically best handled as soon as possible.
+If input isn't validated, every function must be written to cope with bad data (and that is not practical).</p>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slio3-prefer-iostreams-for-io"><a name="Rio-streams"></a>SL.io.3: Prefer <code>iostream</code>s for I/O<a class="headerlink" href="#slio3-prefer-iostreams-for-io" title="Permanent link">&para;</a></h3>
+<h5 id="reason_18">Reason<a class="headerlink" href="#reason_18" title="Permanent link">&para;</a></h5>
+<p><code>iostream</code>s are safe, flexible, and extensible.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// write a complex number:
+complex&lt;double&gt; z{ 3, 4 };
+cout &lt;&lt; z &lt;&lt; &#39;\n&#39;;
+</code></pre></div>
+<p><code>complex</code> is a user-defined type and its I/O is defined without modifying the <code>iostream</code> library.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// read a file of complex numbers:
+for (complex&lt;double&gt; z; cin &gt;&gt; z; )
+    v.push_back(z);
+</code></pre></div>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>??? performance ???</p>
+<h5 id="discussion-iostreams-vs-the-printf-family">Discussion: <code>iostream</code>s vs. the <code>printf()</code> family<a class="headerlink" href="#discussion-iostreams-vs-the-printf-family" title="Permanent link">&para;</a></h5>
+<p>It is often (and often correctly) pointed out that the <code>printf()</code> family has two advantages compared to <code>iostream</code>s:
+flexibility of formatting and performance.
+This has to be weighed against <code>iostream</code>s advantages of extensibility to handle user-defined types, resilience against security violations,
+implicit memory management, and <code>locale</code> handling.</p>
+<p>If you need I/O performance, you can almost always do better than <code>printf()</code>.</p>
+<p><code>gets()</code>, <code>scanf()</code> using <code>%s</code>, and <code>printf()</code> using <code>%s</code> are security hazards (vulnerable to buffer overflow and generally error-prone).
+C11 defines some "optional extensions" that do extra checking of their arguments.
+If present in your C library, <code>gets_s()</code>, <code>scanf_s()</code>, and <code>printf_s()</code> might be safer alternatives, but they are still not type safe.</p>
+<h5 id="enforcement_15">Enforcement<a class="headerlink" href="#enforcement_15" title="Permanent link">&para;</a></h5>
+<p>Optionally flag <code>&lt;cstdio&gt;</code> and <code>&lt;stdio.h&gt;</code>.</p>
+<h3 id="slio10-unless-you-use-printf-family-functions-call-ios_basesync_with_stdiofalse"><a name="Rio-sync"></a>SL.io.10: Unless you use <code>printf</code>-family functions call <code>ios_base::sync_with_stdio(false)</code><a class="headerlink" href="#slio10-unless-you-use-printf-family-functions-call-ios_basesync_with_stdiofalse" title="Permanent link">&para;</a></h3>
+<h5 id="reason_19">Reason<a class="headerlink" href="#reason_19" title="Permanent link">&para;</a></h5>
+<p>Synchronizing <code>iostreams</code> with <code>printf-style</code> I/O can be costly.
+<code>cin</code> and <code>cout</code> are by default synchronized with <code>printf</code>.</p>
+<h5 id="example_16">Example<a class="headerlink" href="#example_16" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int main()
+{
+    ios_base::sync_with_stdio(false);
+    // ... use iostreams ...
+}
+</code></pre></div>
+<h5 id="enforcement_16">Enforcement<a class="headerlink" href="#enforcement_16" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="slio50-avoid-endl"><a name="Rio-endl"></a>SL.io.50: Avoid <code>endl</code><a class="headerlink" href="#slio50-avoid-endl" title="Permanent link">&para;</a></h3>
+<h5 id="reason_20">Reason<a class="headerlink" href="#reason_20" title="Permanent link">&para;</a></h5>
+<p>The <code>endl</code> manipulator is mostly equivalent to <code>'\n'</code> and <code>"\n"</code>;
+as most commonly used it simply slows down output by doing redundant <code>flush()</code>s.
+This slowdown can be significant compared to <code>printf</code>-style output.</p>
+<h5 id="example_17">Example<a class="headerlink" href="#example_17" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>cout &lt;&lt; &quot;Hello, World!&quot; &lt;&lt; endl;    // two output operations and a flush
+cout &lt;&lt; &quot;Hello, World!\n&quot;;          // one output operation and no flush
+</code></pre></div>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>For <code>cin</code>/<code>cout</code> (and equivalent) interaction, there is no reason to flush; that's done automatically.
+For writing to a file, there is rarely a need to <code>flush</code>.</p>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>For string streams (specifically <code>ostringstream</code>), the insertion of an <code>endl</code> is entirely equivalent
+to the insertion of a <code>'\n'</code> character, but also in this case, <code>endl</code> might be significantly slower.</p>
+<p><code>endl</code> does <em>not</em> take care of producing a platform specific end-of-line sequence (like <code>"\r\n"</code> on
+Windows). So for a string stream, <code>s &lt;&lt; endl</code> just inserts a <em>single</em> character, <code>'\n'</code>.</p>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>Apart from the (occasionally important) issue of performance,
+the choice between <code>'\n'</code> and <code>endl</code> is almost completely aesthetic.</p>
+<h2 id="slregex-regex"><a name="SS-regex"></a>SL.regex: Regex<a class="headerlink" href="#slregex-regex" title="Permanent link">&para;</a></h2>
+<p><code>&lt;regex&gt;</code> is the standard C++ regular expression library.
+It supports a variety of regular expression pattern conventions.</p>
+<h2 id="slchrono-time"><a name="SS-chrono"></a>SL.chrono: Time<a class="headerlink" href="#slchrono-time" title="Permanent link">&para;</a></h2>
+<p><code>&lt;chrono&gt;</code> (defined in namespace <code>std::chrono</code>) provides the notions of <code>time_point</code> and <code>duration</code> together with functions for
+outputting time in various units.
+It provides clocks for registering <code>time_points</code>.</p>
+<h2 id="slc-the-c-standard-library"><a name="SS-clib"></a>SL.C: The C Standard Library<a class="headerlink" href="#slc-the-c-standard-library" title="Permanent link">&para;</a></h2>
+<p>???</p>
+<p>C Standard Library rule summary:</p>
+<ul>
+<li><a href="#Rclib-jmp">SL.C.1: Don't use setjmp/longjmp</a></li>
+<li><a href="#???">???</a></li>
+<li><a href="#???">???</a></li>
+</ul>
+<h3 id="slc1-dont-use-setjmplongjmp"><a name="Rclib-jmp"></a>SL.C.1: Don't use setjmp/longjmp<a class="headerlink" href="#slc1-dont-use-setjmplongjmp" title="Permanent link">&para;</a></h3>
+<h5 id="reason_21">Reason<a class="headerlink" href="#reason_21" title="Permanent link">&para;</a></h5>
+<p>a <code>longjmp</code> ignores destructors, thus invalidating all resource-management strategies relying on RAII</p>
+<h5 id="enforcement_17">Enforcement<a class="headerlink" href="#enforcement_17" title="Permanent link">&para;</a></h5>
+<p>Flag all occurrences of <code>longjmp</code>and <code>setjmp</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

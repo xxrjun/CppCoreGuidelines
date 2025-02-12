@@ -1,0 +1,3139 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../per-performance/">
+      
+      
+        <link rel="next" href="../e-error-handling/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>CP: Concurrency and parallelism - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cp-concurrency-and-parallelism-s-concurrency" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              CP: Concurrency and parallelism
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cp1-assume-that-your-code-will-run-as-part-of-a-multi-threaded-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.1: Assume that your code will run as part of a multi-threaded program
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp2-avoid-data-races" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.2: Avoid data races
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp3-minimize-explicit-sharing-of-writable-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.3: Minimize explicit sharing of writable data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp4-think-in-terms-of-tasks-rather-than-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.4: Think in terms of tasks, rather than threads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp8-dont-try-to-use-volatile-for-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.8: Don't try to use volatile for synchronization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp9-whenever-feasible-use-tools-to-validate-your-concurrent-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.9: Whenever feasible use tools to validate your concurrent code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpcon-concurrency" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.con: Concurrency
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.con: Concurrency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp20-use-raii-never-plain-lockunlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.20: Use RAII, never plain lock()/unlock()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp21-use-stdlock-or-stdscoped_lock-to-acquire-multiple-mutexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.21: Use std::lock() or std::scoped_lock to acquire multiple mutexes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp22-never-call-unknown-code-while-holding-a-lock-eg-a-callback" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.22: Never call unknown code while holding a lock (e.g., a callback)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp23-think-of-a-joining-thread-as-a-scoped-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.23: Think of a joining thread as a scoped container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp24-think-of-a-thread-as-a-global-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.24: Think of a thread as a global container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp25-prefer-gsljoining_thread-over-stdthread" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.25: Prefer gsl::joining_thread over std::thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp26-dont-detach-a-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.26: Don't detach() a thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp31-pass-small-amounts-of-data-between-threads-by-value-rather-than-by-reference-or-pointer" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.31: Pass small amounts of data between threads by value, rather than by reference or pointer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp32-to-share-ownership-between-unrelated-threads-use-shared_ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.32: To share ownership between unrelated threads use shared_ptr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp40-minimize-context-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.40: Minimize context switching
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp41-minimize-thread-creation-and-destruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.41: Minimize thread creation and destruction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp42-dont-wait-without-a-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.42: Don't wait without a condition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp43-minimize-time-spent-in-a-critical-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.43: Minimize time spent in a critical section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp44-remember-to-name-your-lock_guards-and-unique_locks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.44: Remember to name your lock_guards and unique_locks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp50-define-a-mutex-together-with-the-data-it-guards-use-synchronized_valuet-where-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.50: Define a mutex together with the data it guards. Use synchronized_value&lt;T&gt; where possible
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpcoro-coroutines" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.coro: Coroutines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.coro: Coroutines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp51-do-not-use-capturing-lambdas-that-are-coroutines" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.51: Do not use capturing lambdas that are coroutines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp52-do-not-hold-locks-or-other-synchronization-primitives-across-suspension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.52: Do not hold locks or other synchronization primitives across suspension points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp53-parameters-to-coroutines-should-not-be-passed-by-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.53: Parameters to coroutines should not be passed by reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cppar-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.par: Parallelism
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpmess-message-passing" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.mess: Message passing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.mess: Message passing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp60-use-a-future-to-return-a-value-from-a-concurrent-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.60: Use a future to return a value from a concurrent task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp61-use-async-to-spawn-concurrent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.61: Use async() to spawn concurrent tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpvec-vectorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.vec: Vectorization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpfree-lock-free-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.free: Lock-free programming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.free: Lock-free programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp100-dont-use-lock-free-programming-unless-you-absolutely-have-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.100: Don't use lock-free programming unless you absolutely have to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp101-distrust-your-hardwarecompiler-combination" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.101: Distrust your hardware/compiler combination
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp102-carefully-study-the-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.102: Carefully study the literature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp110-do-not-write-your-own-double-checked-locking-for-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.110: Do not write your own double-checked locking for initialization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp111-use-a-conventional-pattern-if-you-really-need-double-checked-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.111: Use a conventional pattern if you really need double-checked locking
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpetc-etc-concurrency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.etc: Etc. concurrency rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.etc: Etc. concurrency rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp200-use-volatile-only-to-talk-to-non-c-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.200: Use volatile only to talk to non-C++ memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp201-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.201: ??? Signals
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cp1-assume-that-your-code-will-run-as-part-of-a-multi-threaded-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.1: Assume that your code will run as part of a multi-threaded program
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp2-avoid-data-races" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.2: Avoid data races
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp3-minimize-explicit-sharing-of-writable-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.3: Minimize explicit sharing of writable data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp4-think-in-terms-of-tasks-rather-than-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.4: Think in terms of tasks, rather than threads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp8-dont-try-to-use-volatile-for-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.8: Don't try to use volatile for synchronization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cp9-whenever-feasible-use-tools-to-validate-your-concurrent-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.9: Whenever feasible use tools to validate your concurrent code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpcon-concurrency" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.con: Concurrency
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.con: Concurrency">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp20-use-raii-never-plain-lockunlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.20: Use RAII, never plain lock()/unlock()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp21-use-stdlock-or-stdscoped_lock-to-acquire-multiple-mutexes" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.21: Use std::lock() or std::scoped_lock to acquire multiple mutexes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp22-never-call-unknown-code-while-holding-a-lock-eg-a-callback" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.22: Never call unknown code while holding a lock (e.g., a callback)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp23-think-of-a-joining-thread-as-a-scoped-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.23: Think of a joining thread as a scoped container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp24-think-of-a-thread-as-a-global-container" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.24: Think of a thread as a global container
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp25-prefer-gsljoining_thread-over-stdthread" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.25: Prefer gsl::joining_thread over std::thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp26-dont-detach-a-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.26: Don't detach() a thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp31-pass-small-amounts-of-data-between-threads-by-value-rather-than-by-reference-or-pointer" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.31: Pass small amounts of data between threads by value, rather than by reference or pointer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp32-to-share-ownership-between-unrelated-threads-use-shared_ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.32: To share ownership between unrelated threads use shared_ptr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp40-minimize-context-switching" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.40: Minimize context switching
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp41-minimize-thread-creation-and-destruction" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.41: Minimize thread creation and destruction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp42-dont-wait-without-a-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.42: Don't wait without a condition
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp43-minimize-time-spent-in-a-critical-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.43: Minimize time spent in a critical section
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp44-remember-to-name-your-lock_guards-and-unique_locks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.44: Remember to name your lock_guards and unique_locks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp50-define-a-mutex-together-with-the-data-it-guards-use-synchronized_valuet-where-possible" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.50: Define a mutex together with the data it guards. Use synchronized_value&lt;T&gt; where possible
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpcoro-coroutines" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.coro: Coroutines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.coro: Coroutines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp51-do-not-use-capturing-lambdas-that-are-coroutines" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.51: Do not use capturing lambdas that are coroutines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp52-do-not-hold-locks-or-other-synchronization-primitives-across-suspension-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.52: Do not hold locks or other synchronization primitives across suspension points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp53-parameters-to-coroutines-should-not-be-passed-by-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.53: Parameters to coroutines should not be passed by reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cppar-parallelism" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.par: Parallelism
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpmess-message-passing" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.mess: Message passing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.mess: Message passing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp60-use-a-future-to-return-a-value-from-a-concurrent-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.60: Use a future to return a value from a concurrent task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp61-use-async-to-spawn-concurrent-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.61: Use async() to spawn concurrent tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpvec-vectorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.vec: Vectorization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpfree-lock-free-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.free: Lock-free programming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.free: Lock-free programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp100-dont-use-lock-free-programming-unless-you-absolutely-have-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.100: Don't use lock-free programming unless you absolutely have to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp101-distrust-your-hardwarecompiler-combination" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.101: Distrust your hardware/compiler combination
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp102-carefully-study-the-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.102: Carefully study the literature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp110-do-not-write-your-own-double-checked-locking-for-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.110: Do not write your own double-checked locking for initialization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp111-use-a-conventional-pattern-if-you-really-need-double-checked-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.111: Use a conventional pattern if you really need double-checked locking
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpetc-etc-concurrency-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.etc: Etc. concurrency rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CP.etc: Etc. concurrency rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cp200-use-volatile-only-to-talk-to-non-c-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.200: Use volatile only to talk to non-C++ memory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cp201-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      CP.201: ??? Signals
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="cp-concurrency-and-parallelism-s-concurrency">CP: Concurrency and parallelism {#S-concurrency}<a class="headerlink" href="#cp-concurrency-and-parallelism-s-concurrency" title="Permanent link">&para;</a></h1>
+<p>We often want our computers to do many tasks at the same time (or at least appear to do them at the same time).
+The reasons for doing so vary (e.g., waiting for many events using only a single processor, processing many data streams simultaneously, or utilizing many hardware facilities)
+and so do the basic facilities for expressing concurrency and parallelism.
+Here, we articulate principles and rules for using the ISO standard C++ facilities for expressing basic concurrency and parallelism.</p>
+<p>Threads are the machine-level foundation for concurrent and parallel programming.
+Threads allow running multiple sections of a program independently, while sharing
+the same memory. Concurrent programming is tricky,
+because protecting shared data between threads is easier said than done.
+Making existing single-threaded code execute concurrently can be
+as trivial as adding <code>std::async</code> or <code>std::thread</code> strategically, or it can
+necessitate a full rewrite, depending on whether the original code was written
+in a thread-friendly way.</p>
+<p>The concurrency/parallelism rules in this document are designed with three goals
+in mind:</p>
+<ul>
+<li>To help in writing code that is amenable to being used in a threaded
+  environment</li>
+<li>To show clean, safe ways to use the threading primitives offered by the
+  standard library</li>
+<li>To offer guidance on what to do when concurrency and parallelism aren't giving
+  the performance gains needed</li>
+</ul>
+<p>It is also important to note that concurrency in C++ is an unfinished
+story. C++11 introduced many core concurrency primitives, C++14 and C++17 improved on
+them, and there is much interest in making the writing of
+concurrent programs in C++ even easier. We expect some of the library-related
+guidance here to change significantly over time.</p>
+<p>This section needs a lot of work (obviously).
+Please note that we start with rules for relative non-experts.
+Real experts must wait a bit;
+contributions are welcome,
+but please think about the majority of programmers who are struggling to get their concurrent programs correct and performant.</p>
+<p>Concurrency and parallelism rule summary:</p>
+<ul>
+<li><a href="#Rconc-multi">CP.1: Assume that your code will run as part of a multi-threaded program</a></li>
+<li><a href="#Rconc-races">CP.2: Avoid data races</a></li>
+<li><a href="#Rconc-data">CP.3: Minimize explicit sharing of writable data</a></li>
+<li><a href="#Rconc-task">CP.4: Think in terms of tasks, rather than threads</a></li>
+<li><a href="#Rconc-volatile">CP.8: Don't try to use <code>volatile</code> for synchronization</a></li>
+<li><a href="#Rconc-tools">CP.9: Whenever feasible use tools to validate your concurrent code</a></li>
+</ul>
+<p><strong>See also</strong>:</p>
+<ul>
+<li><a href="#SScp-con">CP.con: Concurrency</a></li>
+<li><a href="#SScp-coro">CP.coro: Coroutines</a></li>
+<li><a href="#SScp-par">CP.par: Parallelism</a></li>
+<li><a href="#SScp-mess">CP.mess: Message passing</a></li>
+<li><a href="#SScp-vec">CP.vec: Vectorization</a></li>
+<li><a href="#SScp-free">CP.free: Lock-free programming</a></li>
+<li><a href="#SScp-etc">CP.etc: Etc. concurrency rules</a></li>
+</ul>
+<h3 id="cp1-assume-that-your-code-will-run-as-part-of-a-multi-threaded-program"><a name="Rconc-multi"></a>CP.1: Assume that your code will run as part of a multi-threaded program<a class="headerlink" href="#cp1-assume-that-your-code-will-run-as-part-of-a-multi-threaded-program" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>It's hard to be certain that concurrency isn't used now or won't be used sometime in the future.
+Code gets reused.
+Libraries not using threads might be used from some other part of a program that does use threads.
+Note that this rule applies most urgently to library code and least urgently to stand-alone applications.
+However, over time, code fragments can turn up in unexpected places.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>double cached_computation(int x)
+{
+    // bad: these statics cause data races in multi-threaded usage
+    static int cached_x = 0.0;
+    static double cached_result = COMPUTATION_OF_ZERO;
+
+    if (cached_x != x) {
+        cached_x = x;
+        cached_result = computation(x);
+    }
+    return cached_result;
+}
+</code></pre></div>
+<p>Although <code>cached_computation</code> works perfectly in a single-threaded environment, in a multi-threaded environment the two <code>static</code> variables result in data races and thus undefined behavior.</p>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct ComputationCache {
+    int cached_x = 0;
+    double cached_result = COMPUTATION_OF_ZERO;
+
+    double compute(int x) {
+        if (cached_x != x) {
+            cached_x = x;
+            cached_result = computation(x);
+        }
+        return cached_result;
+    }
+};
+</code></pre></div>
+<p>Here the cache is stored as member data of a <code>ComputationCache</code> object, rather than as shared static state.
+This refactoring essentially delegates the concern upward to the caller: a single-threaded program
+might still choose to have one global <code>ComputationCache</code>, while a multi-threaded program might
+have one <code>ComputationCache</code> instance per thread, or one per "context" for any definition of "context."
+The refactored function no longer attempts to manage the allocation of <code>cached_x</code>. In that sense,
+this is an application of the Single Responsibility Principle.</p>
+<p>In this specific example, refactoring for thread-safety also improved reusability in single-threaded
+programs. It's not hard to imagine that a single-threaded program might want two <code>ComputationCache</code> instances
+for use in different parts of the program, without having them overwrite each other's cached data.</p>
+<p>There are several other ways one might add thread-safety to code written for a standard multi-threaded environment
+(that is, one where the only form of concurrency is <code>std::thread</code>):</p>
+<ul>
+<li>Mark the state variables as <code>thread_local</code> instead of <code>static</code>.</li>
+<li>Implement concurrency control, for example, protecting access to the two <code>static</code> variables with a <code>static std::mutex</code>.</li>
+<li>Refuse to build and/or run in a multi-threaded environment.</li>
+<li>Provide two implementations: one for single-threaded environments and another for multi-threaded environments.</li>
+</ul>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>Code that is never run in a multi-threaded environment.</p>
+<p>Be careful: there are many examples where code that was "known" to never run in a multi-threaded program
+was run as part of a multi-threaded program, often years later.
+Typically, such programs lead to a painful effort to remove data races.
+Therefore, code that is never intended to run in a multi-threaded environment should be clearly labeled as such and ideally come with compile or run-time enforcement mechanisms to catch those usage bugs early.</p>
+<h3 id="cp2-avoid-data-races"><a name="Rconc-races"></a>CP.2: Avoid data races<a class="headerlink" href="#cp2-avoid-data-races" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Unless you do, nothing is guaranteed to work and subtle errors will persist.</p>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>In a nutshell, if two threads can access the same object concurrently (without synchronization), and at least one is a writer (performing a non-<code>const</code> operation), you have a data race.
+For further information of how to use synchronization well to eliminate data races, please consult a good book about concurrency (See <a href="#Rconc-literature">Carefully study the literature</a>).</p>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<p>There are many examples of data races that exist, some of which are running in
+production software at this very moment. One very simple example:</p>
+<div class="language-text highlight"><pre><span></span><code>int get_id()
+{
+  static int id = 1;
+  return id++;
+}
+</code></pre></div>
+<p>The increment here is an example of a data race. This can go wrong in many ways,
+including:</p>
+<ul>
+<li>Thread A loads the value of <code>id</code>, the OS context switches A out for some
+  period, during which other threads create hundreds of IDs. Thread A is then
+  allowed to run again, and <code>id</code> is written back to that location as A's read of
+  <code>id</code> plus one.</li>
+<li>Thread A and B load <code>id</code> and increment it simultaneously.  They both get the
+  same ID.</li>
+</ul>
+<p>Local static variables are a common source of data races.</p>
+<h5 id="example-bad_2">Example, bad:<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f(fstream&amp; fs, regex pattern)
+{
+    array&lt;double, max&gt; buf;
+    int sz = read_vec(fs, buf, max);            // read from fs into buf
+    gsl::span&lt;double&gt; s {buf};
+    // ...
+    auto h1 = async([&amp;] { sort(std::execution::par, s); });     // spawn a task to sort
+    // ...
+    auto h2 = async([&amp;] { return find_all(buf, sz, pattern); });   // spawn a task to find matches
+    // ...
+}
+</code></pre></div>
+<p>Here, we have a (nasty) data race on the elements of <code>buf</code> (<code>sort</code> will both read and write).
+All data races are nasty.
+Here, we managed to get a data race on data on the stack.
+Not all data races are as easy to spot as this one.</p>
+<h5 id="example-bad_3">Example, bad:<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// code not controlled by a lock
+
+unsigned val;
+
+if (val &lt; 5) {
+    // ... other thread can change val here ...
+    switch (val) {
+    case 0: // ...
+    case 1: // ...
+    case 2: // ...
+    case 3: // ...
+    case 4: // ...
+    }
+}
+</code></pre></div>
+<p>Now, a compiler that does not know that <code>val</code> can change will  most likely implement that <code>switch</code> using a jump table with five entries.
+Then, a <code>val</code> outside the <code>[0..4]</code> range will cause a jump to an address that could be anywhere in the program, and execution would proceed there.
+Really, "all bets are off" if you get a data race.
+Actually, it can be worse still: by looking at the generated code you might be able to determine where the stray jump will go for a given value;
+this can be a security risk.</p>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<p>Some is possible, do at least something.
+There are commercial and open-source tools that try to address this problem,
+but be aware that solutions have costs and blind spots.
+Static tools often have many false positives and run-time tools often have a significant cost.
+We hope for better tools.
+Using multiple tools can catch more problems than a single one.</p>
+<p>There are other ways you can mitigate the chance of data races:</p>
+<ul>
+<li>Avoid global data</li>
+<li>Avoid <code>static</code> variables</li>
+<li>More use of concrete types on the stack (and don't pass pointers around too much)</li>
+<li>More use of immutable data (literals, <code>constexpr</code>, and <code>const</code>)</li>
+</ul>
+<h3 id="cp3-minimize-explicit-sharing-of-writable-data"><a name="Rconc-data"></a>CP.3: Minimize explicit sharing of writable data<a class="headerlink" href="#cp3-minimize-explicit-sharing-of-writable-data" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>If you don't share writable data, you can't have a data race.
+The less sharing you do, the less chance you have to forget to synchronize access (and get data races).
+The less sharing you do, the less chance you have to wait on a lock (so performance can improve).</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>bool validate(const vector&lt;Reading&gt;&amp;);
+Graph&lt;Temp_node&gt; temperature_gradients(const vector&lt;Reading&gt;&amp;);
+Image altitude_map(const vector&lt;Reading&gt;&amp;);
+// ...
+
+void process_readings(const vector&lt;Reading&gt;&amp; surface_readings)
+{
+    auto h1 = async([&amp;] { if (!validate(surface_readings)) throw Invalid_data{}; });
+    auto h2 = async([&amp;] { return temperature_gradients(surface_readings); });
+    auto h3 = async([&amp;] { return altitude_map(surface_readings); });
+    // ...
+    h1.get();
+    auto v2 = h2.get();
+    auto v3 = h3.get();
+    // ...
+}
+</code></pre></div>
+<p>Without those <code>const</code>s, we would have to review every asynchronously invoked function for potential data races on <code>surface_readings</code>.
+Making <code>surface_readings</code> be <code>const</code> (with respect to this function) allow reasoning using only the function body.</p>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>Immutable data can be safely and efficiently shared.
+No locking is needed: You can't have a data race on a constant.
+See also <a href="#SScp-mess">CP.mess: Message Passing</a> and <a href="#Rconc-data-by-value">CP.31: prefer pass by value</a>.</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp4-think-in-terms-of-tasks-rather-than-threads"><a name="Rconc-task"></a>CP.4: Think in terms of tasks, rather than threads<a class="headerlink" href="#cp4-think-in-terms-of-tasks-rather-than-threads" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>A <code>thread</code> is an implementation concept, a way of thinking about the machine.
+A task is an application notion, something you'd like to do, preferably concurrently with other tasks.
+Application concepts are easier to reason about.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void some_fun(const std::string&amp; msg)
+{
+    std::thread publisher([=] { std::cout &lt;&lt; msg; });      // bad: less expressive
+                                                           //      and more error-prone
+    auto pubtask = std::async([=] { std::cout &lt;&lt; msg; });  // OK
+    // ...
+    publisher.join();
+}
+</code></pre></div>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>With the exception of <code>async()</code>, the standard-library facilities are low-level, machine-oriented, threads-and-lock level.
+This is a necessary foundation, but we have to try to raise the level of abstraction: for productivity, for reliability, and for performance.
+This is a potent argument for using higher level, more applications-oriented libraries (if possible, built on top of standard-library facilities).</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp8-dont-try-to-use-volatile-for-synchronization"><a name="Rconc-volatile"></a>CP.8: Don't try to use <code>volatile</code> for synchronization<a class="headerlink" href="#cp8-dont-try-to-use-volatile-for-synchronization" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>In C++, unlike some other languages, <code>volatile</code> does not provide atomicity, does not synchronize between threads,
+and does not prevent instruction reordering (neither compiler nor hardware).
+It simply has nothing to do with concurrency.</p>
+<h5 id="example-bad_4">Example, bad:<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int free_slots = max_slots; // current source of memory for objects
+
+Pool* use()
+{
+    if (int n = free_slots--) return &amp;pool[n];
+}
+</code></pre></div>
+<p>Here we have a problem:
+This is perfectly good code in a single-threaded program, but have two threads execute this and
+there is a race condition on <code>free_slots</code> so that two threads might get the same value and <code>free_slots</code>.
+That's (obviously) a bad data race, so people trained in other languages might try to fix it like this:</p>
+<div class="language-text highlight"><pre><span></span><code>volatile int free_slots = max_slots; // current source of memory for objects
+
+Pool* use()
+{
+    if (int n = free_slots--) return &amp;pool[n];
+}
+</code></pre></div>
+<p>This has no effect on synchronization: The data race is still there!</p>
+<p>The C++ mechanism for this is <code>atomic</code> types:</p>
+<div class="language-text highlight"><pre><span></span><code>atomic&lt;int&gt; free_slots = max_slots; // current source of memory for objects
+
+Pool* use()
+{
+    if (int n = free_slots--) return &amp;pool[n];
+}
+</code></pre></div>
+<p>Now the <code>--</code> operation is atomic,
+rather than a read-increment-write sequence where another thread might get in-between the individual operations.</p>
+<h5 id="alternative">Alternative<a class="headerlink" href="#alternative" title="Permanent link">&para;</a></h5>
+<p>Use <code>atomic</code> types where you might have used <code>volatile</code> in some other language.
+Use a <code>mutex</code> for more complicated examples.</p>
+<h5 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h5>
+<p><a href="#Rconc-volatile2">(rare) proper uses of <code>volatile</code></a></p>
+<h3 id="cp9-whenever-feasible-use-tools-to-validate-your-concurrent-code"><a name="Rconc-tools"></a>CP.9: Whenever feasible use tools to validate your concurrent code<a class="headerlink" href="#cp9-whenever-feasible-use-tools-to-validate-your-concurrent-code" title="Permanent link">&para;</a></h3>
+<p>Experience shows that concurrent code is exceptionally hard to get right
+and that compile-time checking, run-time checks, and testing are less effective at finding concurrency errors
+than they are at finding errors in sequential code.
+Subtle concurrency errors can have dramatically bad effects, including memory corruption, deadlocks, and security vulnerabilities.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p>Thread safety is challenging, often getting the better of experienced programmers: tooling is an important strategy to mitigate those risks.
+There are many tools "out there", both commercial and open-source tools, both research and production tools.
+Unfortunately people's needs and constraints differ so dramatically that we cannot make specific recommendations,
+but we can mention:</p>
+<ul>
+<li>
+<p>Static enforcement tools: both <a href="http://clang.llvm.org/docs/ThreadSafetyAnalysis.html">clang</a>
+and some older versions of <a href="https://gcc.gnu.org/wiki/ThreadSafetyAnnotation">GCC</a>
+have some support for static annotation of thread safety properties.
+Consistent use of this technique turns many classes of thread-safety errors into compile-time errors.
+The annotations are generally local (marking a particular data member as guarded by a particular mutex),
+and are usually easy to learn. However, as with many static tools, it can often present false negatives;
+cases that should have been caught but were allowed.</p>
+</li>
+<li>
+<p>dynamic enforcement tools: Clang's <a href="http://clang.llvm.org/docs/ThreadSanitizer.html">Thread Sanitizer</a> (aka TSAN)
+is a powerful example of dynamic tools: it changes the build and execution of your program to add bookkeeping on memory access,
+absolutely identifying data races in a given execution of your binary.
+The cost for this is both memory (5-10x in most cases) and CPU slowdown (2-20x).
+Dynamic tools like this are best when applied to integration tests, canary pushes, or unit tests that operate on multiple threads.
+Workload matters: When TSAN identifies a problem, it is effectively always an actual data race,
+but it can only identify races seen in a given execution.</p>
+</li>
+</ul>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>It is up to an application builder to choose which support tools are valuable for a particular application.</p>
+<h2 id="cpcon-concurrency"><a name="SScp-con"></a>CP.con: Concurrency<a class="headerlink" href="#cpcon-concurrency" title="Permanent link">&para;</a></h2>
+<p>This section focuses on relatively ad-hoc uses of multiple threads communicating through shared data.</p>
+<ul>
+<li>For parallel algorithms, see <a href="#SScp-par">parallelism</a></li>
+<li>For inter-task communication without explicit sharing, see <a href="#SScp-mess">messaging</a></li>
+<li>For vector parallel code, see <a href="#SScp-vec">vectorization</a></li>
+<li>For lock-free programming, see <a href="#SScp-free">lock free</a></li>
+</ul>
+<p>Concurrency rule summary:</p>
+<ul>
+<li><a href="#Rconc-raii">CP.20: Use RAII, never plain <code>lock()</code>/<code>unlock()</code></a></li>
+<li><a href="#Rconc-lock">CP.21: Use <code>std::lock()</code> or <code>std::scoped_lock</code> to acquire multiple <code>mutex</code>es</a></li>
+<li><a href="#Rconc-unknown">CP.22: Never call unknown code while holding a lock (e.g., a callback)</a></li>
+<li><a href="#Rconc-join">CP.23: Think of a joining <code>thread</code> as a scoped container</a></li>
+<li><a href="#Rconc-detach">CP.24: Think of a <code>thread</code> as a global container</a></li>
+<li><a href="#Rconc-joining_thread">CP.25: Prefer <code>gsl::joining_thread</code> over <code>std::thread</code></a></li>
+<li><a href="#Rconc-detached_thread">CP.26: Don't <code>detach()</code> a thread</a></li>
+<li><a href="#Rconc-data-by-value">CP.31: Pass small amounts of data between threads by value, rather than by reference or pointer</a></li>
+<li><a href="#Rconc-shared">CP.32: To share ownership between unrelated <code>thread</code>s use <code>shared_ptr</code></a></li>
+<li><a href="#Rconc-switch">CP.40: Minimize context switching</a></li>
+<li><a href="#Rconc-create">CP.41: Minimize thread creation and destruction</a></li>
+<li><a href="#Rconc-wait">CP.42: Don't <code>wait</code> without a condition</a></li>
+<li><a href="#Rconc-time">CP.43: Minimize time spent in a critical section</a></li>
+<li><a href="#Rconc-name">CP.44: Remember to name your <code>lock_guard</code>s and <code>unique_lock</code>s</a></li>
+<li><a href="#Rconc-mutex">CP.50: Define a <code>mutex</code> together with the data it guards. Use <code>synchronized_value&lt;T&gt;</code> where possible</a></li>
+<li>??? when to use a spinlock</li>
+<li>??? when to use <code>try_lock()</code></li>
+<li>??? when to prefer <code>lock_guard</code> over <code>unique_lock</code></li>
+<li>??? Time multiplexing</li>
+<li>??? when/how to use <code>new thread</code></li>
+</ul>
+<h3 id="cp20-use-raii-never-plain-lockunlock"><a name="Rconc-raii"></a>CP.20: Use RAII, never plain <code>lock()</code>/<code>unlock()</code><a class="headerlink" href="#cp20-use-raii-never-plain-lockunlock" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>Avoids nasty errors from unreleased locks.</p>
+<h5 id="example-bad_5">Example, bad<a class="headerlink" href="#example-bad_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>mutex mtx;
+
+void do_stuff()
+{
+    mtx.lock();
+    // ... do stuff ...
+    mtx.unlock();
+}
+</code></pre></div>
+<p>Sooner or later, someone will forget the <code>mtx.unlock()</code>, place a <code>return</code> in the <code>... do stuff ...</code>, throw an exception, or something.</p>
+<div class="language-text highlight"><pre><span></span><code>mutex mtx;
+
+void do_stuff()
+{
+    unique_lock&lt;mutex&gt; lck {mtx};
+    // ... do stuff ...
+}
+</code></pre></div>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>Flag calls of member <code>lock()</code> and <code>unlock()</code>.  ???</p>
+<h3 id="cp21-use-stdlock-or-stdscoped_lock-to-acquire-multiple-mutexes"><a name="Rconc-lock"></a>CP.21: Use <code>std::lock()</code> or <code>std::scoped_lock</code> to acquire multiple <code>mutex</code>es<a class="headerlink" href="#cp21-use-stdlock-or-stdscoped_lock-to-acquire-multiple-mutexes" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>To avoid deadlocks on multiple <code>mutex</code>es.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<p>This is asking for deadlock:</p>
+<div class="language-text highlight"><pre><span></span><code>// thread 1
+lock_guard&lt;mutex&gt; lck1(m1);
+lock_guard&lt;mutex&gt; lck2(m2);
+
+// thread 2
+lock_guard&lt;mutex&gt; lck2(m2);
+lock_guard&lt;mutex&gt; lck1(m1);
+</code></pre></div>
+<p>Instead, use <code>lock()</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>// thread 1
+lock(m1, m2);
+lock_guard&lt;mutex&gt; lck1(m1, adopt_lock);
+lock_guard&lt;mutex&gt; lck2(m2, adopt_lock);
+
+// thread 2
+lock(m2, m1);
+lock_guard&lt;mutex&gt; lck2(m2, adopt_lock);
+lock_guard&lt;mutex&gt; lck1(m1, adopt_lock);
+</code></pre></div>
+<p>or (better, but C++17 only):</p>
+<div class="language-text highlight"><pre><span></span><code>// thread 1
+scoped_lock&lt;mutex, mutex&gt; lck1(m1, m2);
+
+// thread 2
+scoped_lock&lt;mutex, mutex&gt; lck2(m2, m1);
+</code></pre></div>
+<p>Here, the writers of <code>thread1</code> and <code>thread2</code> are still not agreeing on the order of the <code>mutex</code>es, but order no longer matters.</p>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>In real code, <code>mutex</code>es are rarely named to conveniently remind the programmer of an intended relation and intended order of acquisition.
+In real code, <code>mutex</code>es are not always conveniently acquired on consecutive lines.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>In C++17 it's possible to write plain</p>
+<div class="language-text highlight"><pre><span></span><code>lock_guard lck1(m1, adopt_lock);
+</code></pre></div>
+<p>and have the <code>mutex</code> type deduced.</p>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>Detect the acquisition of multiple <code>mutex</code>es.
+This is undecidable in general, but catching common simple examples (like the one above) is easy.</p>
+<h3 id="cp22-never-call-unknown-code-while-holding-a-lock-eg-a-callback"><a name="Rconc-unknown"></a>CP.22: Never call unknown code while holding a lock (e.g., a callback)<a class="headerlink" href="#cp22-never-call-unknown-code-while-holding-a-lock-eg-a-callback" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>If you don't know what a piece of code does, you are risking deadlock.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void do_this(Foo* p)
+{
+    lock_guard&lt;mutex&gt; lck {my_mutex};
+    // ... do something ...
+    p-&gt;act(my_data);
+    // ...
+}
+</code></pre></div>
+<p>If you don't know what <code>Foo::act</code> does (maybe it is a virtual function invoking a derived class member of a class not yet written),
+it might call <code>do_this</code> (recursively) and cause a deadlock on <code>my_mutex</code>.
+Maybe it will lock on a different mutex and not return in a reasonable time, causing delays to any code calling <code>do_this</code>.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<p>A common example of the "calling unknown code" problem is a call to a function that tries to gain locked access to the same object.
+Such problem can often be solved by using a <code>recursive_mutex</code>. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>recursive_mutex my_mutex;
+
+template&lt;typename Action&gt;
+void do_something(Action f)
+{
+    unique_lock&lt;recursive_mutex&gt; lck {my_mutex};
+    // ... do something ...
+    f(this);    // f will do something to *this
+    // ...
+}
+</code></pre></div>
+<p>If, as it is likely, <code>f()</code> invokes operations on <code>*this</code>, we must make sure that the object's invariant holds before the call.</p>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag calling a virtual function with a non-recursive <code>mutex</code> held</li>
+<li>Flag calling a callback with a non-recursive <code>mutex</code> held</li>
+</ul>
+<h3 id="cp23-think-of-a-joining-thread-as-a-scoped-container"><a name="Rconc-join"></a>CP.23: Think of a joining <code>thread</code> as a scoped container<a class="headerlink" href="#cp23-think-of-a-joining-thread-as-a-scoped-container" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>To maintain pointer safety and avoid leaks, we need to consider what pointers are used by a <code>thread</code>.
+If a <code>thread</code> joins, we can safely pass pointers to objects in the scope of the <code>thread</code> and its enclosing scopes.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f(int* p)
+{
+    // ...
+    *p = 99;
+    // ...
+}
+int glob = 33;
+
+void some_fct(int* p)
+{
+    int x = 77;
+    joining_thread t0(f, &amp;x);           // OK
+    joining_thread t1(f, p);            // OK
+    joining_thread t2(f, &amp;glob);        // OK
+    auto q = make_unique&lt;int&gt;(99);
+    joining_thread t3(f, q.get());      // OK
+    // ...
+}
+</code></pre></div>
+<p>A <code>gsl::joining_thread</code> is a <code>std::thread</code> with a destructor that joins and that cannot be <code>detached()</code>.
+By "OK" we mean that the object will be in scope ("live") for as long as a <code>thread</code> can use the pointer to it.
+The fact that <code>thread</code>s run concurrently doesn't affect the lifetime or ownership issues here;
+these <code>thread</code>s can be seen as just a function object called from <code>some_fct</code>.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<p>Ensure that <code>joining_thread</code>s don't <code>detach()</code>.
+After that, the usual lifetime and ownership (for local objects) enforcement applies.</p>
+<h3 id="cp24-think-of-a-thread-as-a-global-container"><a name="Rconc-detach"></a>CP.24: Think of a <code>thread</code> as a global container<a class="headerlink" href="#cp24-think-of-a-thread-as-a-global-container" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>To maintain pointer safety and avoid leaks, we need to consider what pointers are used by a <code>thread</code>.
+If a <code>thread</code> is detached, we can safely pass pointers to static and free store objects (only).</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f(int* p)
+{
+    // ...
+    *p = 99;
+    // ...
+}
+
+int glob = 33;
+
+void some_fct(int* p)
+{
+    int x = 77;
+    std::thread t0(f, &amp;x);           // bad
+    std::thread t1(f, p);            // bad
+    std::thread t2(f, &amp;glob);        // OK
+    auto q = make_unique&lt;int&gt;(99);
+    std::thread t3(f, q.get());      // bad
+    // ...
+    t0.detach();
+    t1.detach();
+    t2.detach();
+    t3.detach();
+    // ...
+}
+</code></pre></div>
+<p>By "OK" we mean that the object will be in scope ("live") for as long as a <code>thread</code> can use the pointers to it.
+By "bad" we mean that a <code>thread</code> might use a pointer after the pointed-to object is destroyed.
+The fact that <code>thread</code>s run concurrently doesn't affect the lifetime or ownership issues here;
+these <code>thread</code>s can be seen as just a function object called from <code>some_fct</code>.</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>Even objects with static storage duration can be problematic if used from detached threads: if the
+thread continues until the end of the program, it might be running concurrently with the destruction
+of objects with static storage duration, and thus accesses to such objects might race.</p>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>This rule is redundant if you <a href="#Rconc-detached_thread">don't <code>detach()</code></a> and <a href="#Rconc-joining_thread">use <code>gsl::joining_thread</code></a>.
+However, converting code to follow those guidelines could be difficult and even impossible for third-party libraries.
+In such cases, the rule becomes essential for lifetime safety and type safety.</p>
+<p>In general, it is undecidable whether a <code>detach()</code> is executed for a <code>thread</code>, but simple common cases are easily detected.
+If we cannot prove that a <code>thread</code> does not <code>detach()</code>, we must assume that it does and that it outlives the scope in which it was constructed;
+After that, the usual lifetime and ownership (for global objects) enforcement applies.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<p>Flag attempts to pass local variables to a thread that might <code>detach()</code>.</p>
+<h3 id="cp25-prefer-gsljoining_thread-over-stdthread"><a name="Rconc-joining_thread"></a>CP.25: Prefer <code>gsl::joining_thread</code> over <code>std::thread</code><a class="headerlink" href="#cp25-prefer-gsljoining_thread-over-stdthread" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>A <code>joining_thread</code> is a thread that joins at the end of its scope.
+Detached threads are hard to monitor.
+It is harder to ensure absence of errors in detached threads (and potentially detached threads).</p>
+<h5 id="example-bad_6">Example, bad<a class="headerlink" href="#example-bad_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f() { std::cout &lt;&lt; &quot;Hello &quot;; }
+
+struct F {
+    void operator()() const { std::cout &lt;&lt; &quot;parallel world &quot;; }
+};
+
+int main()
+{
+    std::thread t1{f};      // f() executes in separate thread
+    std::thread t2{F()};    // F()() executes in separate thread
+}  // spot the bugs
+</code></pre></div>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f() { std::cout &lt;&lt; &quot;Hello &quot;; }
+
+struct F {
+    void operator()() const { std::cout &lt;&lt; &quot;parallel world &quot;; }
+};
+
+int main()
+{
+    std::thread t1{f};      // f() executes in separate thread
+    std::thread t2{F()};    // F()() executes in separate thread
+
+    t1.join();
+    t2.join();
+}  // one bad bug left
+</code></pre></div>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>Make "immortal threads" globals, put them in an enclosing scope, or put them on the free store rather than <code>detach()</code>.
+<a href="#Rconc-detached_thread">Don't <code>detach</code></a>.</p>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p>Because of old code and third party libraries using <code>std::thread</code>, this rule can be hard to introduce.</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<p>Flag uses of <code>std::thread</code>:</p>
+<ul>
+<li>Suggest use of <code>gsl::joining_thread</code> or C++20 <code>std::jthread</code>.</li>
+<li>Suggest <a href="#Rconc-detached_thread">"exporting ownership"</a> to an enclosing scope if it detaches.</li>
+<li>Warn if it is not obvious whether a thread joins or detaches.</li>
+</ul>
+<h3 id="cp26-dont-detach-a-thread"><a name="Rconc-detached_thread"></a>CP.26: Don't <code>detach()</code> a thread<a class="headerlink" href="#cp26-dont-detach-a-thread" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>Often, the need to outlive the scope of its creation is inherent in the <code>thread</code>s task,
+but implementing that idea by <code>detach</code> makes it harder to monitor and communicate with the detached thread.
+In particular, it is harder (though not impossible) to ensure that the thread completed as expected or lives for as long as expected.</p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void heartbeat();
+
+void use()
+{
+    std::thread t(heartbeat);             // don&#39;t join; heartbeat is meant to run forever
+    t.detach();
+    // ...
+}
+</code></pre></div>
+<p>This is a reasonable use of a thread, for which <code>detach()</code> is commonly used.
+There are problems, though.
+How do we monitor the detached thread to see if it is alive?
+Something might go wrong with the heartbeat, and losing a heartbeat can be very serious in a system for which it is needed.
+So, we need to communicate with the heartbeat thread
+(e.g., through a stream of messages or notification events using a <code>condition_variable</code>).</p>
+<p>An alternative, and usually superior solution is to control its lifetime by placing it in a scope outside its point of creation (or activation).
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>void heartbeat();
+
+gsl::joining_thread t(heartbeat);             // heartbeat is meant to run &quot;forever&quot;
+</code></pre></div>
+<p>This heartbeat will (barring error, hardware problems, etc.) run for as long as the program does.</p>
+<p>Sometimes, we need to separate the point of creation from the point of ownership:</p>
+<div class="language-text highlight"><pre><span></span><code>void heartbeat();
+
+unique_ptr&lt;gsl::joining_thread&gt; tick_tock {nullptr};
+
+void use()
+{
+    // heartbeat is meant to run as long as tick_tock lives
+    tick_tock = make_unique&lt;gsl::joining_thread&gt;(heartbeat);
+    // ...
+}
+</code></pre></div>
+<h4 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h4>
+<p>Flag <code>detach()</code>.</p>
+<h3 id="cp31-pass-small-amounts-of-data-between-threads-by-value-rather-than-by-reference-or-pointer"><a name="Rconc-data-by-value"></a>CP.31: Pass small amounts of data between threads by value, rather than by reference or pointer<a class="headerlink" href="#cp31-pass-small-amounts-of-data-between-threads-by-value-rather-than-by-reference-or-pointer" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>A small amount of data is cheaper to copy and access than to share it using some locking mechanism.
+Copying naturally gives unique ownership (simplifies code) and eliminates the possibility of data races.</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>Defining "small amount" precisely is impossible.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>string modify1(string);
+void modify2(string&amp;);
+
+void fct(string&amp; s)
+{
+    auto res = async(modify1, s);
+    async(modify2, s);
+}
+</code></pre></div>
+<p>The call of <code>modify1</code> involves copying two <code>string</code> values; the call of <code>modify2</code> does not.
+On the other hand, the implementation of <code>modify1</code> is exactly as we would have written it for single-threaded code,
+whereas the implementation of <code>modify2</code> will need some form of locking to avoid data races.
+If the string is short (say 10 characters), the call of <code>modify1</code> can be surprisingly fast;
+essentially all the cost is in the <code>thread</code> switch. If the string is long (say 1,000,000 characters), copying it twice
+is probably not a good idea.</p>
+<p>Note that this argument has nothing to do with <code>async</code> as such. It applies equally to considerations about whether to use
+message passing or shared memory.</p>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp32-to-share-ownership-between-unrelated-threads-use-shared_ptr"><a name="Rconc-shared"></a>CP.32: To share ownership between unrelated <code>thread</code>s use <code>shared_ptr</code><a class="headerlink" href="#cp32-to-share-ownership-between-unrelated-threads-use-shared_ptr" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>If threads are unrelated (that is, not known to be in the same scope or one within the lifetime of the other)
+and they need to share free store memory that needs to be deleted, a <code>shared_ptr</code> (or equivalent) is the only
+safe way to ensure proper deletion.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li>A static object (e.g. a global) can be shared because it is not owned in the sense that some thread is responsible for its deletion.</li>
+<li>An object on free store that is never to be deleted can be shared.</li>
+<li>An object owned by one thread can be safely shared with another as long as that second thread doesn't outlive the owner.</li>
+</ul>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp40-minimize-context-switching"><a name="Rconc-switch"></a>CP.40: Minimize context switching<a class="headerlink" href="#cp40-minimize-context-switching" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>Context switches are expensive.</p>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp41-minimize-thread-creation-and-destruction"><a name="Rconc-create"></a>CP.41: Minimize thread creation and destruction<a class="headerlink" href="#cp41-minimize-thread-creation-and-destruction" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>Thread creation is expensive.</p>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void worker(Message m)
+{
+    // process
+}
+
+void dispatcher(istream&amp; is)
+{
+    for (Message m; is &gt;&gt; m; )
+        run_list.push_back(new thread(worker, m));
+}
+</code></pre></div>
+<p>This spawns a <code>thread</code> per message, and the <code>run_list</code> is presumably managed to destroy those tasks once they are finished.</p>
+<p>Instead, we could have a set of pre-created worker threads processing the messages</p>
+<div class="language-text highlight"><pre><span></span><code>Sync_queue&lt;Message&gt; work;
+
+void dispatcher(istream&amp; is)
+{
+    for (Message m; is &gt;&gt; m; )
+        work.put(m);
+}
+
+void worker()
+{
+    for (Message m; m = work.get(); ) {
+        // process
+    }
+}
+
+void workers()  // set up worker threads (specifically 4 worker threads)
+{
+    joining_thread w1 {worker};
+    joining_thread w2 {worker};
+    joining_thread w3 {worker};
+    joining_thread w4 {worker};
+}
+</code></pre></div>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>If your system has a good thread pool, use it.
+If your system has a good message queue, use it.</p>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp42-dont-wait-without-a-condition"><a name="Rconc-wait"></a>CP.42: Don't <code>wait</code> without a condition<a class="headerlink" href="#cp42-dont-wait-without-a-condition" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>A <code>wait</code> without a condition can miss a wakeup or wake up simply to find that there is no work to do.</p>
+<h5 id="example-bad_7">Example, bad<a class="headerlink" href="#example-bad_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>std::condition_variable cv;
+std::mutex mx;
+
+void thread1()
+{
+    while (true) {
+        // do some work ...
+        std::unique_lock&lt;std::mutex&gt; lock(mx);
+        cv.notify_one();    // wake other thread
+    }
+}
+
+void thread2()
+{
+    while (true) {
+        std::unique_lock&lt;std::mutex&gt; lock(mx);
+        cv.wait(lock);    // might block forever
+        // do work ...
+    }
+}
+</code></pre></div>
+<p>Here, if some other <code>thread</code> consumes <code>thread1</code>'s notification, <code>thread2</code> can wait forever.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+class Sync_queue {
+public:
+    void put(const T&amp; val);
+    void put(T&amp;&amp; val);
+    void get(T&amp; val);
+private:
+    mutex mtx;
+    condition_variable cond;    // this controls access
+    list&lt;T&gt; q;
+};
+
+template&lt;typename T&gt;
+void Sync_queue&lt;T&gt;::put(const T&amp; val)
+{
+    lock_guard&lt;mutex&gt; lck(mtx);
+    q.push_back(val);
+    cond.notify_one();
+}
+
+template&lt;typename T&gt;
+void Sync_queue&lt;T&gt;::get(T&amp; val)
+{
+    unique_lock&lt;mutex&gt; lck(mtx);
+    cond.wait(lck, [this] { return !q.empty(); });    // prevent spurious wakeup
+    val = q.front();
+    q.pop_front();
+}
+</code></pre></div>
+<p>Now if the queue is empty when a thread executing <code>get()</code> wakes up (e.g., because another thread has gotten to <code>get()</code> before it),
+it will immediately go back to sleep, waiting.</p>
+<h5 id="enforcement_15">Enforcement<a class="headerlink" href="#enforcement_15" title="Permanent link">&para;</a></h5>
+<p>Flag all <code>wait</code>s without conditions.</p>
+<h3 id="cp43-minimize-time-spent-in-a-critical-section"><a name="Rconc-time"></a>CP.43: Minimize time spent in a critical section<a class="headerlink" href="#cp43-minimize-time-spent-in-a-critical-section" title="Permanent link">&para;</a></h3>
+<h5 id="reason_17">Reason<a class="headerlink" href="#reason_17" title="Permanent link">&para;</a></h5>
+<p>The less time is spent with a <code>mutex</code> taken, the less chance that another <code>thread</code> has to wait,
+and <code>thread</code> suspension and resumption are expensive.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void do_something() // bad
+{
+    unique_lock&lt;mutex&gt; lck(my_lock);
+    do0();  // preparation: does not need lock
+    do1();  // transaction: needs locking
+    do2();  // cleanup: does not need locking
+}
+</code></pre></div>
+<p>Here, we are holding the lock for longer than necessary:
+We should not have taken the lock before we needed it and should have released it again before starting the cleanup.
+We could rewrite this to</p>
+<div class="language-text highlight"><pre><span></span><code>void do_something() // bad
+{
+    do0();  // preparation: does not need lock
+    my_lock.lock();
+    do1();  // transaction: needs locking
+    my_lock.unlock();
+    do2();  // cleanup: does not need locking
+}
+</code></pre></div>
+<p>But that compromises safety and violates the <a href="#Rconc-raii">use RAII</a> rule.
+Instead, add a block for the critical section:</p>
+<div class="language-text highlight"><pre><span></span><code>void do_something() // OK
+{
+    do0();  // preparation: does not need lock
+    {
+        unique_lock&lt;mutex&gt; lck(my_lock);
+        do1();  // transaction: needs locking
+    }
+    do2();  // cleanup: does not need locking
+}
+</code></pre></div>
+<h5 id="enforcement_16">Enforcement<a class="headerlink" href="#enforcement_16" title="Permanent link">&para;</a></h5>
+<p>Impossible in general.
+Flag "naked" <code>lock()</code> and <code>unlock()</code>.</p>
+<h3 id="cp44-remember-to-name-your-lock_guards-and-unique_locks"><a name="Rconc-name"></a>CP.44: Remember to name your <code>lock_guard</code>s and <code>unique_lock</code>s<a class="headerlink" href="#cp44-remember-to-name-your-lock_guards-and-unique_locks" title="Permanent link">&para;</a></h3>
+<h5 id="reason_18">Reason<a class="headerlink" href="#reason_18" title="Permanent link">&para;</a></h5>
+<p>An unnamed local object is a temporary that immediately goes out of scope.</p>
+<h5 id="example_16">Example<a class="headerlink" href="#example_16" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// global mutexes
+mutex m1;
+mutex m2;
+
+void f()
+{
+    unique_lock&lt;mutex&gt;(m1); // (A)
+    lock_guard&lt;mutex&gt; {m2}; // (B)
+    // do work in critical section ...
+}
+</code></pre></div>
+<p>This looks innocent enough, but it isn't. At (A), <code>m1</code> is a default-constructed
+local <code>unique_lock</code>, which shadows the global <code>::m1</code> (and does not lock it).
+At (B) an unnamed temporary <code>lock_guard</code> is constructed and locks <code>::m2</code>,
+but immediately goes out of scope and unlocks <code>::m2</code> again.
+For the rest of the function <code>f()</code> neither mutex is locked.</p>
+<h5 id="enforcement_17">Enforcement<a class="headerlink" href="#enforcement_17" title="Permanent link">&para;</a></h5>
+<p>Flag all unnamed <code>lock_guard</code>s and <code>unique_lock</code>s.</p>
+<h3 id="cp50-define-a-mutex-together-with-the-data-it-guards-use-synchronized_valuet-where-possible"><a name="Rconc-mutex"></a>CP.50: Define a <code>mutex</code> together with the data it guards. Use <code>synchronized_value&lt;T&gt;</code> where possible<a class="headerlink" href="#cp50-define-a-mutex-together-with-the-data-it-guards-use-synchronized_valuet-where-possible" title="Permanent link">&para;</a></h3>
+<h5 id="reason_19">Reason<a class="headerlink" href="#reason_19" title="Permanent link">&para;</a></h5>
+<p>It should be obvious to a reader that the data is to be guarded and how. This decreases the chance of the wrong mutex being locked, or the mutex not being locked.</p>
+<p>Using a <code>synchronized_value&lt;T&gt;</code> ensures that the data has a mutex, and the right mutex is locked when the data is accessed.
+See the <a href="http://wg21.link/p0290">WG21 proposal</a> to add <code>synchronized_value</code> to a future TS or revision of the C++ standard.</p>
+<h5 id="example_17">Example<a class="headerlink" href="#example_17" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct Record {
+    std::mutex m;   // take this mutex before accessing other members
+    // ...
+};
+
+class MyClass {
+    struct DataRecord {
+       // ...
+    };
+    synchronized_value&lt;DataRecord&gt; data; // Protect the data with a mutex
+};
+</code></pre></div>
+<h5 id="enforcement_18">Enforcement<a class="headerlink" href="#enforcement_18" title="Permanent link">&para;</a></h5>
+<p>??? Possible?</p>
+<h2 id="cpcoro-coroutines"><a name="SScp-coro"></a>CP.coro: Coroutines<a class="headerlink" href="#cpcoro-coroutines" title="Permanent link">&para;</a></h2>
+<p>This section focuses on uses of coroutines.</p>
+<p>Coroutine rule summary:</p>
+<ul>
+<li><a href="#Rcoro-capture">CP.51: Do not use capturing lambdas that are coroutines</a></li>
+<li><a href="#Rcoro-locks">CP.52: Do not hold locks or other synchronization primitives across suspension points</a></li>
+<li><a href="#Rcoro-reference-parameters">CP.53: Parameters to coroutines should not be passed by reference</a></li>
+</ul>
+<h3 id="cp51-do-not-use-capturing-lambdas-that-are-coroutines"><a name="Rcoro-capture"></a>CP.51: Do not use capturing lambdas that are coroutines<a class="headerlink" href="#cp51-do-not-use-capturing-lambdas-that-are-coroutines" title="Permanent link">&para;</a></h3>
+<h5 id="reason_20">Reason<a class="headerlink" href="#reason_20" title="Permanent link">&para;</a></h5>
+<p>Usage patterns that are correct with normal lambdas are hazardous with coroutine lambdas. The obvious pattern of capturing variables will result in accessing freed memory after the first suspension point, even for refcounted smart pointers and copyable types.</p>
+<p>A lambda results in a closure object with storage, often on the stack, that will go out of scope at some point.  When the closure object goes out of scope the captures will also go out of scope.  Normal lambdas will have finished executing by this time so it is not a problem.  Coroutine lambdas may resume from suspension after the closure object has destructed and at that point all captures will be use-after-free memory access.</p>
+<h5 id="example-bad_8">Example, Bad<a class="headerlink" href="#example-bad_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int value = get_value();
+std::shared_ptr&lt;Foo&gt; sharedFoo = get_foo();
+{
+  const auto lambda = [value, sharedFoo]() -&gt; std::future&lt;void&gt;
+  {
+    co_await something();
+    // &quot;sharedFoo&quot; and &quot;value&quot; have already been destroyed
+    // the &quot;shared&quot; pointer didn&#39;t accomplish anything
+  };
+  lambda();
+} // the lambda closure object has now gone out of scope
+</code></pre></div>
+<h5 id="example-better">Example, Better<a class="headerlink" href="#example-better" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int value = get_value();
+std::shared_ptr&lt;Foo&gt; sharedFoo = get_foo();
+{
+  // take as by-value parameter instead of as a capture
+  const auto lambda = [](auto sharedFoo, auto value) -&gt; std::future&lt;void&gt;
+  {
+    co_await something();
+    // sharedFoo and value are still valid at this point
+  };
+  lambda(sharedFoo, value);
+} // the lambda closure object has now gone out of scope
+</code></pre></div>
+<h5 id="example-best">Example, Best<a class="headerlink" href="#example-best" title="Permanent link">&para;</a></h5>
+<p>Use a function for coroutines.</p>
+<div class="language-text highlight"><pre><span></span><code>std::future&lt;void&gt; Class::do_something(int value, std::shared_ptr&lt;Foo&gt; sharedFoo)
+{
+  co_await something();
+  // sharedFoo and value are still valid at this point
+}
+
+void SomeOtherFunction()
+{
+  int value = get_value();
+  std::shared_ptr&lt;Foo&gt; sharedFoo = get_foo();
+  do_something(value, sharedFoo);
+}
+</code></pre></div>
+<h5 id="enforcement_19">Enforcement<a class="headerlink" href="#enforcement_19" title="Permanent link">&para;</a></h5>
+<p>Flag a lambda that is a coroutine and has a non-empty capture list.</p>
+<h3 id="cp52-do-not-hold-locks-or-other-synchronization-primitives-across-suspension-points"><a name="Rcoro-locks"></a>CP.52: Do not hold locks or other synchronization primitives across suspension points<a class="headerlink" href="#cp52-do-not-hold-locks-or-other-synchronization-primitives-across-suspension-points" title="Permanent link">&para;</a></h3>
+<h5 id="reason_21">Reason<a class="headerlink" href="#reason_21" title="Permanent link">&para;</a></h5>
+<p>This pattern creates a significant risk of deadlocks.  Some types of waits will allow the current thread to perform additional work until the asynchronous operation has completed. If the thread holding the lock performs work that requires the same lock then it will deadlock because it is trying to acquire a lock that it is already holding.</p>
+<p>If the coroutine completes on a different thread from the thread that acquired the lock then that is undefined behavior.  Even with an explicit return to the original thread an exception might be thrown before coroutine resumes and the result will be that the lock guard is not destructed.</p>
+<h5 id="example-bad_9">Example, Bad<a class="headerlink" href="#example-bad_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>std::mutex g_lock;
+
+std::future&lt;void&gt; Class::do_something()
+{
+    std::lock_guard&lt;std::mutex&gt; guard(g_lock);
+    co_await something(); // DANGER: coroutine has suspended execution while holding a lock
+    co_await somethingElse();
+}
+</code></pre></div>
+<h5 id="example-good_1">Example, Good<a class="headerlink" href="#example-good_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>std::mutex g_lock;
+
+std::future&lt;void&gt; Class::do_something()
+{
+    {
+        std::lock_guard&lt;std::mutex&gt; guard(g_lock);
+        // modify data protected by lock
+    }
+    co_await something(); // OK: lock has been released before coroutine suspends
+    co_await somethingElse();
+}
+</code></pre></div>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>This pattern is also bad for performance. When a suspension point is reached, such as co_await, execution of the current function stops and other code begins to run. It may be a long period of time before the coroutine resumes. For that entire duration the lock will be held and cannot be acquired by other threads to perform work.</p>
+<h5 id="enforcement_20">Enforcement<a class="headerlink" href="#enforcement_20" title="Permanent link">&para;</a></h5>
+<p>Flag all lock guards that are not destructed before a coroutine suspends.</p>
+<h3 id="cp53-parameters-to-coroutines-should-not-be-passed-by-reference"><a name="Rcoro-reference-parameters"></a>CP.53: Parameters to coroutines should not be passed by reference<a class="headerlink" href="#cp53-parameters-to-coroutines-should-not-be-passed-by-reference" title="Permanent link">&para;</a></h3>
+<h5 id="reason_22">Reason<a class="headerlink" href="#reason_22" title="Permanent link">&para;</a></h5>
+<p>Once a coroutine reaches the first suspension point, such as a co_await, the synchronous portion returns. After that point any parameters passed by reference are dangling. Any usage beyond that is undefined behavior which may include writing to freed memory.</p>
+<h5 id="example-bad_10">Example, Bad<a class="headerlink" href="#example-bad_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>std::future&lt;int&gt; Class::do_something(const std::shared_ptr&lt;int&gt;&amp; input)
+{
+    co_await something();
+
+    // DANGER: the reference to input may no longer be valid and may be freed memory
+    co_return *input + 1;
+}
+</code></pre></div>
+<h5 id="example-good_2">Example, Good<a class="headerlink" href="#example-good_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>std::future&lt;int&gt; Class::do_something(std::shared_ptr&lt;int&gt; input)
+{
+    co_await something();
+    co_return *input + 1; // input is a copy that is still valid here
+}
+</code></pre></div>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>This problem does not apply to reference parameters that are only accessed before the first suspension point. Subsequent changes to the function may add or move suspension points which would reintroduce this class of bug. Some types of coroutines have the suspension point before the first line of code in the coroutine executes, in which case reference parameters are always unsafe.  It is safer to always pass by value because the copied parameter will live in the coroutine frame that is safe to access throughout the coroutine.</p>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>The same danger applies to output parameters.  <a href="#Rf-out">F.20: For "out" output values, prefer return values to output parameters</a> discourages output parameters.  Coroutines should avoid them entirely.</p>
+<h5 id="enforcement_21">Enforcement<a class="headerlink" href="#enforcement_21" title="Permanent link">&para;</a></h5>
+<p>Flag all reference parameters to a coroutine.</p>
+<h2 id="cppar-parallelism"><a name="SScp-par"></a>CP.par: Parallelism<a class="headerlink" href="#cppar-parallelism" title="Permanent link">&para;</a></h2>
+<p>By "parallelism" we refer to performing a task (more or less) simultaneously ("in parallel with") on many data items.</p>
+<p>Parallelism rule summary:</p>
+<ul>
+<li>???</li>
+<li>???</li>
+<li>Where appropriate, prefer the standard-library parallel algorithms</li>
+<li>Use algorithms that are designed for parallelism, not algorithms with unnecessary dependency on linear evaluation</li>
+</ul>
+<h2 id="cpmess-message-passing"><a name="SScp-mess"></a>CP.mess: Message passing<a class="headerlink" href="#cpmess-message-passing" title="Permanent link">&para;</a></h2>
+<p>The standard-library facilities are quite low-level, focused on the needs of close-to the hardware critical programming using <code>thread</code>s, <code>mutex</code>es, <code>atomic</code> types, etc.
+Most people shouldn't work at this level: it's error-prone and development is slow.
+If possible, use a higher level facility: messaging libraries, parallel algorithms, and vectorization.
+This section looks at passing messages so that a programmer doesn't have to do explicit synchronization.</p>
+<p>Message passing rules summary:</p>
+<ul>
+<li><a href="#Rconc-future">CP.60: Use a <code>future</code> to return a value from a concurrent task</a></li>
+<li><a href="#Rconc-async">CP.61: Use <code>async()</code> to spawn concurrent tasks</a></li>
+<li>message queues</li>
+<li>messaging libraries</li>
+</ul>
+<p>???? should there be a "use X rather than <code>std::async</code>" where X is something that would use a better specified thread pool?</p>
+<p>??? Is <code>std::async</code> worth using in light of future (and even existing, as libraries) parallelism facilities? What should the guidelines recommend if someone wants to parallelize, e.g., <code>std::accumulate</code> (with the additional precondition of commutativity), or merge sort?</p>
+<h3 id="cp60-use-a-future-to-return-a-value-from-a-concurrent-task"><a name="Rconc-future"></a>CP.60: Use a <code>future</code> to return a value from a concurrent task<a class="headerlink" href="#cp60-use-a-future-to-return-a-value-from-a-concurrent-task" title="Permanent link">&para;</a></h3>
+<h5 id="reason_23">Reason<a class="headerlink" href="#reason_23" title="Permanent link">&para;</a></h5>
+<p>A <code>future</code> preserves the usual function call return semantics for asynchronous tasks.
+There is no explicit locking and both correct (value) return and error (exception) return are handled simply.</p>
+<h5 id="example_18">Example<a class="headerlink" href="#example_18" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="enforcement_22">Enforcement<a class="headerlink" href="#enforcement_22" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="cp61-use-async-to-spawn-concurrent-tasks"><a name="Rconc-async"></a>CP.61: Use <code>async()</code> to spawn concurrent tasks<a class="headerlink" href="#cp61-use-async-to-spawn-concurrent-tasks" title="Permanent link">&para;</a></h3>
+<h5 id="reason_24">Reason<a class="headerlink" href="#reason_24" title="Permanent link">&para;</a></h5>
+<p>Similar to <a href="#Rr-immediate-alloc">R.12</a>, which tells you to avoid raw owning pointers, you should
+also avoid raw threads and raw promises where possible. Use a factory function such as <code>std::async</code>,
+which handles spawning or reusing a thread without exposing raw threads to your own code.</p>
+<h5 id="example_19">Example<a class="headerlink" href="#example_19" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int read_value(const std::string&amp; filename)
+{
+    std::ifstream in(filename);
+    in.exceptions(std::ifstream::failbit);
+    int value;
+    in &gt;&gt; value;
+    return value;
+}
+
+void async_example()
+{
+    try {
+        std::future&lt;int&gt; f1 = std::async(read_value, &quot;v1.txt&quot;);
+        std::future&lt;int&gt; f2 = std::async(read_value, &quot;v2.txt&quot;);
+        std::cout &lt;&lt; f1.get() + f2.get() &lt;&lt; &#39;\n&#39;;
+    } catch (const std::ios_base::failure&amp; fail) {
+        // handle exception here
+    }
+}
+</code></pre></div>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>Unfortunately, <code>std::async</code> is not perfect. For example, it doesn't use a thread pool,
+which means that it might fail due to resource exhaustion, rather than queuing up your tasks
+to be executed later. However, even if you cannot use <code>std::async</code>, you should prefer to
+write your own <code>future</code>-returning factory function, rather than using raw promises.</p>
+<h5 id="example-bad_11">Example (bad)<a class="headerlink" href="#example-bad_11" title="Permanent link">&para;</a></h5>
+<p>This example shows two different ways to succeed at using <code>std::future</code>, but to fail
+at avoiding raw <code>std::thread</code> management.</p>
+<div class="language-text highlight"><pre><span></span><code>void async_example()
+{
+    std::promise&lt;int&gt; p1;
+    std::future&lt;int&gt; f1 = p1.get_future();
+    std::thread t1([p1 = std::move(p1)]() mutable {
+        p1.set_value(read_value(&quot;v1.txt&quot;));
+    });
+    t1.detach(); // evil
+
+    std::packaged_task&lt;int()&gt; pt2(read_value, &quot;v2.txt&quot;);
+    std::future&lt;int&gt; f2 = pt2.get_future();
+    std::thread(std::move(pt2)).detach();
+
+    std::cout &lt;&lt; f1.get() + f2.get() &lt;&lt; &#39;\n&#39;;
+}
+</code></pre></div>
+<h5 id="example-good_3">Example (good)<a class="headerlink" href="#example-good_3" title="Permanent link">&para;</a></h5>
+<p>This example shows one way you could follow the general pattern set by
+<code>std::async</code>, in a context where <code>std::async</code> itself was unacceptable for
+use in production.</p>
+<div class="language-text highlight"><pre><span></span><code>void async_example(WorkQueue&amp; wq)
+{
+    std::future&lt;int&gt; f1 = wq.enqueue([]() {
+        return read_value(&quot;v1.txt&quot;);
+    });
+    std::future&lt;int&gt; f2 = wq.enqueue([]() {
+        return read_value(&quot;v2.txt&quot;);
+    });
+    std::cout &lt;&lt; f1.get() + f2.get() &lt;&lt; &#39;\n&#39;;
+}
+</code></pre></div>
+<p>Any threads spawned to execute the code of <code>read_value</code> are hidden behind
+the call to <code>WorkQueue::enqueue</code>. The user code deals only with <code>future</code>
+objects, never with raw <code>thread</code>, <code>promise</code>, or <code>packaged_task</code> objects.</p>
+<h5 id="enforcement_23">Enforcement<a class="headerlink" href="#enforcement_23" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="cpvec-vectorization"><a name="SScp-vec"></a>CP.vec: Vectorization<a class="headerlink" href="#cpvec-vectorization" title="Permanent link">&para;</a></h2>
+<p>Vectorization is a technique for executing a number of tasks concurrently without introducing explicit synchronization.
+An operation is simply applied to elements of a data structure (a vector, an array, etc.) in parallel.
+Vectorization has the interesting property of often requiring no non-local changes to a program.
+However, vectorization works best with simple data structures and with algorithms specifically crafted to enable it.</p>
+<p>Vectorization rule summary:</p>
+<ul>
+<li>???</li>
+<li>???</li>
+</ul>
+<h2 id="cpfree-lock-free-programming"><a name="SScp-free"></a>CP.free: Lock-free programming<a class="headerlink" href="#cpfree-lock-free-programming" title="Permanent link">&para;</a></h2>
+<p>Synchronization using <code>mutex</code>es and <code>condition_variable</code>s can be relatively expensive.
+Furthermore, it can lead to deadlock.
+For performance and to eliminate the possibility of deadlock, we sometimes have to use the tricky low-level "lock-free" facilities
+that rely on briefly gaining exclusive ("atomic") access to memory.
+Lock-free programming is also used to implement higher-level concurrency mechanisms, such as <code>thread</code>s and <code>mutex</code>es.</p>
+<p>Lock-free programming rule summary:</p>
+<ul>
+<li><a href="#Rconc-lockfree">CP.100: Don't use lock-free programming unless you absolutely have to</a></li>
+<li><a href="#Rconc-distrust">CP.101: Distrust your hardware/compiler combination</a></li>
+<li><a href="#Rconc-literature">CP.102: Carefully study the literature</a></li>
+<li>how/when to use atomics</li>
+<li>avoid starvation</li>
+<li>use a lock-free data structure rather than hand-crafting specific lock-free access</li>
+<li><a href="#Rconc-double">CP.110: Do not write your own double-checked locking for initialization</a></li>
+<li><a href="#Rconc-double-pattern">CP.111: Use a conventional pattern if you really need double-checked locking</a></li>
+<li>how/when to compare and swap</li>
+</ul>
+<h3 id="cp100-dont-use-lock-free-programming-unless-you-absolutely-have-to"><a name="Rconc-lockfree"></a>CP.100: Don't use lock-free programming unless you absolutely have to<a class="headerlink" href="#cp100-dont-use-lock-free-programming-unless-you-absolutely-have-to" title="Permanent link">&para;</a></h3>
+<h5 id="reason_25">Reason<a class="headerlink" href="#reason_25" title="Permanent link">&para;</a></h5>
+<p>It's error-prone and requires expert level knowledge of language features, machine architecture, and data structures.</p>
+<h5 id="example-bad_12">Example, bad<a class="headerlink" href="#example-bad_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>extern atomic&lt;Link*&gt; head;        // the shared head of a linked list
+
+Link* nh = new Link(data, nullptr);    // make a link ready for insertion
+Link* h = head.load();                 // read the shared head of the list
+
+do {
+    if (h-&gt;data &lt;= data) break;        // if so, insert elsewhere
+    nh-&gt;next = h;                      // next element is the previous head
+} while (!head.compare_exchange_weak(h, nh));    // write nh to head or to h
+</code></pre></div>
+<p>Spot the bug.
+It would be really hard to find through testing.
+Read up on the ABA problem.</p>
+<h5 id="exception_1">Exception<a class="headerlink" href="#exception_1" title="Permanent link">&para;</a></h5>
+<p><a href="#???">Atomic variables</a> can be used simply and safely, as long as you are using the sequentially consistent memory model (memory_order_seq_cst), which is the default.</p>
+<h5 id="note_18">Note<a class="headerlink" href="#note_18" title="Permanent link">&para;</a></h5>
+<p>Higher-level concurrency mechanisms, such as <code>thread</code>s and <code>mutex</code>es are implemented using lock-free programming.</p>
+<p><strong>Alternative</strong>: Use lock-free data structures implemented by others as part of some library.</p>
+<h3 id="cp101-distrust-your-hardwarecompiler-combination"><a name="Rconc-distrust"></a>CP.101: Distrust your hardware/compiler combination<a class="headerlink" href="#cp101-distrust-your-hardwarecompiler-combination" title="Permanent link">&para;</a></h3>
+<h5 id="reason_26">Reason<a class="headerlink" href="#reason_26" title="Permanent link">&para;</a></h5>
+<p>The low-level hardware interfaces used by lock-free programming are among the hardest to implement well and among
+the areas where the most subtle portability problems occur.
+If you are doing lock-free programming for performance, you need to check for regressions.</p>
+<h5 id="note_19">Note<a class="headerlink" href="#note_19" title="Permanent link">&para;</a></h5>
+<p>Instruction reordering (static and dynamic) makes it hard for us to think effectively at this level (especially if you use relaxed memory models).
+Experience, (semi)formal models and model checking can be useful.
+Testing - often to an extreme extent - is essential.
+"Don't fly too close to the sun."</p>
+<h5 id="enforcement_24">Enforcement<a class="headerlink" href="#enforcement_24" title="Permanent link">&para;</a></h5>
+<p>Have strong rules for re-testing in place that covers any change in hardware, operating system, compiler, and libraries.</p>
+<h3 id="cp102-carefully-study-the-literature"><a name="Rconc-literature"></a>CP.102: Carefully study the literature<a class="headerlink" href="#cp102-carefully-study-the-literature" title="Permanent link">&para;</a></h3>
+<h5 id="reason_27">Reason<a class="headerlink" href="#reason_27" title="Permanent link">&para;</a></h5>
+<p>With the exception of atomics and a few other standard patterns, lock-free programming is really an expert-only topic.
+Become an expert before shipping lock-free code for others to use.</p>
+<h5 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Anthony Williams: C++ concurrency in action. Manning Publications.</li>
+<li>Boehm, Adve, You Don't Know Jack About Shared Variables or Memory Models , Communications of the ACM, Feb 2012.</li>
+<li>Boehm, "Threads Basics", HPL TR 2009-259.</li>
+<li>Adve, Boehm, "Memory Models: A Case for Rethinking Parallel Languages and Hardware", Communications of the ACM, August 2010.</li>
+<li>Boehm, Adve, "Foundations of the C++ Concurrency Memory Model", PLDI 08.</li>
+<li>Mark Batty, Scott Owens, Susmit Sarkar, Peter Sewell, and Tjark Weber, "Mathematizing C++ Concurrency", POPL 2011.</li>
+<li>Damian Dechev, Peter Pirkelbauer, and Bjarne Stroustrup: Understanding and Effectively Preventing the ABA Problem in Descriptor-based Lock-free Designs. 13th IEEE Computer Society ISORC 2010 Symposium. May 2010.</li>
+<li>Damian Dechev and Bjarne Stroustrup: Scalable Non-blocking Concurrent Objects for Mission Critical Code. ACM OOPSLA'09. October 2009</li>
+<li>Damian Dechev, Peter Pirkelbauer, Nicolas Rouquette, and Bjarne Stroustrup: Semantically Enhanced Containers for Concurrent Real-Time Systems. Proc. 16th Annual IEEE International Conference and Workshop on the Engineering of Computer Based Systems (IEEE ECBS). April 2009.</li>
+<li>Maurice Herlihy, Nir Shavit, Victor Luchangco, Michael Spear, "The Art of Multiprocessor Programming", 2nd ed. September 2020</li>
+</ul>
+<h3 id="cp110-do-not-write-your-own-double-checked-locking-for-initialization"><a name="Rconc-double"></a>CP.110: Do not write your own double-checked locking for initialization<a class="headerlink" href="#cp110-do-not-write-your-own-double-checked-locking-for-initialization" title="Permanent link">&para;</a></h3>
+<h5 id="reason_28">Reason<a class="headerlink" href="#reason_28" title="Permanent link">&para;</a></h5>
+<p>Since C++11, static local variables are now initialized in a thread-safe way. When combined with the RAII pattern, static local variables can replace the need for writing your own double-checked locking for initialization. std::call_once can also achieve the same purpose. Use either static local variables of C++11 or std::call_once instead of writing your own double-checked locking for initialization.</p>
+<h5 id="example_20">Example<a class="headerlink" href="#example_20" title="Permanent link">&para;</a></h5>
+<p>Example with std::call_once.</p>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    static std::once_flag my_once_flag;
+    std::call_once(my_once_flag, []()
+    {
+        // do this only once
+    });
+    // ...
+}
+</code></pre></div>
+<p>Example with thread-safe static local variables of C++11.</p>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    // Assuming the compiler is compliant with C++11
+    static My_class my_object; // Constructor called only once
+    // ...
+}
+
+class My_class
+{
+public:
+    My_class()
+    {
+        // do this only once
+    }
+};
+</code></pre></div>
+<h5 id="enforcement_25">Enforcement<a class="headerlink" href="#enforcement_25" title="Permanent link">&para;</a></h5>
+<p>??? Is it possible to detect the idiom?</p>
+<h3 id="cp111-use-a-conventional-pattern-if-you-really-need-double-checked-locking"><a name="Rconc-double-pattern"></a>CP.111: Use a conventional pattern if you really need double-checked locking<a class="headerlink" href="#cp111-use-a-conventional-pattern-if-you-really-need-double-checked-locking" title="Permanent link">&para;</a></h3>
+<h5 id="reason_29">Reason<a class="headerlink" href="#reason_29" title="Permanent link">&para;</a></h5>
+<p>Double-checked locking is easy to mess up. If you really need to write your own double-checked locking, in spite of the rules <a href="#Rconc-double">CP.110: Do not write your own double-checked locking for initialization</a> and <a href="#Rconc-lockfree">CP.100: Don't use lock-free programming unless you absolutely have to</a>, then do it in a conventional pattern.</p>
+<p>The uses of the double-checked locking pattern that are not in violation of <a href="#Rconc-double">CP.110: Do not write your own double-checked locking for initialization</a> arise when a non-thread-safe action is both hard and rare, and there exists a fast thread-safe test that can be used to guarantee that the action is not needed, but cannot be used to guarantee the converse.</p>
+<h5 id="example-bad_13">Example, bad<a class="headerlink" href="#example-bad_13" title="Permanent link">&para;</a></h5>
+<p>The use of volatile does not make the first check thread-safe, see also <a href="#Rconc-volatile2">CP.200: Use <code>volatile</code> only to talk to non-C++ memory</a></p>
+<div class="language-text highlight"><pre><span></span><code>mutex action_mutex;
+volatile bool action_needed;
+
+if (action_needed) {
+    std::lock_guard&lt;std::mutex&gt; lock(action_mutex);
+    if (action_needed) {
+        take_action();
+        action_needed = false;
+    }
+}
+</code></pre></div>
+<h5 id="example-good_4">Example, good<a class="headerlink" href="#example-good_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>mutex action_mutex;
+atomic&lt;bool&gt; action_needed;
+
+if (action_needed) {
+    std::lock_guard&lt;std::mutex&gt; lock(action_mutex);
+    if (action_needed) {
+        take_action();
+        action_needed = false;
+    }
+}
+</code></pre></div>
+<p>Fine-tuned memory order might be beneficial where acquire load is more efficient than sequentially-consistent load</p>
+<div class="language-text highlight"><pre><span></span><code>mutex action_mutex;
+atomic&lt;bool&gt; action_needed;
+
+if (action_needed.load(memory_order_acquire)) {
+    lock_guard&lt;std::mutex&gt; lock(action_mutex);
+    if (action_needed.load(memory_order_relaxed)) {
+        take_action();
+        action_needed.store(false, memory_order_release);
+    }
+}
+</code></pre></div>
+<h5 id="enforcement_26">Enforcement<a class="headerlink" href="#enforcement_26" title="Permanent link">&para;</a></h5>
+<p>??? Is it possible to detect the idiom?</p>
+<h2 id="cpetc-etc-concurrency-rules"><a name="SScp-etc"></a>CP.etc: Etc. concurrency rules<a class="headerlink" href="#cpetc-etc-concurrency-rules" title="Permanent link">&para;</a></h2>
+<p>These rules defy simple categorization:</p>
+<ul>
+<li><a href="#Rconc-volatile2">CP.200: Use <code>volatile</code> only to talk to non-C++ memory</a></li>
+<li><a href="#Rconc-signal">CP.201: ??? Signals</a></li>
+</ul>
+<h3 id="cp200-use-volatile-only-to-talk-to-non-c-memory"><a name="Rconc-volatile2"></a>CP.200: Use <code>volatile</code> only to talk to non-C++ memory<a class="headerlink" href="#cp200-use-volatile-only-to-talk-to-non-c-memory" title="Permanent link">&para;</a></h3>
+<h5 id="reason_30">Reason<a class="headerlink" href="#reason_30" title="Permanent link">&para;</a></h5>
+<p><code>volatile</code> is used to refer to objects that are shared with "non-C++" code or hardware that does not follow the C++ memory model.</p>
+<h5 id="example_21">Example<a class="headerlink" href="#example_21" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>const volatile long clock;
+</code></pre></div>
+<p>This describes a register constantly updated by a clock circuit.
+<code>clock</code> is <code>volatile</code> because its value will change without any action from the C++ program that uses it.
+For example, reading <code>clock</code> twice will often yield two different values, so the optimizer had better not optimize away the second read in this code:</p>
+<div class="language-text highlight"><pre><span></span><code>long t1 = clock;
+// ... no use of clock here ...
+long t2 = clock;
+</code></pre></div>
+<p><code>clock</code> is <code>const</code> because the program should not try to write to <code>clock</code>.</p>
+<h5 id="note_20">Note<a class="headerlink" href="#note_20" title="Permanent link">&para;</a></h5>
+<p>Unless you are writing the lowest level code manipulating hardware directly, consider <code>volatile</code> an esoteric feature that is best avoided.</p>
+<h5 id="example_22">Example<a class="headerlink" href="#example_22" title="Permanent link">&para;</a></h5>
+<p>Usually C++ code receives <code>volatile</code> memory that is owned elsewhere (hardware or another language):</p>
+<div class="language-text highlight"><pre><span></span><code>int volatile* vi = get_hardware_memory_location();
+    // note: we get a pointer to someone else&#39;s memory here
+    // volatile says &quot;treat this with extra respect&quot;
+</code></pre></div>
+<p>Sometimes C++ code allocates the <code>volatile</code> memory and shares it with "elsewhere" (hardware or another language) by deliberately escaping a pointer:</p>
+<div class="language-text highlight"><pre><span></span><code>static volatile long vl;
+please_use_this(&amp;vl);   // escape a reference to this to &quot;elsewhere&quot; (not C++)
+</code></pre></div>
+<h5 id="example-bad_14">Example, bad<a class="headerlink" href="#example-bad_14" title="Permanent link">&para;</a></h5>
+<p><code>volatile</code> local variables are nearly always wrong -- how can they be shared with other languages or hardware if they're ephemeral?
+The same applies almost as strongly to data members, for the same reason.</p>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    volatile int i = 0; // bad, volatile local variable
+    // etc.
+}
+
+class My_type {
+    volatile int i = 0; // suspicious, volatile data member
+    // etc.
+};
+</code></pre></div>
+<h5 id="note_21">Note<a class="headerlink" href="#note_21" title="Permanent link">&para;</a></h5>
+<p>In C++, unlike in some other languages, <code>volatile</code> has <a href="#Rconc-volatile">nothing to do with synchronization</a>.</p>
+<h5 id="enforcement_27">Enforcement<a class="headerlink" href="#enforcement_27" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag <code>volatile T</code> local and data members; almost certainly you intended to use <code>atomic&lt;T&gt;</code> instead.</li>
+<li>???</li>
+</ul>
+<h3 id="cp201-signals"><a name="Rconc-signal"></a>CP.201: ??? Signals<a class="headerlink" href="#cp201-signals" title="Permanent link">&para;</a></h3>
+<p>???UNIX signal handling???. Might be worth reminding how little is async-signal-safe, and how to communicate with a signal handler (best is probably "not at all")</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

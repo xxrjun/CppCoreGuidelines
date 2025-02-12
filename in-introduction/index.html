@@ -1,0 +1,1423 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../abstract/">
+      
+      
+        <link rel="next" href="../p-philosophy/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>In: Introduction - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#in-introduction-s-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              In: Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intarget-target-readership" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.target: Target readership
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inaims-aims" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.aims: Aims
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="In.aims: Aims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in0-dont-panic" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.0: Don't panic!
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#innot-non-aims" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.not: Non-aims
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inforce-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.force: Enforcement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instruct-the-structure-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.struct: The structure of this document
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insec-major-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.sec: Major sections
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intarget-target-readership" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.target: Target readership
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inaims-aims" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.aims: Aims
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="In.aims: Aims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in0-dont-panic" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.0: Don't panic!
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#innot-non-aims" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.not: Non-aims
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inforce-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.force: Enforcement
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instruct-the-structure-of-this-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.struct: The structure of this document
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#insec-major-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      In.sec: Major sections
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="in-introduction-s-introduction">In: Introduction {#S-introduction}<a class="headerlink" href="#in-introduction-s-introduction" title="Permanent link">&para;</a></h1>
+<p>This is a set of core guidelines for modern C++ (currently C++20 and C++17) taking likely future enhancements and ISO Technical Specifications (TSs) into account.
+The aim is to help C++ programmers to write simpler, more efficient, more maintainable code.</p>
+<p>Introduction summary:</p>
+<ul>
+<li><a href="#SS-readers">In.target: Target readership</a></li>
+<li><a href="#SS-aims">In.aims: Aims</a></li>
+<li><a href="#SS-non">In.not: Non-aims</a></li>
+<li><a href="#SS-force">In.force: Enforcement</a></li>
+<li><a href="#SS-struct">In.struct: The structure of this document</a></li>
+<li><a href="#SS-sec">In.sec: Major sections</a></li>
+</ul>
+<h2 id="intarget-target-readership"><a name="SS-readers"></a>In.target: Target readership<a class="headerlink" href="#intarget-target-readership" title="Permanent link">&para;</a></h2>
+<p>All C++ programmers. This includes <a href="#S-cpl">programmers who might consider C</a>.</p>
+<h2 id="inaims-aims"><a name="SS-aims"></a>In.aims: Aims<a class="headerlink" href="#inaims-aims" title="Permanent link">&para;</a></h2>
+<p>The purpose of this document is to help developers to adopt modern C++ (currently C++20 and C++17) and to achieve a more uniform style across code bases.</p>
+<p>We do not suffer the delusion that every one of these rules can be effectively applied to every code base. Upgrading old systems is hard. However, we do believe that a program that uses a rule is less error-prone and more maintainable than one that does not. Often, rules also lead to faster/easier initial development.
+As far as we can tell, these rules lead to code that performs as well or better than older, more conventional techniques; they are meant to follow the zero-overhead principle ("what you don't use, you don't pay for" or "when you use an abstraction mechanism appropriately, you get at least as good performance as if you had handcoded using lower-level language constructs").
+Consider these rules ideals for new code, opportunities to exploit when working on older code, and try to approximate these ideals as closely as feasible.
+Remember:</p>
+<h3 id="in0-dont-panic"><a name="R0"></a>In.0: Don't panic!<a class="headerlink" href="#in0-dont-panic" title="Permanent link">&para;</a></h3>
+<p>Take the time to understand the implications of a guideline rule on your program.</p>
+<p>These guidelines are designed according to the "subset of superset" principle (<a href="#Stroustrup05">Stroustrup05</a>).
+They do not simply define a subset of C++ to be used (for reliability, safety, performance, or whatever).
+Instead, they strongly recommend the use of a few simple "extensions" (<a href="#gsl-guidelines-support-library">library components</a>)
+that make the use of the most error-prone features of C++ redundant, so that they can be banned (in our set of rules).</p>
+<p>The rules emphasize static type safety and resource safety.
+For that reason, they emphasize possibilities for range checking, for avoiding dereferencing <code>nullptr</code>, for avoiding dangling pointers, and the systematic use of exceptions (via RAII).
+Partly to achieve that and partly to minimize obscure code as a source of errors, the rules also emphasize simplicity and the hiding of necessary complexity behind well-specified interfaces.</p>
+<p>Many of the rules are prescriptive.
+We are uncomfortable with rules that simply state "don't do that!" without offering an alternative.
+One consequence of that is that some rules can be supported only by heuristics, rather than precise and mechanically verifiable checks.
+Other rules articulate general principles. For these more general rules, more detailed and specific rules provide partial checking.</p>
+<p>These guidelines address the core of C++ and its use.
+We expect that most large organizations, specific application areas, and even large projects will need further rules, possibly further restrictions, and further library support.
+For example, hard-real-time programmers typically can't use free store (dynamic memory) freely and will be restricted in their choice of libraries.
+We encourage the development of such more specific rules as addenda to these core guidelines.
+Build your ideal small foundation library and use that, rather than lowering your level of programming to glorified assembly code.</p>
+<p>The rules are designed to allow <a href="#S-modernizing">gradual adoption</a>.</p>
+<p>Some rules aim to increase various forms of safety while others aim to reduce the likelihood of accidents, many do both.
+The guidelines aimed at preventing accidents often ban perfectly legal C++.
+However, when there are two ways of expressing an idea and one has shown itself a common source of errors and the other has not, we try to guide programmers towards the latter.</p>
+<h2 id="innot-non-aims"><a name="SS-non"></a>In.not: Non-aims<a class="headerlink" href="#innot-non-aims" title="Permanent link">&para;</a></h2>
+<p>The rules are not intended to be minimal or orthogonal.
+In particular, general rules can be simple, but unenforceable.
+Also, it is often hard to understand the implications of a general rule.
+More specialized rules are often easier to understand and to enforce, but without general rules, they would just be a long list of special cases.
+We provide rules aimed at helping novices as well as rules supporting expert use.
+Some rules can be completely enforced, but others are based on heuristics.</p>
+<p>These rules are not meant to be read serially, like a book.
+You can browse through them using the links.
+However, their main intended use is to be targets for tools.
+That is, a tool looks for violations and the tool returns links to violated rules.
+The rules then provide reasons, examples of potential consequences of the violation, and suggested remedies.</p>
+<p>These guidelines are not intended to be a substitute for a tutorial treatment of C++.
+If you need a tutorial for some given level of experience, see <a href="#S-references">the references</a>.</p>
+<p>This is not a guide on how to convert old C++ code to more modern code.
+It is meant to articulate ideas for new code in a concrete fashion.
+However, see <a href="#S-modernizing">the modernization section</a> for some possible approaches to modernizing/rejuvenating/upgrading.
+Importantly, the rules support gradual adoption: It is typically infeasible to completely convert a large code base all at once.</p>
+<p>These guidelines are not meant to be complete or exact in every language-technical detail.
+For the final word on language definition issues, including every exception to general rules and every feature, see the ISO C++ standard.</p>
+<p>The rules are not intended to force you to write in an impoverished subset of C++.
+They are <em>emphatically</em> not meant to define a, say, Java-like subset of C++.
+They are not meant to define a single "one true C++" language.
+We value expressiveness and uncompromised performance.</p>
+<p>The rules are not value-neutral.
+They are meant to make code simpler and more correct/safer than most existing C++ code, without loss of performance.
+They are meant to inhibit perfectly valid C++ code that correlates with errors, spurious complexity, and poor performance.</p>
+<p>The rules are not precise to the point where a person (or machine) can follow them without thinking.
+The enforcement parts try to be that, but we would rather leave a rule or a definition a bit vague
+and open to interpretation than specify something precisely and wrong.
+Sometimes, precision comes only with time and experience.
+Design is not (yet) a form of Math.</p>
+<p>The rules are not perfect.
+A rule can do harm by prohibiting something that is useful in a given situation.
+A rule can do harm by failing to prohibit something that enables a serious error in a given situation.
+A rule can do a lot of harm by being vague, ambiguous, unenforceable, or by enabling every solution to a problem.
+It is impossible to completely meet the "do no harm" criteria.
+Instead, our aim is the less ambitious: "Do the most good for most programmers";
+if you cannot live with a rule, object to it, ignore it, but don't water it down until it becomes meaningless.
+Also, suggest an improvement.</p>
+<h2 id="inforce-enforcement"><a name="SS-force"></a>In.force: Enforcement<a class="headerlink" href="#inforce-enforcement" title="Permanent link">&para;</a></h2>
+<p>Rules with no enforcement are unmanageable for large code bases.
+Enforcement of all rules is possible only for a small weak set of rules or for a specific user community.</p>
+<ul>
+<li>But we want lots of rules, and we want rules that everybody can use.</li>
+<li>But different people have different needs.</li>
+<li>But people don't like to read lots of rules.</li>
+<li>But people can't remember many rules.</li>
+</ul>
+<p>So, we need subsetting to meet a variety of needs.</p>
+<ul>
+<li>But arbitrary subsetting leads to chaos.</li>
+</ul>
+<p>We want guidelines that help a lot of people, make code more uniform, and strongly encourage people to modernize their code.
+We want to encourage best practices, rather than leave all to individual choices and management pressures.
+The ideal is to use all rules; that gives the greatest benefits.</p>
+<p>This adds up to quite a few dilemmas.
+We try to resolve those using tools.
+Each rule has an <strong>Enforcement</strong> section listing ideas for enforcement.
+Enforcement might be done by code review, by static analysis, by compiler, or by run-time checks.
+Wherever possible, we prefer "mechanical" checking (humans are slow, inaccurate, and bore easily) and static checking.
+Run-time checks are suggested only rarely where no alternative exists; we do not want to introduce "distributed bloat".
+Where appropriate, we label a rule (in the <strong>Enforcement</strong> sections) with the name of groups of related rules (called "profiles").
+A rule can be part of several profiles, or none.
+For a start, we have a few profiles corresponding to common needs (desires, ideals):</p>
+<ul>
+<li><strong>type</strong>: No type violations (reinterpreting a <code>T</code> as a <code>U</code> through casts, unions, or varargs)</li>
+<li><strong>bounds</strong>: No bounds violations (accessing beyond the range of an array)</li>
+<li><strong>lifetime</strong>: No leaks (failing to <code>delete</code> or multiple <code>delete</code>) and no access to invalid objects (dereferencing <code>nullptr</code>, using a dangling reference).</li>
+</ul>
+<p>The profiles are intended to be used by tools, but also serve as an aid to the human reader.
+We do not limit our comment in the <strong>Enforcement</strong> sections to things we know how to enforce; some comments are mere wishes that might inspire some tool builder.</p>
+<p>Tools that implement these rules shall respect the following syntax to explicitly suppress a rule:</p>
+<div class="language-text highlight"><pre><span></span><code>[[gsl::suppress(&quot;tag&quot;)]]
+</code></pre></div>
+<p>and optionally with a message (following usual C++11 standard attribute syntax):</p>
+<div class="language-text highlight"><pre><span></span><code>[[gsl::suppress(&quot;tag&quot;, justification: &quot;message&quot;)]]
+</code></pre></div>
+<p>where</p>
+<ul>
+<li>
+<p><code>"tag"</code> is a string literal with the anchor name of the item where the Enforcement rule appears (e.g., for <a href="#Rh-public">C.134</a> it is "Rh-public"), the
+name of a profile group-of-rules ("type", "bounds", or "lifetime"),
+or a specific rule in a profile (<a href="#Pro-type-cstylecast">type.4</a>, or <a href="#Pro-bounds-arrayindex">bounds.2</a>). Any text that is not one of those should be rejected.</p>
+</li>
+<li>
+<p><code>"message"</code> is a string literal</p>
+</li>
+</ul>
+<h2 id="instruct-the-structure-of-this-document"><a name="SS-struct"></a>In.struct: The structure of this document<a class="headerlink" href="#instruct-the-structure-of-this-document" title="Permanent link">&para;</a></h2>
+<p>Each rule (guideline, suggestion) can have several parts:</p>
+<ul>
+<li>The rule itself -- e.g., <strong>no naked <code>new</code></strong></li>
+<li>A rule reference number -- e.g., <strong>C.7</strong> (the 7th rule related to classes).
+  Since the major sections are not inherently ordered, we use letters as the first part of a rule reference "number".
+  We leave gaps in the numbering to minimize "disruption" when we add or remove rules.</li>
+<li><strong>Reason</strong>s (rationales) -- because programmers find it hard to follow rules they don't understand</li>
+<li><strong>Example</strong>s -- because rules are hard to understand in the abstract; can be positive or negative</li>
+<li><strong>Alternative</strong>s -- for "don't do this" rules</li>
+<li><strong>Exception</strong>s -- we prefer simple general rules. However, many rules apply widely, but not universally, so exceptions must be listed</li>
+<li><strong>Enforcement</strong> -- ideas about how the rule might be checked "mechanically"</li>
+<li><strong>See also</strong>s -- references to related rules and/or further discussion (in this document or elsewhere)</li>
+<li><strong>Note</strong>s (comments) -- something that needs saying that doesn't fit the other classifications</li>
+<li><strong>Discussion</strong> -- references to more extensive rationale and/or examples placed outside the main lists of rules</li>
+</ul>
+<p>Some rules are hard to check mechanically, but they all meet the minimal criteria that an expert programmer can spot many violations without too much trouble.
+We hope that "mechanical" tools will improve with time to approximate what such an expert programmer notices.
+Also, we assume that the rules will be refined over time to make them more precise and checkable.</p>
+<p>A rule is aimed at being simple, rather than carefully phrased to mention every alternative and special case.
+Such information is found in the <strong>Alternative</strong> paragraphs and the <a href="#S-discussion">Discussion</a> sections.
+If you don't understand a rule or disagree with it, please visit its <strong>Discussion</strong>.
+If you feel that a discussion is missing or incomplete, enter an <a href="https://github.com/isocpp/CppCoreGuidelines/issues">Issue</a>
+explaining your concerns and possibly a corresponding PR.</p>
+<p>Examples are written to illustrate rules.</p>
+<ul>
+<li>Examples are not intended to be production quality or to cover all tutorial dimensions.
+For example, many examples are language-technical and use names like <code>f</code>, <code>base</code>, and <code>x</code>.</li>
+<li>We try to ensure that "good" examples follow the Core Guidelines.</li>
+<li>Comments are often illustrating rules where they would be unnecessary and/or distracting in "real code."</li>
+<li>We assume knowledge of the standard library. For example, we use plain <code>vector</code> rather than <code>std::vector</code>.</li>
+</ul>
+<p>This is not a language manual.
+It is meant to be helpful, rather than complete, fully accurate on technical details, or a guide to existing code.
+Recommended information sources can be found in <a href="#S-references">the references</a>.</p>
+<h2 id="insec-major-sections"><a name="SS-sec"></a>In.sec: Major sections<a class="headerlink" href="#insec-major-sections" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#S-introduction">In: Introduction</a></li>
+<li><a href="#S-philosophy">P: Philosophy</a></li>
+<li><a href="#S-interfaces">I: Interfaces</a></li>
+<li><a href="#S-functions">F: Functions</a></li>
+<li><a href="#S-class">C: Classes and class hierarchies</a></li>
+<li><a href="#S-enum">Enum: Enumerations</a></li>
+<li><a href="#S-resource">R: Resource management</a></li>
+<li><a href="#S-expr">ES: Expressions and statements</a></li>
+<li><a href="#S-performance">Per: Performance</a></li>
+<li><a href="#S-concurrency">CP: Concurrency and parallelism</a></li>
+<li><a href="#S-errors">E: Error handling</a></li>
+<li><a href="#S-const">Con: Constants and immutability</a></li>
+<li><a href="#S-templates">T: Templates and generic programming</a></li>
+<li><a href="#S-cpl">CPL: C-style programming</a></li>
+<li><a href="#S-source">SF: Source files</a></li>
+<li><a href="#sl-the-standard-library">SL: The Standard Library</a></li>
+</ul>
+<p>Supporting sections:</p>
+<ul>
+<li><a href="#S-A">A: Architectural ideas</a></li>
+<li><a href="#S-not">NR: Non-Rules and myths</a></li>
+<li><a href="#S-references">RF: References</a></li>
+<li><a href="#S-profile">Pro: Profiles</a></li>
+<li><a href="#gsl-guidelines-support-library">GSL: Guidelines support library</a></li>
+<li><a href="#S-naming">NL: Naming and layout suggestions</a></li>
+<li><a href="#S-faq">FAQ: Answers to frequently asked questions</a></li>
+<li><a href="#S-libraries">Appendix A: Libraries</a></li>
+<li><a href="#S-modernizing">Appendix B: Modernizing code</a></li>
+<li><a href="#S-discussion">Appendix C: Discussion</a></li>
+<li><a href="#S-tools">Appendix D: Supporting tools</a></li>
+<li><a href="#S-glossary">Glossary</a></li>
+<li><a href="#S-unclassified">To-do: Unclassified proto-rules</a></li>
+</ul>
+<p>These sections are not orthogonal.</p>
+<p>Each section (e.g., "P" for "Philosophy") and each subsection (e.g., "C.hier" for "Class Hierarchies (OOP)") have an abbreviation for ease of searching and reference.
+The main section abbreviations are also used in rule numbers (e.g., "C.11" for "Make concrete types regular").</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

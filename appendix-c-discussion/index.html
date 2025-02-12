@@ -1,0 +1,1815 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../appendix-b-modernizing-code/">
+      
+      
+        <link rel="next" href="../appendix-d-supporting-tools/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>Appendix C: Discussion - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#appendix-c-discussion-s-discussion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Appendix C: Discussion
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-define-and-initialize-data-members-in-the-order-of-member-declaration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Define and initialize data members in the order of member declaration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-use-of-and-as-initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use of =, {}, and () as initializers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-use-a-factory-function-if-you-need-virtual-behavior-during-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use a factory function if you need "virtual behavior" during initialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-make-base-class-destructors-public-and-virtual-or-protected-and-non-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Make base class destructors public and virtual, or protected and non-virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-usage-of-noexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Usage of noexcept
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-destructors-deallocation-and-swap-must-never-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Destructors, deallocation, and swap must never fail
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-copy-move-and-destroy-consistently" class="md-nav__link">
+    <span class="md-ellipsis">
+      Define Copy, move, and destroy consistently
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Define Copy, move, and destroy consistently">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-provide-strong-resource-safety-that-is-never-leak-anything-that-you-think-of-as-a-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Provide strong resource safety; that is, never leak anything that you think of as a resource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-never-return-or-throw-while-holding-a-resource-not-owned-by-a-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Never return or throw while holding a resource not owned by a handle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-a-raw-pointer-or-reference-is-never-a-resource-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: A "raw" pointer or reference is never a resource handle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-never-let-a-pointer-outlive-the-object-it-points-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Never let a pointer outlive the object it points to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-use-templates-to-express-containers-and-other-resource-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use templates to express containers (and other resource handles)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-return-containers-by-value-relying-on-move-or-copy-elision-for-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Return containers by value (relying on move or copy elision for efficiency)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-if-a-class-is-a-resource-handle-it-needs-a-constructor-a-destructor-and-copy-andor-move-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: If a class is a resource handle, it needs a constructor, a destructor, and copy and/or move operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-if-a-class-is-a-container-give-it-an-initializer-list-constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: If a class is a container, give it an initializer-list constructor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-define-and-initialize-data-members-in-the-order-of-member-declaration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Define and initialize data members in the order of member declaration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-use-of-and-as-initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use of =, {}, and () as initializers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-use-a-factory-function-if-you-need-virtual-behavior-during-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use a factory function if you need "virtual behavior" during initialization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-make-base-class-destructors-public-and-virtual-or-protected-and-non-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Make base class destructors public and virtual, or protected and non-virtual
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-usage-of-noexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Usage of noexcept
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion-destructors-deallocation-and-swap-must-never-fail" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Destructors, deallocation, and swap must never fail
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-copy-move-and-destroy-consistently" class="md-nav__link">
+    <span class="md-ellipsis">
+      Define Copy, move, and destroy consistently
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Define Copy, move, and destroy consistently">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discussion-provide-strong-resource-safety-that-is-never-leak-anything-that-you-think-of-as-a-resource" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Provide strong resource safety; that is, never leak anything that you think of as a resource
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-never-return-or-throw-while-holding-a-resource-not-owned-by-a-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Never return or throw while holding a resource not owned by a handle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-a-raw-pointer-or-reference-is-never-a-resource-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: A "raw" pointer or reference is never a resource handle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-never-let-a-pointer-outlive-the-object-it-points-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Never let a pointer outlive the object it points to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-use-templates-to-express-containers-and-other-resource-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Use templates to express containers (and other resource handles)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-return-containers-by-value-relying-on-move-or-copy-elision-for-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: Return containers by value (relying on move or copy elision for efficiency)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-if-a-class-is-a-resource-handle-it-needs-a-constructor-a-destructor-and-copy-andor-move-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: If a class is a resource handle, it needs a constructor, a destructor, and copy and/or move operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discussion-if-a-class-is-a-container-give-it-an-initializer-list-constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discussion: If a class is a container, give it an initializer-list constructor
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="appendix-c-discussion-s-discussion">Appendix C: Discussion {#S-discussion}<a class="headerlink" href="#appendix-c-discussion-s-discussion" title="Permanent link">&para;</a></h1>
+<p>This section contains follow-up material on rules and sets of rules.
+In particular, here we present further rationale, longer examples, and discussions of alternatives.</p>
+<h3 id="discussion-define-and-initialize-data-members-in-the-order-of-member-declaration"><a name="Sd-order"></a>Discussion: Define and initialize data members in the order of member declaration<a class="headerlink" href="#discussion-define-and-initialize-data-members-in-the-order-of-member-declaration" title="Permanent link">&para;</a></h3>
+<p>Data members are always initialized in the order they are declared in the class definition, so write them in that order in the constructor initialization list. Writing them in a different order just makes the code confusing because it won't run in the order you see, and that can make it hard to see order-dependent bugs.</p>
+<div class="language-text highlight"><pre><span></span><code>class Employee {
+    string email, first, last;
+public:
+    Employee(const char* firstName, const char* lastName);
+    // ...
+};
+
+Employee::Employee(const char* firstName, const char* lastName)
+  : first(firstName),
+    last(lastName),
+    // BAD: first and last not yet constructed
+    email(first + &quot;.&quot; + last + &quot;@acme.com&quot;)
+{}
+</code></pre></div>
+<p>In this example, <code>email</code> will be constructed before <code>first</code> and <code>last</code> because it is declared first. That means its constructor will attempt to use <code>first</code> and <code>last</code> too soon -- not just before they are set to the desired values, but before they are constructed at all.</p>
+<p>If the class definition and the constructor body are in separate files, the long-distance influence that the order of data member declarations has over the constructor's correctness will be even harder to spot.</p>
+<p><strong>References</strong>:</p>
+<p><a href="#Cline99">[Cline99]</a> §22.03-11, <a href="#Dewhurst03">[Dewhurst03]</a> §52-53, <a href="#Koenig97">[Koenig97]</a> §4, <a href="#Lakos96">[Lakos96]</a> §10.3.5, <a href="#Meyers97">[Meyers97]</a> §13, <a href="#Murray93">[Murray93]</a> §2.1.3, <a href="#Sutter00">[Sutter00]</a> §47</p>
+<h3 id="discussion-use-of-and-as-initializers"><a name="Sd-init"></a>Discussion: Use of <code>=</code>, <code>{}</code>, and <code>()</code> as initializers<a class="headerlink" href="#discussion-use-of-and-as-initializers" title="Permanent link">&para;</a></h3>
+<p>???</p>
+<h3 id="discussion-use-a-factory-function-if-you-need-virtual-behavior-during-initialization"><a name="Sd-factory"></a>Discussion: Use a factory function if you need "virtual behavior" during initialization<a class="headerlink" href="#discussion-use-a-factory-function-if-you-need-virtual-behavior-during-initialization" title="Permanent link">&para;</a></h3>
+<p>If your design wants virtual dispatch into a derived class from a base class constructor or destructor for functions like <code>f</code> and <code>g</code>, you need other techniques, such as a post-constructor -- a separate member function the caller must invoke to complete initialization, which can safely call <code>f</code> and <code>g</code> because in member functions virtual calls behave normally. Some techniques for this are shown in the References. Here's a non-exhaustive list of options:</p>
+<ul>
+<li><em>Pass the buck:</em> Just document that user code must call the post-initialization function right after constructing an object.</li>
+<li><em>Post-initialize lazily:</em> Do it during the first call of a member function. A Boolean flag in the base class tells whether or not post-construction has taken place yet.</li>
+<li><em>Use virtual base class semantics:</em> Language rules dictate that the constructor of the most-derived class decides which base constructor will be invoked; you can use that to your advantage. (See <a href="#Taligent94">[Taligent94]</a>.)</li>
+<li><em>Use a factory function:</em> This way, you can easily force a mandatory invocation of a post-constructor function.</li>
+</ul>
+<p>Here is an example of the last option:</p>
+<div class="language-text highlight"><pre><span></span><code>class B {
+public:
+    B()
+    {
+        /* ... */
+        f(); // BAD: C.82: Don&#39;t call virtual functions in constructors and destructors
+        /* ... */
+    }
+
+    virtual void f() = 0;
+};
+
+class B {
+protected:
+    class Token {};
+
+public:
+    // constructor needs to be public so that make_shared can access it.
+    // protected access level is gained by requiring a Token.
+    explicit B(Token) { /* ... */ }  // create an imperfectly initialized object
+    virtual void f() = 0;
+
+    template&lt;class T&gt;
+    static shared_ptr&lt;T&gt; create()    // interface for creating shared objects
+    {
+        auto p = make_shared&lt;T&gt;(typename T::Token{});
+        p-&gt;post_initialize();
+        return p;
+    }
+
+protected:
+    virtual void post_initialize()   // called right after construction
+        { /* ... */ f(); /* ... */ } // GOOD: virtual dispatch is safe
+    }
+};
+
+
+class D : public B {                 // some derived class
+protected:
+    class Token {};
+
+public:
+    // constructor needs to be public so that make_shared can access it.
+    // protected access level is gained by requiring a Token.
+    explicit D(Token) : B{ B::Token{} } {}
+    void f() override { /* ...  */ };
+
+protected:
+    template&lt;class T&gt;
+    friend shared_ptr&lt;T&gt; B::create();
+};
+
+shared_ptr&lt;D&gt; p = D::create&lt;D&gt;();    // creating a D object
+</code></pre></div>
+<p>This design requires the following discipline:</p>
+<ul>
+<li>Derived classes such as <code>D</code> must not expose a publicly callable constructor. Otherwise, <code>D</code>'s users could create <code>D</code> objects that don't invoke <code>post_initialize</code>.</li>
+<li>Allocation is limited to <code>operator new</code>. <code>B</code> can, however, override <code>new</code> (see Items 45 and 46 in <a href="#SuttAlex05">SuttAlex05</a>).</li>
+<li><code>D</code> must define a constructor with the same parameters that <code>B</code> selected. Defining several overloads of <code>create</code> can assuage this problem, however; and the overloads can even be templated on the argument types.</li>
+</ul>
+<p>If the requirements above are met, the design guarantees that <code>post_initialize</code> has been called for any fully constructed <code>B</code>-derived object. <code>post_initialize</code> doesn't need to be virtual; it can, however, invoke virtual functions freely.</p>
+<p>In summary, no post-construction technique is perfect. The worst techniques dodge the whole issue by simply asking the caller to invoke the post-constructor manually. Even the best require a different syntax for constructing objects (easy to check at compile time) and/or cooperation from derived class authors (impossible to check at compile time).</p>
+<p><strong>References</strong>: <a href="#Alexandrescu01">[Alexandrescu01]</a> §3, <a href="#Boost">[Boost]</a>, <a href="#Dewhurst03">[Dewhurst03]</a> §75, <a href="#Meyers97">[Meyers97]</a> §46, <a href="#Stroustrup00">[Stroustrup00]</a> §15.4.3, <a href="#Taligent94">[Taligent94]</a></p>
+<h3 id="discussion-make-base-class-destructors-public-and-virtual-or-protected-and-non-virtual"><a name="Sd-dtor"></a>Discussion: Make base class destructors public and virtual, or protected and non-virtual<a class="headerlink" href="#discussion-make-base-class-destructors-public-and-virtual-or-protected-and-non-virtual" title="Permanent link">&para;</a></h3>
+<p>Should destruction behave virtually? That is, should destruction through a pointer to a <code>base</code> class be allowed? If yes, then <code>base</code>'s destructor must be public in order to be callable, and virtual otherwise calling it results in undefined behavior. Otherwise, it should be protected so that only derived classes can invoke it in their own destructors, and non-virtual since it doesn't need to behave virtually.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<p>The common case for a base class is that it's intended to have publicly derived classes, and so calling code is just about sure to use something like a <code>shared_ptr&lt;base&gt;</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>class Base {
+public:
+    ~Base();                   // BAD, not virtual
+    virtual ~Base();           // GOOD
+    // ...
+};
+
+class Derived : public Base { /* ... */ };
+
+{
+    unique_ptr&lt;Base&gt; pb = make_unique&lt;Derived&gt;();
+    // ...
+} // ~pb invokes correct destructor only when ~Base is virtual
+</code></pre></div>
+<p>In rarer cases, such as policy classes, the class is used as a base class for convenience, not for polymorphic behavior. It is recommended to make those destructors protected and non-virtual:</p>
+<div class="language-text highlight"><pre><span></span><code>class My_policy {
+public:
+    virtual ~My_policy();      // BAD, public and virtual
+protected:
+    ~My_policy();              // GOOD
+    // ...
+};
+
+template&lt;class Policy&gt;
+class customizable : Policy { /* ... */ }; // note: private inheritance
+</code></pre></div>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>This simple guideline illustrates a subtle issue and reflects modern uses of inheritance and object-oriented design principles.</p>
+<p>For a base class <code>Base</code>, calling code might try to destroy derived objects through pointers to <code>Base</code>, such as when using a <code>unique_ptr&lt;Base&gt;</code>. If <code>Base</code>'s destructor is public and non-virtual (the default), it can be accidentally called on a pointer that actually points to a derived object, in which case the behavior of the attempted deletion is undefined. This state of affairs has led older coding standards to impose a blanket requirement that all base class destructors must be virtual. This is overkill (even if it is the common case); instead, the rule should be to make base class destructors virtual if and only if they are public.</p>
+<p>To write a base class is to define an abstraction (see Items 35 through 37). Recall that for each member function participating in that abstraction, you need to decide:</p>
+<ul>
+<li>Whether it should behave virtually or not.</li>
+<li>Whether it should be publicly available to all callers using a pointer to <code>Base</code> or else be a hidden internal implementation detail.</li>
+</ul>
+<p>As described in Item 39, for a normal member function, the choice is between allowing it to be called via a pointer to <code>Base</code> non-virtually (but possibly with virtual behavior if it invokes virtual functions, such as in the NVI or Template Method patterns), virtually, or not at all. The NVI pattern is a technique to avoid public virtual functions.</p>
+<p>Destruction can be viewed as just another operation, albeit with special semantics that make non-virtual calls dangerous or wrong. For a base class destructor, therefore, the choice is between allowing it to be called via a pointer to <code>Base</code> virtually or not at all; "non-virtually" is not an option. Hence, a base class destructor is virtual if it can be called (i.e., is public), and non-virtual otherwise.</p>
+<p>Note that the NVI pattern cannot be applied to the destructor because constructors and destructors cannot make deep virtual calls. (See Items 39 and 55.)</p>
+<p>Corollary: When writing a base class, always write a destructor explicitly, because the implicitly generated one is public and non-virtual. You can always <code>=default</code> the implementation if the default body is fine and you're just writing the function to give it the proper visibility and virtuality.</p>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>Some component architectures (e.g., COM and CORBA) don't use a standard deletion mechanism, and foster different protocols for object disposal. Follow the local patterns and idioms, and adapt this guideline as appropriate.</p>
+<p>Consider also this rare case:</p>
+<ul>
+<li><code>B</code> is both a base class and a concrete class that can be instantiated by itself, and so the destructor must be public for <code>B</code> objects to be created and destroyed.</li>
+<li>Yet <code>B</code> also has no virtual functions and is not meant to be used polymorphically, and so although the destructor is public it does not need to be virtual.</li>
+</ul>
+<p>Then, even though the destructor has to be public, there can be great pressure to not make it virtual because as the first virtual function it would incur all the run-time type overhead when the added functionality should never be needed.</p>
+<p>In this rare case, you could make the destructor public and non-virtual but clearly document that further-derived objects must not be used polymorphically as <code>B</code>'s. This is what was done with <code>std::unary_function</code>.</p>
+<p>In general, however, avoid concrete base classes (see Item 35). For example, <code>unary_function</code> is a bundle-of-typedefs that was never intended to be instantiated standalone. It really makes no sense to give it a public destructor; a better design would be to follow this Item's advice and give it a protected non-virtual destructor.</p>
+<p><strong>References</strong>: <a href="#SuttAlex05">[SuttAlex05]</a> Item 50, <a href="#Cargill92">[Cargill92]</a> pp. 77-79, 207, <a href="#Cline99">[Cline99]</a> §21.06, 21.12-13, <a href="#Henricson97">[Henricson97]</a> pp. 110-114, <a href="#Koenig97">[Koenig97]</a> Chapters 4, 11, <a href="#Meyers97">[Meyers97]</a> §14, <a href="#Stroustrup00">[Stroustrup00]</a> §12.4.2, <a href="#Sutter02">[Sutter02]</a> §27, <a href="#Sutter04">[Sutter04]</a> §18</p>
+<h3 id="discussion-usage-of-noexcept"><a name="Sd-noexcept"></a>Discussion: Usage of noexcept<a class="headerlink" href="#discussion-usage-of-noexcept" title="Permanent link">&para;</a></h3>
+<p>???</p>
+<h3 id="discussion-destructors-deallocation-and-swap-must-never-fail"><a name="Sd-never-fail"></a>Discussion: Destructors, deallocation, and swap must never fail<a class="headerlink" href="#discussion-destructors-deallocation-and-swap-must-never-fail" title="Permanent link">&para;</a></h3>
+<p>Never allow an error to be reported from a destructor, a resource deallocation function (e.g., <code>operator delete</code>), or a <code>swap</code> function using <code>throw</code>. It is nearly impossible to write useful code if these operations can fail, and even if something does go wrong it nearly never makes any sense to retry. Specifically, types whose destructors might throw an exception are flatly forbidden from use with the C++ Standard Library. Most destructors are now implicitly <code>noexcept</code> by default.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Nefarious {
+public:
+    Nefarious() { /* code that could throw */ }    // ok
+    ~Nefarious() { /* code that could throw */ }   // BAD, should not throw
+    // ...
+};
+</code></pre></div>
+<ol>
+<li>
+<p><code>Nefarious</code> objects are hard to use safely even as local variables:</p>
+<div class="language-text highlight"><pre><span></span><code>void test(string&amp; s)
+{
+    Nefarious n;          // trouble brewing
+    string copy = s;      // copy the string
+} // destroy copy and then n
+</code></pre></div>
+<p>Here, copying <code>s</code> could throw, and if that throws and if <code>n</code>'s destructor then also throws, the program will exit via <code>std::terminate</code> because two exceptions can't be propagated simultaneously.</p>
+</li>
+<li>
+<p>Classes with <code>Nefarious</code> members or bases are also hard to use safely, because their destructors must invoke <code>Nefarious</code>' destructor, and are similarly poisoned by its bad behavior:</p>
+<div class="language-text highlight"><pre><span></span><code>class Innocent_bystander {
+    Nefarious member;     // oops, poisons the enclosing class&#39;s destructor
+    // ...
+};
+
+void test(string&amp; s)
+{
+    Innocent_bystander i;  // more trouble brewing
+    string copy2 = s;      // copy the string
+} // destroy copy and then i
+</code></pre></div>
+<p>Here, if constructing <code>copy2</code> throws, we have the same problem because <code>i</code>'s destructor now also can throw, and if so we'll invoke <code>std::terminate</code>.</p>
+</li>
+<li>
+<p>You can't reliably create global or static <code>Nefarious</code> objects either:</p>
+<div class="language-text highlight"><pre><span></span><code>static Nefarious n;       // oops, any destructor exception can&#39;t be caught
+</code></pre></div>
+</li>
+<li>
+<p>You can't reliably create arrays of <code>Nefarious</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>void test()
+{
+    std::array&lt;Nefarious, 10&gt; arr; // this line can std::terminate()
+}
+</code></pre></div>
+<p>The behavior of arrays is undefined in the presence of destructors that throw because there is no reasonable rollback behavior that could ever be devised. Just think: What code can the compiler generate for constructing an <code>arr</code> where, if the fourth object's constructor throws, the code has to give up and in its cleanup mode tries to call the destructors of the already-constructed objects ... and one or more of those destructors throws? There is no satisfactory answer.</p>
+</li>
+<li>
+<p>You can't use <code>Nefarious</code> objects in standard containers:</p>
+<div class="language-text highlight"><pre><span></span><code>std::vector&lt;Nefarious&gt; vec(10);   // this line can std::terminate()
+</code></pre></div>
+<p>The standard library forbids all destructors used with it from throwing. You can't store <code>Nefarious</code> objects in standard containers or use them with any other part of the standard library.</p>
+</li>
+</ol>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>These are key functions that must not fail because they are necessary for the two key operations in transactional programming: to back out work if problems are encountered during processing, and to commit work if no problems occur. If there's no way to safely back out using no-fail operations, then no-fail rollback is impossible to implement. If there's no way to safely commit state changes using a no-fail operation (notably, but not limited to, <code>swap</code>), then no-fail commit is impossible to implement.</p>
+<p>Consider the following advice and requirements found in the C++ Standard:</p>
+<blockquote>
+<p>If a destructor called during stack unwinding exits with an exception, terminate is called (15.5.1). So destructors should generally catch exceptions and not let them propagate out of the destructor. --<a href="#Cplusplus03">[C++03]</a> §15.2(3)</p>
+<p>No destructor operation defined in the C++ Standard Library (including the destructor of any type that is used to instantiate a standard-library template) will throw an exception. --<a href="#Cplusplus03">[C++03]</a> §17.4.4.8(3)</p>
+</blockquote>
+<p>Deallocation functions, including specifically overloaded <code>operator delete</code> and <code>operator delete[]</code>, fall into the same category, because they too are used during cleanup in general, and during exception handling in particular, to back out of partial work that needs to be undone.
+Besides destructors and deallocation functions, common error-safety techniques rely also on <code>swap</code> operations never failing -- in this case, not because they are used to implement a guaranteed rollback, but because they are used to implement a guaranteed commit. For example, here is an idiomatic implementation of <code>operator=</code> for a type <code>T</code> that performs copy construction followed by a call to a no-fail <code>swap</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>T&amp; T::operator=(const T&amp; other)
+{
+    auto temp = other;
+    swap(temp);
+    return *this;
+}
+</code></pre></div>
+<p>(See also Item 56. ???)</p>
+<p>Fortunately, when releasing a resource, the scope for failure is definitely smaller. If using exceptions as the error reporting mechanism, make sure such functions handle all exceptions and other errors that their internal processing might generate. (For exceptions, simply wrap everything sensitive that your destructor does in a <code>try/catch(...)</code> block.) This is particularly important because a destructor might be called in a crisis situation, such as failure to allocate a system resource (e.g., memory, files, locks, ports, windows, or other system objects).</p>
+<p>When using exceptions as your error handling mechanism, always document this behavior by declaring these functions <code>noexcept</code>. (See Item 75.)</p>
+<p><strong>References</strong>: <a href="#SuttAlex05">[SuttAlex05]</a> Item 51; <a href="#Cplusplus03">[C++03]</a> §15.2(3), §17.4.4.8(3), <a href="#Meyers96">[Meyers96]</a> §11, <a href="#Stroustrup00">[Stroustrup00]</a> §14.4.7, §E.2-4, <a href="#Sutter00">[Sutter00]</a> §8, §16, <a href="#Sutter02">[Sutter02]</a> §18-19</p>
+<h2 id="define-copy-move-and-destroy-consistently"><a name="Sd-consistent"></a>Define Copy, move, and destroy consistently<a class="headerlink" href="#define-copy-move-and-destroy-consistently" title="Permanent link">&para;</a></h2>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>If you define a copy constructor, you must also define a copy assignment operator.</p>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p>If you define a move constructor, you must also define a move assignment operator.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class X {
+public:
+    X(const X&amp;) { /* stuff */ }
+
+    // BAD: failed to also define a copy assignment operator
+
+    X(x&amp;&amp;) noexcept { /* stuff */ }
+
+    // BAD: failed to also define a move assignment operator
+
+    // ...
+};
+
+X x1;
+X x2 = x1; // ok
+x2 = x1;   // pitfall: either fails to compile, or does something suspicious
+</code></pre></div>
+<p>If you define a destructor, you should not use the compiler-generated copy or move operation; you probably need to define or suppress copy and/or move.</p>
+<div class="language-text highlight"><pre><span></span><code>class X {
+    HANDLE hnd;
+    // ...
+public:
+    ~X() { /* custom stuff, such as closing hnd */ }
+    // suspicious: no mention of copying or moving -- what happens to hnd?
+};
+
+X x1;
+X x2 = x1; // pitfall: either fails to compile, or does something suspicious
+x2 = x1;   // pitfall: either fails to compile, or does something suspicious
+</code></pre></div>
+<p>If you define copying, and any base or member has a type that defines a move operation, you should also define a move operation.</p>
+<div class="language-text highlight"><pre><span></span><code>class X {
+    string s; // defines more efficient move operations
+    // ... other data members ...
+public:
+    X(const X&amp;) { /* stuff */ }
+    X&amp; operator=(const X&amp;) { /* stuff */ }
+
+    // BAD: failed to also define a move construction and move assignment
+    // (why wasn&#39;t the custom &quot;stuff&quot; repeated here?)
+};
+
+X test()
+{
+    X local;
+    // ...
+    return local;  // pitfall: will be inefficient and/or do the wrong thing
+}
+</code></pre></div>
+<p>If you define any of the copy constructor, copy assignment operator, or destructor, you probably should define the others.</p>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>If you need to define any of these five functions, it means you need it to do more than its default behavior -- and the five are asymmetrically interrelated. Here's how:</p>
+<ul>
+<li>If you write/disable either of the copy constructor or the copy assignment operator, you probably need to do the same for the other: If one does "special" work, probably so should the other because the two functions should have similar effects. (See Item 53, which expands on this point in isolation.)</li>
+<li>If you explicitly write the copying functions, you probably need to write the destructor: If the "special" work in the copy constructor is to allocate or duplicate some resource (e.g., memory, file, socket), you need to deallocate it in the destructor.</li>
+<li>If you explicitly write the destructor, you probably need to explicitly write or disable copying: If you have to write a non-trivial destructor, it's often because you need to manually release a resource that the object held. If so, it is likely that those resources require careful duplication, and then you need to pay attention to the way objects are copied and assigned, or disable copying completely.</li>
+</ul>
+<p>In many cases, holding properly encapsulated resources using RAII "owning" objects can eliminate the need to write these operations yourself. (See Item 13.)</p>
+<p>Prefer compiler-generated (including <code>=default</code>) special members; only these can be classified as "trivial", and at least one major standard library vendor heavily optimizes for classes having trivial special members. This is likely to become common practice.</p>
+<p><strong>Exceptions</strong>: When any of the special functions are declared only to make them non-public or virtual, but without special semantics, it doesn't imply that the others are needed.
+In rare cases, classes that have members of strange types (such as reference members) are an exception because they have peculiar copy semantics.
+In a class holding a reference, you likely need to write the copy constructor and the assignment operator, but the default destructor already does the right thing. (Note that using a reference member is almost always wrong.)</p>
+<p><strong>References</strong>: <a href="#SuttAlex05">[SuttAlex05]</a> Item 52; <a href="#Cline99">[Cline99]</a> §30.01-14, <a href="#Koenig97">[Koenig97]</a> §4, <a href="#Stroustrup00">[Stroustrup00]</a> §5.5, §10.4, <a href="#SuttHysl04b">[SuttHysl04b]</a></p>
+<p>Resource management rule summary:</p>
+<ul>
+<li><a href="#Cr-safety">Provide strong resource safety; that is, never leak anything that you think of as a resource</a></li>
+<li><a href="#Cr-never">Never return or throw while holding a resource not owned by a handle</a></li>
+<li><a href="#Cr-raw">A "raw" pointer or reference is never a resource handle</a></li>
+<li><a href="#Cr-outlive">Never let a pointer outlive the object it points to</a></li>
+<li><a href="#Cr-templates">Use templates to express containers (and other resource handles)</a></li>
+<li><a href="#Cr-value-return">Return containers by value (relying on move or copy elision for efficiency)</a></li>
+<li><a href="#Cr-handle">If a class is a resource handle, it needs a constructor, a destructor, and copy and/or move operations</a></li>
+<li><a href="#Cr-list">If a class is a container, give it an initializer-list constructor</a></li>
+</ul>
+<h3 id="discussion-provide-strong-resource-safety-that-is-never-leak-anything-that-you-think-of-as-a-resource"><a name="Cr-safety"></a>Discussion: Provide strong resource safety; that is, never leak anything that you think of as a resource<a class="headerlink" href="#discussion-provide-strong-resource-safety-that-is-never-leak-anything-that-you-think-of-as-a-resource" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Prevent leaks. Leaks can lead to performance degradation, mysterious error, system crashes, and security violations.</p>
+<p><strong>Alternative formulation</strong>: Have every resource represented as an object of some class managing its lifetime.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class T&gt;
+class Vector {
+private:
+    T* elem;   // sz elements on the free store, owned by the class object
+    int sz;
+    // ...
+};
+</code></pre></div>
+<p>This class is a resource handle. It manages the lifetime of the <code>T</code>s. To do so, <code>Vector</code> must define or delete <a href="#Rc-five">the copy, move, and destruction operations</a>.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? &quot;odd&quot; non-memory resource ???
+</code></pre></div>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<p>The basic technique for preventing leaks is to have every resource owned by a resource handle with a suitable destructor. A checker can find "naked <code>new</code>s". Given a list of C-style allocation functions (e.g., <code>fopen()</code>), a checker can also find uses that are not managed by a resource handle. In general, "naked pointers" can be viewed with suspicion, flagged, and/or analyzed. A complete list of resources cannot be generated without human input (the definition of "a resource" is necessarily too general), but a tool can be "parameterized" with a resource list.</p>
+<h3 id="discussion-never-return-or-throw-while-holding-a-resource-not-owned-by-a-handle"><a name="Cr-never"></a>Discussion: Never return or throw while holding a resource not owned by a handle<a class="headerlink" href="#discussion-never-return-or-throw-while-holding-a-resource-not-owned-by-a-handle" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>That would be a leak.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f(int i)
+{
+    FILE* f = fopen(&quot;a file&quot;, &quot;r&quot;);
+    ifstream is { &quot;another file&quot; };
+    // ...
+    if (i == 0) return;
+    // ...
+    fclose(f);
+}
+</code></pre></div>
+<p>If <code>i == 0</code> the file handle for <code>a file</code> is leaked. On the other hand, the <code>ifstream</code> for <code>another file</code> will correctly close its file (upon destruction). If you must use an explicit pointer, rather than a resource handle with specific semantics, use a <code>unique_ptr</code> or a <code>shared_ptr</code> with a custom deleter:</p>
+<div class="language-text highlight"><pre><span></span><code>void f(int i)
+{
+    unique_ptr&lt;FILE, int(*)(FILE*)&gt; f(fopen(&quot;a file&quot;, &quot;r&quot;), fclose);
+    // ...
+    if (i == 0) return;
+    // ...
+}
+</code></pre></div>
+<p>Better:</p>
+<div class="language-text highlight"><pre><span></span><code>void f(int i)
+{
+    ifstream input {&quot;a file&quot;};
+    // ...
+    if (i == 0) return;
+    // ...
+}
+</code></pre></div>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<p>A checker must consider all "naked pointers" suspicious.
+A checker probably must rely on a human-provided list of resources.
+For starters, we know about the standard-library containers, <code>string</code>, and smart pointers.
+The use of <code>span</code> and <code>string_view</code> should help a lot (they are not resource handles).</p>
+<h3 id="discussion-a-raw-pointer-or-reference-is-never-a-resource-handle"><a name="Cr-raw"></a>Discussion: A "raw" pointer or reference is never a resource handle<a class="headerlink" href="#discussion-a-raw-pointer-or-reference-is-never-a-resource-handle" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>To be able to distinguish owners from views.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>This is independent of how you "spell" pointer: <code>T*</code>, <code>T&amp;</code>, <code>Ptr&lt;T&gt;</code> and <code>Range&lt;T&gt;</code> are not owners.</p>
+<h3 id="discussion-never-let-a-pointer-outlive-the-object-it-points-to"><a name="Cr-outlive"></a>Discussion: Never let a pointer outlive the object it points to<a class="headerlink" href="#discussion-never-let-a-pointer-outlive-the-object-it-points-to" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>To avoid extremely hard-to-find errors. Dereferencing such a pointer is undefined behavior and could lead to violations of the type system.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>string* bad()   // really bad
+{
+    vector&lt;string&gt; v = { &quot;This&quot;, &quot;will&quot;, &quot;cause&quot;, &quot;trouble&quot;, &quot;!&quot; };
+    // leaking a pointer into a destroyed member of a destroyed object (v)
+    return &amp;v[0];
+}
+
+void use()
+{
+    string* p = bad();
+    vector&lt;int&gt; xx = {7, 8, 9};
+    // undefined behavior: x might not be the string &quot;This&quot;
+    string x = *p;
+    // undefined behavior: we don&#39;t know what (if anything) is allocated a location p
+    *p = &quot;Evil!&quot;;
+}
+</code></pre></div>
+<p>The <code>string</code>s of <code>v</code> are destroyed upon exit from <code>bad()</code> and so is <code>v</code> itself. The returned pointer points to unallocated memory on the free store. This memory (pointed into by <code>p</code>) might have been reallocated by the time <code>*p</code> is executed. There might be no <code>string</code> to read and a write through <code>p</code> could easily corrupt objects of unrelated types.</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<p>Most compilers already warn about simple cases and have the information to do more. Consider any pointer returned from a function suspect. Use containers, resource handles, and views (e.g., <code>span</code> known not to be resource handles) to lower the number of cases to be examined. For starters, consider every class with a destructor as resource handle.</p>
+<h3 id="discussion-use-templates-to-express-containers-and-other-resource-handles"><a name="Cr-templates"></a>Discussion: Use templates to express containers (and other resource handles)<a class="headerlink" href="#discussion-use-templates-to-express-containers-and-other-resource-handles" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>To provide statically type-safe manipulation of elements.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; class Vector {
+    // ...
+    T* elem;   // point to sz elements of type T
+    int sz;
+};
+</code></pre></div>
+<h3 id="discussion-return-containers-by-value-relying-on-move-or-copy-elision-for-efficiency"><a name="Cr-value-return"></a>Discussion: Return containers by value (relying on move or copy elision for efficiency)<a class="headerlink" href="#discussion-return-containers-by-value-relying-on-move-or-copy-elision-for-efficiency" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>To simplify code and eliminate a need for explicit memory management. To bring an object into a surrounding scope, thereby extending its lifetime.</p>
+<p><strong>See also</strong>: <a href="#Rf-out">F.20, the general item about "out" output values</a></p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;int&gt; get_large_vector()
+{
+    return ...;
+}
+
+auto v = get_large_vector(); //  return by value is ok, most modern compilers will do copy elision
+</code></pre></div>
+<h5 id="exception_1">Exception<a class="headerlink" href="#exception_1" title="Permanent link">&para;</a></h5>
+<p>See the Exceptions in <a href="#Rf-out">F.20</a>.</p>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>Check for pointers and references returned from functions and see if they are assigned to resource handles (e.g., to a <code>unique_ptr</code>).</p>
+<h3 id="discussion-if-a-class-is-a-resource-handle-it-needs-a-constructor-a-destructor-and-copy-andor-move-operations"><a name="Cr-handle"></a>Discussion: If a class is a resource handle, it needs a constructor, a destructor, and copy and/or move operations<a class="headerlink" href="#discussion-if-a-class-is-a-resource-handle-it-needs-a-constructor-a-destructor-and-copy-andor-move-operations" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>To provide complete control of the lifetime of the resource. To provide a coherent set of operations on the resource.</p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? Messing with pointers
+</code></pre></div>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>If all members are resource handles, rely on the compiler-generated operations where possible.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; struct Named {
+    string name;
+    T value;
+};
+</code></pre></div>
+<p>Now <code>Named</code> has a default constructor, a destructor, and efficient copy and move operations, provided <code>T</code> has.</p>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>In general, a tool cannot know if a class is a resource handle. However, if a class has some of <a href="#SS-ctor">the default operations</a>, it should have all, and if a class has a member that is a resource handle, it should be considered as resource handle.</p>
+<h3 id="discussion-if-a-class-is-a-container-give-it-an-initializer-list-constructor"><a name="Cr-list"></a>Discussion: If a class is a container, give it an initializer-list constructor<a class="headerlink" href="#discussion-if-a-class-is-a-container-give-it-an-initializer-list-constructor" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>It is common to need an initial set of elements.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; class Vector {
+public:
+    Vector(std::initializer_list&lt;T&gt;);
+    // ...
+};
+
+Vector&lt;string&gt; vs { &quot;Nygaard&quot;, &quot;Ritchie&quot; };
+</code></pre></div>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>When is a class a container? ???</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

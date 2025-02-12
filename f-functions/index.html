@@ -1,0 +1,3393 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../i-interfaces/">
+      
+      
+        <link rel="next" href="../c-classes-and-class-hierarchies/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>F: Functions - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#f-functions-s-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              F: Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fdef-function-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.def: Function definitions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F.def: Function definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f1-package-meaningful-operations-as-carefully-named-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.1: "Package" meaningful operations as carefully named functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f2-a-function-should-perform-a-single-logical-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.2: A function should perform a single logical operation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f3-keep-functions-short-and-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.3: Keep functions short and simple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f4-if-a-function-might-have-to-be-evaluated-at-compile-time-declare-it-constexpr" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.4: If a function might have to be evaluated at compile time, declare it constexpr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f5-if-a-function-is-very-small-and-time-critical-declare-it-inline" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.5: If a function is very small and time-critical, declare it inline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f6-if-your-function-must-not-throw-declare-it-noexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.6: If your function must not throw, declare it noexcept
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.7: For general use, take T* or T&amp; arguments rather than smart pointers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f8-prefer-pure-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.8: Prefer pure functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f9-unused-parameters-should-be-unnamed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.9: Unused parameters should be unnamed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f10-if-an-operation-can-be-reused-give-it-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.10: If an operation can be reused, give it a name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f11-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.11: Use an unnamed lambda if you need a simple function object in one place only
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fcall-parameter-passing" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.call: Parameter passing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F.call: Parameter passing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f15-prefer-simple-and-conventional-ways-of-passing-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.15: Prefer simple and conventional ways of passing information
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f16-for-in-parameters-pass-cheaply-copied-types-by-value-and-others-by-reference-to-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.16: For "in" parameters, pass cheaply-copied types by value and others by reference to const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f17-for-in-out-parameters-pass-by-reference-to-non-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.17: For "in-out" parameters, pass by reference to non-const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f18-for-will-move-from-parameters-pass-by-x-and-stdmove-the-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.18: For "will-move-from" parameters, pass by X&amp;&amp; and std::move the parameter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f19-for-forward-parameters-pass-by-tp-and-only-stdforward-the-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.19: For "forward" parameters, pass by TP&amp;&amp; and only std::forward the parameter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f20-for-out-output-values-prefer-return-values-to-output-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.20: For "out" output values, prefer return values to output parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f21-to-return-multiple-out-values-prefer-returning-a-struct" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.21: To return multiple "out" values, prefer returning a struct
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f60-prefer-t-over-t-when-no-argument-is-a-valid-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.60: Prefer T* over T&amp; when "no argument" is a valid option
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f22-use-t-or-ownert-to-designate-a-single-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.22: Use T* or owner&lt;T*&gt; to designate a single object
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.23: Use a not_null&lt;T&gt; to indicate that "null" is not a valid value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f24-use-a-spant-or-a-span_pt-to-designate-a-half-open-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.24: Use a span&lt;T&gt; or a span_p&lt;T&gt; to designate a half-open sequence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f25-use-a-zstring-or-a-not_nullzstring-to-designate-a-c-style-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.25: Use a zstring or a not_null&lt;zstring&gt; to designate a C-style string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f26-use-a-unique_ptrt-to-transfer-ownership-where-a-pointer-is-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.26: Use a unique_ptr&lt;T&gt; to transfer ownership where a pointer is needed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f27-use-a-shared_ptrt-to-share-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.27: Use a shared_ptr&lt;T&gt; to share ownership
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f42-return-a-t-to-indicate-a-position-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.42: Return a T* to indicate a position (only)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f43-never-directly-or-indirectly-return-a-pointer-or-a-reference-to-a-local-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.43: Never (directly or indirectly) return a pointer or a reference to a local object
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f44-return-a-t-when-copy-is-undesirable-and-returning-no-object-isnt-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.44: Return a T&amp; when copy is undesirable and "returning no object" isn't needed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f45-dont-return-a-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.45: Don't return a T&amp;&amp;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f46-int-is-the-return-type-for-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.46: int is the return type for main()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f47-return-t-from-assignment-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.47: Return T&amp; from assignment operators
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f48-dont-return-stdmovelocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.48: Don't return std::move(local)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f49-dont-return-const-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.49: Don't return const T
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f50-use-a-lambda-when-a-function-wont-do-to-capture-local-variables-or-to-write-a-local-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.50: Use a lambda when a function won't do (to capture local variables, or to write a local function)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f51-where-there-is-a-choice-prefer-default-arguments-over-overloading" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.51: Where there is a choice, prefer default arguments over overloading
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f52-prefer-capturing-by-reference-in-lambdas-that-will-be-used-locally-including-passed-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.52: Prefer capturing by reference in lambdas that will be used locally, including passed to algorithms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f53-avoid-capturing-by-reference-in-lambdas-that-will-be-used-non-locally-including-returned-stored-on-the-heap-or-passed-to-another-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.53: Avoid capturing by reference in lambdas that will be used non-locally, including returned, stored on the heap, or passed to another thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f54-when-writing-a-lambda-that-captures-this-or-any-class-data-member-dont-use-default-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.54: When writing a lambda that captures this or any class data member, don't use [=] default capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f55-dont-use-va_arg-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.55: Don't use va_arg arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f56-avoid-unnecessary-condition-nesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.56: Avoid unnecessary condition nesting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fdef-function-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.def: Function definitions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F.def: Function definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f1-package-meaningful-operations-as-carefully-named-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.1: "Package" meaningful operations as carefully named functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f2-a-function-should-perform-a-single-logical-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.2: A function should perform a single logical operation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f3-keep-functions-short-and-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.3: Keep functions short and simple
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f4-if-a-function-might-have-to-be-evaluated-at-compile-time-declare-it-constexpr" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.4: If a function might have to be evaluated at compile time, declare it constexpr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f5-if-a-function-is-very-small-and-time-critical-declare-it-inline" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.5: If a function is very small and time-critical, declare it inline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f6-if-your-function-must-not-throw-declare-it-noexcept" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.6: If your function must not throw, declare it noexcept
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.7: For general use, take T* or T&amp; arguments rather than smart pointers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f8-prefer-pure-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.8: Prefer pure functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f9-unused-parameters-should-be-unnamed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.9: Unused parameters should be unnamed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f10-if-an-operation-can-be-reused-give-it-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.10: If an operation can be reused, give it a name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f11-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.11: Use an unnamed lambda if you need a simple function object in one place only
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fcall-parameter-passing" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.call: Parameter passing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F.call: Parameter passing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f15-prefer-simple-and-conventional-ways-of-passing-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.15: Prefer simple and conventional ways of passing information
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f16-for-in-parameters-pass-cheaply-copied-types-by-value-and-others-by-reference-to-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.16: For "in" parameters, pass cheaply-copied types by value and others by reference to const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f17-for-in-out-parameters-pass-by-reference-to-non-const" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.17: For "in-out" parameters, pass by reference to non-const
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f18-for-will-move-from-parameters-pass-by-x-and-stdmove-the-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.18: For "will-move-from" parameters, pass by X&amp;&amp; and std::move the parameter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f19-for-forward-parameters-pass-by-tp-and-only-stdforward-the-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.19: For "forward" parameters, pass by TP&amp;&amp; and only std::forward the parameter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f20-for-out-output-values-prefer-return-values-to-output-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.20: For "out" output values, prefer return values to output parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f21-to-return-multiple-out-values-prefer-returning-a-struct" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.21: To return multiple "out" values, prefer returning a struct
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f60-prefer-t-over-t-when-no-argument-is-a-valid-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.60: Prefer T* over T&amp; when "no argument" is a valid option
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f22-use-t-or-ownert-to-designate-a-single-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.22: Use T* or owner&lt;T*&gt; to designate a single object
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.23: Use a not_null&lt;T&gt; to indicate that "null" is not a valid value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f24-use-a-spant-or-a-span_pt-to-designate-a-half-open-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.24: Use a span&lt;T&gt; or a span_p&lt;T&gt; to designate a half-open sequence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f25-use-a-zstring-or-a-not_nullzstring-to-designate-a-c-style-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.25: Use a zstring or a not_null&lt;zstring&gt; to designate a C-style string
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f26-use-a-unique_ptrt-to-transfer-ownership-where-a-pointer-is-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.26: Use a unique_ptr&lt;T&gt; to transfer ownership where a pointer is needed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f27-use-a-shared_ptrt-to-share-ownership" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.27: Use a shared_ptr&lt;T&gt; to share ownership
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f42-return-a-t-to-indicate-a-position-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.42: Return a T* to indicate a position (only)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f43-never-directly-or-indirectly-return-a-pointer-or-a-reference-to-a-local-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.43: Never (directly or indirectly) return a pointer or a reference to a local object
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f44-return-a-t-when-copy-is-undesirable-and-returning-no-object-isnt-needed" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.44: Return a T&amp; when copy is undesirable and "returning no object" isn't needed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f45-dont-return-a-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.45: Don't return a T&amp;&amp;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f46-int-is-the-return-type-for-main" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.46: int is the return type for main()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f47-return-t-from-assignment-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.47: Return T&amp; from assignment operators
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f48-dont-return-stdmovelocal" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.48: Don't return std::move(local)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f49-dont-return-const-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.49: Don't return const T
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f50-use-a-lambda-when-a-function-wont-do-to-capture-local-variables-or-to-write-a-local-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.50: Use a lambda when a function won't do (to capture local variables, or to write a local function)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f51-where-there-is-a-choice-prefer-default-arguments-over-overloading" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.51: Where there is a choice, prefer default arguments over overloading
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f52-prefer-capturing-by-reference-in-lambdas-that-will-be-used-locally-including-passed-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.52: Prefer capturing by reference in lambdas that will be used locally, including passed to algorithms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f53-avoid-capturing-by-reference-in-lambdas-that-will-be-used-non-locally-including-returned-stored-on-the-heap-or-passed-to-another-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.53: Avoid capturing by reference in lambdas that will be used non-locally, including returned, stored on the heap, or passed to another thread
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f54-when-writing-a-lambda-that-captures-this-or-any-class-data-member-dont-use-default-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.54: When writing a lambda that captures this or any class data member, don't use [=] default capture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f55-dont-use-va_arg-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.55: Don't use va_arg arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f56-avoid-unnecessary-condition-nesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      F.56: Avoid unnecessary condition nesting
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="f-functions-s-functions">F: Functions {#S-functions}<a class="headerlink" href="#f-functions-s-functions" title="Permanent link">&para;</a></h1>
+<p>A function specifies an action or a computation that takes the system from one consistent state to the next. It is the fundamental building block of programs.</p>
+<p>It should be possible to name a function meaningfully, to specify the requirements of its argument, and clearly state the relationship between the arguments and the result. An implementation is not a specification. Try to think about what a function does as well as about how it does it.
+Functions are the most critical part in most interfaces, so see the interface rules.</p>
+<p>Function rule summary:</p>
+<p>Function definition rules:</p>
+<ul>
+<li><a href="#Rf-package">F.1: "Package" meaningful operations as carefully named functions</a></li>
+<li><a href="#Rf-logical">F.2: A function should perform a single logical operation</a></li>
+<li><a href="#Rf-single">F.3: Keep functions short and simple</a></li>
+<li><a href="#Rf-constexpr">F.4: If a function might have to be evaluated at compile time, declare it <code>constexpr</code></a></li>
+<li><a href="#Rf-inline">F.5: If a function is very small and time-critical, declare it inline</a></li>
+<li><a href="#Rf-noexcept">F.6: If your function must not throw, declare it <code>noexcept</code></a></li>
+<li><a href="#Rf-smart">F.7: For general use, take <code>T*</code> or <code>T&amp;</code> arguments rather than smart pointers</a></li>
+<li><a href="#Rf-pure">F.8: Prefer pure functions</a></li>
+<li><a href="#Rf-unused">F.9: Unused parameters should be unnamed</a></li>
+<li><a href="#Rf-name">F.10: If an operation can be reused, give it a name</a></li>
+<li><a href="#Rf-lambda">F.11: Use an unnamed lambda if you need a simple function object in one place only</a></li>
+</ul>
+<p>Parameter passing expression rules:</p>
+<ul>
+<li><a href="#Rf-conventional">F.15: Prefer simple and conventional ways of passing information</a></li>
+<li><a href="#Rf-in">F.16: For "in" parameters, pass cheaply-copied types by value and others by reference to <code>const</code></a></li>
+<li><a href="#Rf-inout">F.17: For "in-out" parameters, pass by reference to non-<code>const</code></a></li>
+<li><a href="#Rf-consume">F.18: For "will-move-from" parameters, pass by <code>X&amp;&amp;</code> and <code>std::move</code> the parameter</a></li>
+<li><a href="#Rf-forward">F.19: For "forward" parameters, pass by <code>TP&amp;&amp;</code> and only <code>std::forward</code> the parameter</a></li>
+<li><a href="#Rf-out">F.20: For "out" output values, prefer return values to output parameters</a></li>
+<li><a href="#Rf-out-multi">F.21: To return multiple "out" values, prefer returning a struct</a></li>
+<li><a href="#Rf-ptr-ref">F.60: Prefer <code>T*</code> over <code>T&amp;</code> when "no argument" is a valid option</a></li>
+</ul>
+<p>Parameter passing semantic rules:</p>
+<ul>
+<li><a href="#Rf-ptr">F.22: Use <code>T*</code> or <code>owner&lt;T*&gt;</code> to designate a single object</a></li>
+<li><a href="#Rf-nullptr">F.23: Use a <code>not_null&lt;T&gt;</code> to indicate that "null" is not a valid value</a></li>
+<li><a href="#Rf-range">F.24: Use a <code>span&lt;T&gt;</code> or a <code>span_p&lt;T&gt;</code> to designate a half-open sequence</a></li>
+<li><a href="#Rf-zstring">F.25: Use a <code>zstring</code> or a <code>not_null&lt;zstring&gt;</code> to designate a C-style string</a></li>
+<li><a href="#Rf-unique_ptr">F.26: Use a <code>unique_ptr&lt;T&gt;</code> to transfer ownership where a pointer is needed</a></li>
+<li><a href="#Rf-shared_ptr">F.27: Use a <code>shared_ptr&lt;T&gt;</code> to share ownership</a></li>
+</ul>
+<p><a name="Rf-value-return"></a>Value return semantic rules:</p>
+<ul>
+<li><a href="#Rf-return-ptr">F.42: Return a <code>T*</code> to indicate a position (only)</a></li>
+<li><a href="#Rf-dangle">F.43: Never (directly or indirectly) return a pointer or a reference to a local object</a></li>
+<li><a href="#Rf-return-ref">F.44: Return a <code>T&amp;</code> when copy is undesirable and "returning no object" isn't needed</a></li>
+<li><a href="#Rf-return-ref-ref">F.45: Don't return a <code>T&amp;&amp;</code></a></li>
+<li><a href="#Rf-main">F.46: <code>int</code> is the return type for <code>main()</code></a></li>
+<li><a href="#Rf-assignment-op">F.47: Return <code>T&amp;</code> from assignment operators</a></li>
+<li><a href="#Rf-return-move-local">F.48: Don't return <code>std::move(local)</code></a></li>
+<li><a href="#Rf-return-const">F.49: Don't return <code>const T</code></a></li>
+</ul>
+<p>Other function rules:</p>
+<ul>
+<li><a href="#Rf-capture-vs-overload">F.50: Use a lambda when a function won't do (to capture local variables, or to write a local function)</a></li>
+<li><a href="#Rf-default-args">F.51: Where there is a choice, prefer default arguments over overloading</a></li>
+<li><a href="#Rf-reference-capture">F.52: Prefer capturing by reference in lambdas that will be used locally, including passed to algorithms</a></li>
+<li><a href="#Rf-value-capture">F.53: Avoid capturing by reference in lambdas that will be used non-locally, including returned, stored on the heap, or passed to another thread</a></li>
+<li><a href="#Rf-this-capture">F.54: When writing a lambda that captures <code>this</code> or any class data member, don't use <code>[=]</code> default capture</a></li>
+<li><a href="#F-varargs">F.55: Don't use <code>va_arg</code> arguments</a></li>
+<li><a href="#F-nesting">F.56: Avoid unnecessary condition nesting</a></li>
+</ul>
+<p>Functions have strong similarities to lambdas and function objects.</p>
+<p><strong>See also</strong>: <a href="#SS-lambdas">C.lambdas: Function objects and lambdas</a></p>
+<h2 id="fdef-function-definitions"><a name="SS-fct-def"></a>F.def: Function definitions<a class="headerlink" href="#fdef-function-definitions" title="Permanent link">&para;</a></h2>
+<p>A function definition is a function declaration that also specifies the function's implementation, the function body.</p>
+<h3 id="f1-package-meaningful-operations-as-carefully-named-functions"><a name="Rf-package"></a>F.1: "Package" meaningful operations as carefully named functions<a class="headerlink" href="#f1-package-meaningful-operations-as-carefully-named-functions" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Factoring out common code makes code more readable, more likely to be reused, and limit errors from complex code.
+If something is a well-specified action, separate it out from its surrounding code and give it a name.</p>
+<h5 id="example-dont">Example, don't<a class="headerlink" href="#example-dont" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void read_and_print(istream&amp; is)    // read and print an int
+{
+    int x;
+    if (is &gt;&gt; x)
+        cout &lt;&lt; &quot;the int is &quot; &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+    else
+        cerr &lt;&lt; &quot;no int on input\n&quot;;
+}
+</code></pre></div>
+<p>Almost everything is wrong with <code>read_and_print</code>.
+It reads, it writes (to a fixed <code>ostream</code>), it writes error messages (to a fixed <code>ostream</code>), it handles only <code>int</code>s.
+There is nothing to reuse, logically separate operations are intermingled and local variables are in scope after the end of their logical use.
+For a tiny example, this looks OK, but if the input operation, the output operation, and the error handling had been more complicated the tangled
+mess could become hard to understand.</p>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>If you write a non-trivial lambda that potentially can be used in more than one place, give it a name by assigning it to a (usually non-local) variable.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>sort(a, b, [](T x, T y) { return x.rank() &lt; y.rank() &amp;&amp; x.value() &lt; y.value(); });
+</code></pre></div>
+<p>Naming that lambda breaks up the expression into its logical parts and provides a strong hint to the meaning of the lambda.</p>
+<div class="language-text highlight"><pre><span></span><code>auto lessT = [](T x, T y) { return x.rank() &lt; y.rank() &amp;&amp; x.value() &lt; y.value(); };
+
+sort(a, b, lessT);
+</code></pre></div>
+<p>The shortest code is not always the best for performance or maintainability.</p>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>Loop bodies, including lambdas used as loop bodies, rarely need to be named.
+However, large loop bodies (e.g., dozens of lines or dozens of pages) can be a problem.
+The rule <a href="#Rf-single">Keep functions short and simple</a> implies "Keep loop bodies short."
+Similarly, lambdas used as callback arguments are sometimes non-trivial, yet unlikely to be reusable.</p>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<ul>
+<li>See <a href="#Rf-single">Keep functions short and simple</a></li>
+<li>Flag identical and very similar lambdas used in different places.</li>
+</ul>
+<h3 id="f2-a-function-should-perform-a-single-logical-operation"><a name="Rf-logical"></a>F.2: A function should perform a single logical operation<a class="headerlink" href="#f2-a-function-should-perform-a-single-logical-operation" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>A function that performs a single operation is simpler to understand, test, and reuse.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>void read_and_print()    // bad
+{
+    int x;
+    cin &gt;&gt; x;
+    // check for errors
+    cout &lt;&lt; x &lt;&lt; &quot;\n&quot;;
+}
+</code></pre></div>
+<p>This is a monolith that is tied to a specific input and will never find another (different) use. Instead, break functions up into suitable logical parts and parameterize:</p>
+<div class="language-text highlight"><pre><span></span><code>int read(istream&amp; is)    // better
+{
+    int x;
+    is &gt;&gt; x;
+    // check for errors
+    return x;
+}
+
+void print(ostream&amp; os, int x)
+{
+    os &lt;&lt; x &lt;&lt; &quot;\n&quot;;
+}
+</code></pre></div>
+<p>These can now be combined where needed:</p>
+<div class="language-text highlight"><pre><span></span><code>void read_and_print()
+{
+    auto x = read(cin);
+    print(cout, x);
+}
+</code></pre></div>
+<p>If there was a need, we could further templatize <code>read()</code> and <code>print()</code> on the data type, the I/O mechanism, the response to errors, etc. Example:</p>
+<div class="language-text highlight"><pre><span></span><code>auto read = [](auto&amp; input, auto&amp; value)    // better
+{
+    input &gt;&gt; value;
+    // check for errors
+};
+
+void print(auto&amp; output, const auto&amp; value)
+{
+    output &lt;&lt; value &lt;&lt; &quot;\n&quot;;
+}
+</code></pre></div>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Consider functions with more than one "out" parameter suspicious. Use return values instead, including <code>tuple</code> for multiple return values.</li>
+<li>Consider "large" functions that don't fit on one editor screen suspicious. Consider factoring such a function into smaller well-named suboperations.</li>
+<li>Consider functions with 7 or more parameters suspicious.</li>
+</ul>
+<h3 id="f3-keep-functions-short-and-simple"><a name="Rf-single"></a>F.3: Keep functions short and simple<a class="headerlink" href="#f3-keep-functions-short-and-simple" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Large functions are hard to read, more likely to contain complex code, and more likely to have variables in larger than minimal scopes.
+Functions with complex control structures are more likely to be long and more likely to hide logical errors</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>double simple_func(double val, int flag1, int flag2)
+    // simple_func: takes a value and calculates the expected ASIC output,
+    // given the two mode flags.
+{
+    double intermediate;
+    if (flag1 &gt; 0) {
+        intermediate = func1(val);
+        if (flag2 % 2)
+             intermediate = sqrt(intermediate);
+    }
+    else if (flag1 == -1) {
+        intermediate = func1(-val);
+        if (flag2 % 2)
+             intermediate = sqrt(-intermediate);
+        flag1 = -flag1;
+    }
+    if (abs(flag2) &gt; 10) {
+        intermediate = func2(intermediate);
+    }
+    switch (flag2 / 10) {
+    case 1: if (flag1 == -1) return finalize(intermediate, 1.171);
+            break;
+    case 2: return finalize(intermediate, 13.1);
+    default: break;
+    }
+    return finalize(intermediate, 0.);
+}
+</code></pre></div>
+<p>This is too complex.
+How would you know if all possible alternatives have been correctly handled?
+Yes, it breaks other rules also.</p>
+<p>We can refactor:</p>
+<div class="language-text highlight"><pre><span></span><code>double func1_muon(double val, int flag)
+{
+    // ???
+}
+
+double func1_tau(double val, int flag1, int flag2)
+{
+    // ???
+}
+
+double simple_func(double val, int flag1, int flag2)
+    // simple_func: takes a value and calculates the expected ASIC output,
+    // given the two mode flags.
+{
+    if (flag1 &gt; 0)
+        return func1_muon(val, flag2);
+    if (flag1 == -1)
+        // handled by func1_tau: flag1 = -flag1;
+        return func1_tau(-val, flag1, flag2);
+    return 0.;
+}
+</code></pre></div>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>"It doesn't fit on a screen" is often a good practical definition of "far too large."
+One-to-five-line functions should be considered normal.</p>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>Break large functions up into smaller cohesive and named functions.
+Small simple functions are easily inlined where the cost of a function call is significant.</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag functions that do not "fit on a screen."
+  How big is a screen? Try 60 lines by 140 characters; that's roughly the maximum that's comfortable for a book page.</li>
+<li>Flag functions that are too complex. How complex is too complex?
+  You could use cyclomatic complexity. Try "more than 10 logical paths through." Count a simple switch as one path.</li>
+</ul>
+<h3 id="f4-if-a-function-might-have-to-be-evaluated-at-compile-time-declare-it-constexpr"><a name="Rf-constexpr"></a>F.4: If a function might have to be evaluated at compile time, declare it <code>constexpr</code><a class="headerlink" href="#f4-if-a-function-might-have-to-be-evaluated-at-compile-time-declare-it-constexpr" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p><code>constexpr</code> is needed to tell the compiler to allow compile-time evaluation.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<p>The (in)famous factorial:</p>
+<div class="language-text highlight"><pre><span></span><code>constexpr int fac(int n)
+{
+    constexpr int max_exp = 17;      // constexpr enables max_exp to be used in Expects
+    Expects(0 &lt;= n &amp;&amp; n &lt; max_exp);  // prevent silliness and overflow
+    int x = 1;
+    for (int i = 2; i &lt;= n; ++i) x *= i;
+    return x;
+}
+</code></pre></div>
+<p>This is C++14.
+For C++11, use a recursive formulation of <code>fac()</code>.</p>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p><code>constexpr</code> does not guarantee compile-time evaluation;
+it just guarantees that the function can be evaluated at compile time for constant expression arguments if the programmer requires it or the compiler decides to do so to optimize.</p>
+<div class="language-text highlight"><pre><span></span><code>constexpr int min(int x, int y) { return x &lt; y ? x : y; }
+
+void test(int v)
+{
+    int m1 = min(-1, 2);            // probably compile-time evaluation
+    constexpr int m2 = min(-1, 2);  // compile-time evaluation
+    int m3 = min(-1, v);            // run-time evaluation
+    constexpr int m4 = min(-1, v);  // error: cannot evaluate at compile time
+}
+</code></pre></div>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>Don't try to make all functions <code>constexpr</code>.
+Most computation is best done at run time.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>Any API that might eventually depend on high-level run-time configuration or
+business logic should not be made <code>constexpr</code>. Such customization can not be
+evaluated by the compiler, and any <code>constexpr</code> functions that depended upon
+that API would have to be refactored or drop <code>constexpr</code>.</p>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>Impossible and unnecessary.
+The compiler gives an error if a non-<code>constexpr</code> function is called where a constant is required.</p>
+<h3 id="f5-if-a-function-is-very-small-and-time-critical-declare-it-inline"><a name="Rf-inline"></a>F.5: If a function is very small and time-critical, declare it <code>inline</code><a class="headerlink" href="#f5-if-a-function-is-very-small-and-time-critical-declare-it-inline" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>Some optimizers are good at inlining without hints from the programmer, but don't rely on it.
+Measure! Over the last 40 years or so, we have been promised compilers that can inline better than humans without hints from humans.
+We are still waiting.
+Specifying inline (explicitly, or implicitly when writing member functions inside a class definition) encourages the compiler to do a better job.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>inline string cat(const string&amp; s, const string&amp; s2) { return s + s2; }
+</code></pre></div>
+<h5 id="exception_1">Exception<a class="headerlink" href="#exception_1" title="Permanent link">&para;</a></h5>
+<p>Do not put an <code>inline</code> function in what is meant to be a stable interface unless you are certain that it will not change.
+An inline function is part of the ABI.</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p><code>constexpr</code> implies <code>inline</code>.</p>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>Member functions defined in-class are <code>inline</code> by default.</p>
+<h5 id="exception_2">Exception<a class="headerlink" href="#exception_2" title="Permanent link">&para;</a></h5>
+<p>Function templates (including member functions of class templates <code>A&lt;T&gt;::function()</code> and member function templates <code>A::function&lt;T&gt;()</code>) are normally defined in headers and therefore inline.</p>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>Consider making functions out of line if they are more than three statements and can be declared out of line (such as class member functions).</p>
+<h3 id="f6-if-your-function-must-not-throw-declare-it-noexcept"><a name="Rf-noexcept"></a>F.6: If your function must not throw, declare it <code>noexcept</code><a class="headerlink" href="#f6-if-your-function-must-not-throw-declare-it-noexcept" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>If an exception is not supposed to be thrown, the program cannot be assumed to cope with the error and should be terminated as soon as possible. Declaring a function <code>noexcept</code> helps optimizers by reducing the number of alternative execution paths. It also speeds up the exit after failure.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<p>Put <code>noexcept</code> on every function written completely in C or in any other language without exceptions.
+The C++ Standard Library does that implicitly for all functions in the C Standard Library.</p>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p><code>constexpr</code> functions can throw when evaluated at run time, so you might need conditional <code>noexcept</code> for some of those.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<p>You can use <code>noexcept</code> even on functions that can throw:</p>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;string&gt; collect(istream&amp; is) noexcept
+{
+    vector&lt;string&gt; res;
+    for (string s; is &gt;&gt; s;)
+        res.push_back(s);
+    return res;
+}
+</code></pre></div>
+<p>If <code>collect()</code> runs out of memory, the program crashes.
+Unless the program is crafted to survive memory exhaustion, that might be just the right thing to do;
+<code>terminate()</code> might generate suitable error log information (but after memory runs out it is hard to do anything clever).</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>You must be aware of the execution environment that your code is running when
+deciding whether to tag a function <code>noexcept</code>, especially because of the issue
+of throwing and allocation.  Code that is intended to be perfectly general (like
+the standard library and other utility code of that sort) needs to support
+environments where a <code>bad_alloc</code> exception could be handled meaningfully.
+However, most programs and execution environments cannot meaningfully
+handle a failure to allocate, and aborting the program is the cleanest and
+simplest response to an allocation failure in those cases.  If you know that
+your application code cannot respond to an allocation failure, it could be
+appropriate to add <code>noexcept</code> even on functions that allocate.</p>
+<p>Put another way: In most programs, most functions can throw (e.g., because they
+use <code>new</code>, call functions that do, or use library functions that reports failure
+by throwing), so don't just sprinkle <code>noexcept</code> all over the place without
+considering whether the possible exceptions can be handled.</p>
+<p><code>noexcept</code> is most useful (and most clearly correct) for frequently used,
+low-level functions.</p>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<p>Destructors, <code>swap</code> functions, move operations, and default constructors should never throw.
+See also <a href="#Rc-default00">C.44</a>.</p>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag functions that are not <code>noexcept</code>, yet cannot throw.</li>
+<li>Flag throwing <code>swap</code>, <code>move</code>, destructors, and default constructors.</li>
+</ul>
+<h3 id="f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers"><a name="Rf-smart"></a>F.7: For general use, take <code>T*</code> or <code>T&amp;</code> arguments rather than smart pointers<a class="headerlink" href="#f7-for-general-use-take-t-or-t-arguments-rather-than-smart-pointers" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>Passing a smart pointer transfers or shares ownership and should only be used when ownership semantics are intended.
+A function that does not manipulate lifetime should take raw pointers or references instead.</p>
+<p>Passing by smart pointer restricts the use of a function to callers that use smart pointers.
+A function that needs a <code>widget</code> should be able to accept any <code>widget</code> object, not just ones whose lifetimes are managed by a particular kind of smart pointer.</p>
+<p>Passing a shared smart pointer (e.g., <code>std::shared_ptr</code>) implies a run-time cost.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// accepts any int*
+void f(int*);
+
+// can only accept ints for which you want to transfer ownership
+void g(unique_ptr&lt;int&gt;);
+
+// can only accept ints for which you are willing to share ownership
+void g(shared_ptr&lt;int&gt;);
+
+// doesn&#39;t change ownership, but requires a particular ownership of the caller
+void h(const unique_ptr&lt;int&gt;&amp;);
+
+// accepts any int
+void h(int&amp;);
+</code></pre></div>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// callee
+void f(shared_ptr&lt;widget&gt;&amp; w)
+{
+    // ...
+    use(*w); // only use of w -- the lifetime is not used at all
+    // ...
+};
+
+// caller
+shared_ptr&lt;widget&gt; my_widget = /* ... */;
+f(my_widget);
+
+widget stack_widget;
+f(stack_widget); // error
+</code></pre></div>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// callee
+void f(widget&amp; w)
+{
+    // ...
+    use(w);
+    // ...
+};
+
+// caller
+shared_ptr&lt;widget&gt; my_widget = /* ... */;
+f(*my_widget);
+
+widget stack_widget;
+f(stack_widget); // ok -- now this works
+</code></pre></div>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>We can catch many common cases of dangling pointers statically (see <a href="#SS-lifetime">lifetime safety profile</a>). Function arguments naturally live for the lifetime of the function call, and so have fewer lifetime problems.</p>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) Warn if a function takes a parameter of a smart pointer type (that overloads <code>operator-&gt;</code> or <code>operator*</code>) that is copyable but the function only calls any of: <code>operator*</code>, <code>operator-&gt;</code> or <code>get()</code>.
+  Suggest using a <code>T*</code> or <code>T&amp;</code> instead.</li>
+<li>Flag a parameter of a smart pointer type (a type that overloads <code>operator-&gt;</code> or <code>operator*</code>) that is copyable/movable but never copied/moved from in the function body, and that is never modified, and that is not passed along to another function that could do so. That means the ownership semantics are not used.
+  Suggest using a <code>T*</code> or <code>T&amp;</code> instead.</li>
+</ul>
+<p><strong>See also</strong>:</p>
+<ul>
+<li><a href="#Rf-ptr-ref">Prefer <code>T*</code> over <code>T&amp;</code> when "no argument" is a valid option</a></li>
+<li><a href="#Rr-summary-smartptrs">Smart pointer rule summary</a></li>
+</ul>
+<h3 id="f8-prefer-pure-functions"><a name="Rf-pure"></a>F.8: Prefer pure functions<a class="headerlink" href="#f8-prefer-pure-functions" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>Pure functions are easier to reason about, sometimes easier to optimize (and even parallelize), and sometimes can be memoized.</p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class T&gt;
+auto square(T t) { return t * t; }
+</code></pre></div>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<p>Not possible.</p>
+<h3 id="f9-unused-parameters-should-be-unnamed"><a name="Rf-unused"></a>F.9: Unused parameters should be unnamed<a class="headerlink" href="#f9-unused-parameters-should-be-unnamed" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>Readability.
+Suppression of unused parameter warnings.</p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>widget* find(const set&lt;widget&gt;&amp; s, const widget&amp; w, Hint);   // once upon a time, a hint was used
+</code></pre></div>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>Allowing parameters to be unnamed was introduced in the early 1980s to address this problem.</p>
+<p>If parameters are conditionally unused, declare them with the <code>[[maybe_unused]]</code> attribute.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>template &lt;typename Value&gt;
+Value* find(const set&lt;Value&gt;&amp; s, const Value&amp; v, [[maybe_unused]] Hint h)
+{
+    if constexpr (sizeof(Value) &gt; CacheSize)
+    {
+        // a hint is used only if Value is of a certain size
+    }
+}
+</code></pre></div>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<p>Flag named unused parameters.</p>
+<h3 id="f10-if-an-operation-can-be-reused-give-it-a-name"><a name="Rf-name"></a>F.10: If an operation can be reused, give it a name<a class="headerlink" href="#f10-if-an-operation-can-be-reused-give-it-a-name" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>Documentation, readability, opportunity for reuse.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct Rec {
+    string name;
+    string addr;
+    int id;         // unique identifier
+};
+
+bool same(const Rec&amp; a, const Rec&amp; b)
+{
+    return a.id == b.id;
+}
+
+vector&lt;Rec*&gt; find_id(const string&amp; name);    // find all records for &quot;name&quot;
+
+auto x = find_if(vr.begin(), vr.end(),
+    [&amp;](Rec&amp; r) {
+        if (r.name.size() != n.size()) return false; // name to compare to is in n
+        for (int i = 0; i &lt; r.name.size(); ++i)
+            if (tolower(r.name[i]) != tolower(n[i])) return false;
+        return true;
+    }
+);
+</code></pre></div>
+<p>There is a useful function lurking here (case insensitive string comparison), as there often is when lambda arguments get large.</p>
+<div class="language-text highlight"><pre><span></span><code>bool compare_insensitive(const string&amp; a, const string&amp; b)
+{
+    if (a.size() != b.size()) return false;
+    for (int i = 0; i &lt; a.size(); ++i) if (tolower(a[i]) != tolower(b[i])) return false;
+    return true;
+}
+
+auto x = find_if(vr.begin(), vr.end(),
+    [&amp;](Rec&amp; r) { return compare_insensitive(r.name, n); }
+);
+</code></pre></div>
+<p>Or maybe (if you prefer to avoid the implicit name binding to n):</p>
+<div class="language-text highlight"><pre><span></span><code>auto cmp_to_n = [&amp;n](const string&amp; a) { return compare_insensitive(a, n); };
+
+auto x = find_if(vr.begin(), vr.end(),
+    [](const Rec&amp; r) { return cmp_to_n(r.name); }
+);
+</code></pre></div>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>whether functions, lambdas, or operators.</p>
+<h5 id="exception_3">Exception<a class="headerlink" href="#exception_3" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Lambdas logically used only locally, such as an argument to <code>for_each</code> and similar control flow algorithms.</li>
+<li>Lambdas as <a href="#???">initializers</a></li>
+</ul>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(hard) flag similar lambdas</li>
+<li>???</li>
+</ul>
+<h3 id="f11-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only"><a name="Rf-lambda"></a>F.11: Use an unnamed lambda if you need a simple function object in one place only<a class="headerlink" href="#f11-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>That makes the code concise and gives better locality than alternatives.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>auto earlyUsersEnd = std::remove_if(users.begin(), users.end(),
+                                    [](const User &amp;a) { return a.id &gt; 100; });
+</code></pre></div>
+<h5 id="exception_4">Exception<a class="headerlink" href="#exception_4" title="Permanent link">&para;</a></h5>
+<p>Naming a lambda can be useful for clarity even if it is used only once.</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Look for identical and near identical lambdas (to be replaced with named functions or named lambdas).</li>
+</ul>
+<h2 id="fcall-parameter-passing"><a name="SS-call"></a>F.call: Parameter passing<a class="headerlink" href="#fcall-parameter-passing" title="Permanent link">&para;</a></h2>
+<p>There are a variety of ways to pass parameters to a function and to return values.</p>
+<h3 id="f15-prefer-simple-and-conventional-ways-of-passing-information"><a name="Rf-conventional"></a>F.15: Prefer simple and conventional ways of passing information<a class="headerlink" href="#f15-prefer-simple-and-conventional-ways-of-passing-information" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>Using "unusual and clever" techniques causes surprises, slows understanding by other programmers, and encourages bugs.
+If you really feel the need for an optimization beyond the common techniques, measure to ensure that it really is an improvement, and document/comment because the improvement might not be portable.</p>
+<p>The following tables summarize the advice in the following Guidelines, F.16-21.</p>
+<p>Normal parameter passing:</p>
+<p><img alt="Normal parameter passing table" src="../src/param-passing-normal.png" title="Normal parameter passing" /></p>
+<p>Advanced parameter passing:</p>
+<p><img alt="Advanced parameter passing table" src="../src/param-passing-advanced.png" title="Advanced parameter passing" /></p>
+<p>Use the advanced techniques only after demonstrating need, and document that need in a comment.</p>
+<p>For passing sequences of characters see <a href="#SS-string">String</a>.</p>
+<h5 id="exception_5">Exception<a class="headerlink" href="#exception_5" title="Permanent link">&para;</a></h5>
+<p>To express shared ownership using <code>shared_ptr</code> types, rather than following guidelines F.16-21,
+follow <a href="#Rr-sharedptrparam-owner">R.34</a>, <a href="#Rr-sharedptrparam">R.35</a>, and <a href="#Rr-sharedptrparam-const">R.36</a>.</p>
+<h3 id="f16-for-in-parameters-pass-cheaply-copied-types-by-value-and-others-by-reference-to-const"><a name="Rf-in"></a>F.16: For "in" parameters, pass cheaply-copied types by value and others by reference to <code>const</code><a class="headerlink" href="#f16-for-in-parameters-pass-cheaply-copied-types-by-value-and-others-by-reference-to-const" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>Both let the caller know that a function will not modify the argument, and both allow initialization by rvalues.</p>
+<p>What is "cheap to copy" depends on the machine architecture, but two or three words (doubles, pointers, references) are usually best passed by value.
+When copying is cheap, nothing beats the simplicity and safety of copying, and for small objects (up to two or three words) it is also faster than passing by reference because it does not require an extra indirection to access from the function.</p>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f1(const string&amp; s);  // OK: pass by reference to const; always cheap
+
+void f2(string s);         // bad: potentially expensive
+
+void f3(int x);            // OK: Unbeatable
+
+void f4(const int&amp; x);     // bad: overhead on access in f4()
+</code></pre></div>
+<p>For advanced uses (only), where you really need to optimize for rvalues passed to "input-only" parameters:</p>
+<ul>
+<li>If the function is going to unconditionally move from the argument, take it by <code>&amp;&amp;</code>. See <a href="#Rf-consume">F.18</a>.</li>
+<li>If the function is going to keep a locally modifiable copy of the argument only for its own local use, taking it by value is fine</li>
+<li>If the function is going to keep a copy of the argument to pass to another destination (to another function, or store in a non-local location), in addition to passing by <code>const&amp;</code> (for lvalues),
+  add an overload that passes the parameter by <code>&amp;&amp;</code> (for rvalues) and in the body <code>std::move</code>s it to its destination. Essentially this overloads a "will-move-from"; see <a href="#Rf-consume">F.18</a>.</li>
+<li>In special cases, such as multiple "input + copy" parameters, consider using perfect forwarding. See <a href="#Rf-forward">F.19</a>.</li>
+</ul>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int multiply(int, int); // just input ints, pass by value
+
+// suffix is input-only but not as cheap as an int, pass by const&amp;
+string&amp; concatenate(string&amp;, const string&amp; suffix);
+
+void sink(unique_ptr&lt;widget&gt;);  // input only, and moves ownership of the widget
+</code></pre></div>
+<p>Avoid "esoteric techniques" such as passing arguments as <code>T&amp;&amp;</code> "for efficiency".
+Most rumors about performance advantages from passing by <code>&amp;&amp;</code> are false or brittle (but see <a href="#Rf-consume">F.18</a> and <a href="#Rf-forward">F.19</a>).</p>
+<h5 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h5>
+<p>A reference can be assumed to refer to a valid object (language rule).
+There is no (legitimate) "null reference."
+If you need the notion of an optional value, use a pointer, <code>std::optional</code>, or a special value used to denote "no value."</p>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) ((Foundation)) Warn when a parameter being passed by value has a size greater than <code>2 * sizeof(void*)</code>.
+  Suggest using a reference to <code>const</code> instead.</li>
+<li>(Simple) ((Foundation)) Warn when a parameter passed by reference to <code>const</code> has a size less or equal than <code>2 * sizeof(void*)</code>. Suggest passing by value instead.</li>
+<li>(Simple) ((Foundation)) Warn when a parameter passed by reference to <code>const</code> is <code>move</code>d.</li>
+</ul>
+<h5 id="exception_6">Exception<a class="headerlink" href="#exception_6" title="Permanent link">&para;</a></h5>
+<p>To express shared ownership using <code>shared_ptr</code> types, follow <a href="#Rr-sharedptrparam-owner">R.34</a> or <a href="#Rr-sharedptrparam-const">R.36</a>,
+depending on whether or not the function unconditionally takes a reference to the argument.</p>
+<h3 id="f17-for-in-out-parameters-pass-by-reference-to-non-const"><a name="Rf-inout"></a>F.17: For "in-out" parameters, pass by reference to non-<code>const</code><a class="headerlink" href="#f17-for-in-out-parameters-pass-by-reference-to-non-const" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>This makes it clear to callers that the object is assumed to be modified.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void update(Record&amp; r);  // assume that update writes to r
+</code></pre></div>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>Some user-defined and standard library types, such as <code>span&lt;T&gt;</code> or the iterators
+are <a href="#Rf-in">cheap to copy</a> and may be passed by value, while doing so has
+mutable (in-out) reference semantics:</p>
+<div class="language-text highlight"><pre><span></span><code>void increment_all(span&lt;int&gt; a)
+{
+  for (auto&amp;&amp; e : a)
+    ++e;
+}
+</code></pre></div>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>A <code>T&amp;</code> argument can pass information into a function as well as out of it.
+Thus <code>T&amp;</code> could be an in-out-parameter. That can in itself be a problem and a source of errors:</p>
+<div class="language-text highlight"><pre><span></span><code>void f(string&amp; s)
+{
+    s = &quot;New York&quot;;  // non-obvious error
+}
+
+void g()
+{
+    string buffer = &quot;.................................&quot;;
+    f(buffer);
+    // ...
+}
+</code></pre></div>
+<p>Here, the writer of <code>g()</code> is supplying a buffer for <code>f()</code> to fill, but <code>f()</code> simply replaces it (at a somewhat higher cost than a simple copy of the characters).
+A bad logic error can happen if the writer of <code>g()</code> incorrectly assumes the size of the <code>buffer</code>.</p>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Moderate) ((Foundation)) Warn about functions regarding reference to non-<code>const</code> parameters that do <em>not</em> write to them.</li>
+<li>(Simple) ((Foundation)) Warn when a non-<code>const</code> parameter being passed by reference is <code>move</code>d.</li>
+</ul>
+<h3 id="f18-for-will-move-from-parameters-pass-by-x-and-stdmove-the-parameter"><a name="Rf-consume"></a>F.18: For "will-move-from" parameters, pass by <code>X&amp;&amp;</code> and <code>std::move</code> the parameter<a class="headerlink" href="#f18-for-will-move-from-parameters-pass-by-x-and-stdmove-the-parameter" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>It's efficient and eliminates bugs at the call site: <code>X&amp;&amp;</code> binds to rvalues, which requires an explicit <code>std::move</code> at the call site if passing an lvalue.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void sink(vector&lt;int&gt;&amp;&amp; v)  // sink takes ownership of whatever the argument owned
+{
+    // usually there might be const accesses of v here
+    store_somewhere(std::move(v));
+    // usually no more use of v here; it is moved-from
+}
+</code></pre></div>
+<p>Note that the <code>std::move(v)</code> makes it possible for <code>store_somewhere()</code> to leave <code>v</code> in a moved-from state.
+<a href="#Rc-move-semantic">That could be dangerous</a>.</p>
+<h5 id="exception_7">Exception<a class="headerlink" href="#exception_7" title="Permanent link">&para;</a></h5>
+<p>Unique owner types that are move-only and cheap-to-move, such as <code>unique_ptr</code>, can also be passed by value which is simpler to write and achieves the same effect. Passing by value does generate one extra (cheap) move operation, but prefer simplicity and clarity first.</p>
+<p>For example:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class T&gt;
+void sink(std::unique_ptr&lt;T&gt; p)
+{
+    // use p ... possibly std::move(p) onward somewhere else
+}   // p gets destroyed
+</code></pre></div>
+<h5 id="exception_8">Exception<a class="headerlink" href="#exception_8" title="Permanent link">&para;</a></h5>
+<p>If the "will-move-from" parameter is a <code>shared_ptr</code> follow <a href="#Rr-sharedptrparam-owner">R.34</a> and pass the <code>shared_ptr</code> by value.</p>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag all <code>X&amp;&amp;</code> parameters (where <code>X</code> is not a template type parameter name) where the function body uses them without <code>std::move</code>.</li>
+<li>Flag access to moved-from objects.</li>
+<li>Don't conditionally move from objects</li>
+</ul>
+<h3 id="f19-for-forward-parameters-pass-by-tp-and-only-stdforward-the-parameter"><a name="Rf-forward"></a>F.19: For "forward" parameters, pass by <code>TP&amp;&amp;</code> and only <code>std::forward</code> the parameter<a class="headerlink" href="#f19-for-forward-parameters-pass-by-tp-and-only-stdforward-the-parameter" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>If the object is to be passed onward to other code and not directly used by this function, we want to make this function agnostic to the argument <code>const</code>-ness and rvalue-ness.</p>
+<p>In that case, and only that case, make the parameter <code>TP&amp;&amp;</code> where <code>TP</code> is a template type parameter -- it both <em>ignores</em> and <em>preserves</em> <code>const</code>-ness and rvalue-ness. Therefore any code that uses a <code>TP&amp;&amp;</code> is implicitly declaring that it itself doesn't care about the variable's <code>const</code>-ness and rvalue-ness (because it is ignored), but that intends to pass the value onward to other code that does care about <code>const</code>-ness and rvalue-ness (because it is preserved). When used as a parameter <code>TP&amp;&amp;</code> is safe because any temporary objects passed from the caller will live for the duration of the function call. A parameter of type <code>TP&amp;&amp;</code> should essentially always be passed onward via <code>std::forward</code> in the body of the function.</p>
+<h5 id="example_16">Example<a class="headerlink" href="#example_16" title="Permanent link">&para;</a></h5>
+<p>Usually you forward the entire parameter (or parameter pack, using <code>...</code>) exactly once on every static control flow path:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class F, class... Args&gt;
+inline decltype(auto) invoke(F&amp;&amp; f, Args&amp;&amp;... args)
+{
+    return forward&lt;F&gt;(f)(forward&lt;Args&gt;(args)...);
+}
+</code></pre></div>
+<h5 id="example_17">Example<a class="headerlink" href="#example_17" title="Permanent link">&para;</a></h5>
+<p>Sometimes you may forward a composite parameter piecewise, each subobject once on every static control flow path:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class PairLike&gt;
+inline auto test(PairLike&amp;&amp; pairlike)
+{
+    // ...
+    f1(some, args, and, forward&lt;PairLike&gt;(pairlike).first);           // forward .first
+    f2(and, forward&lt;PairLike&gt;(pairlike).second, in, another, call);   // forward .second
+}
+</code></pre></div>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag a function that takes a <code>TP&amp;&amp;</code> parameter (where <code>TP</code> is a template type parameter name) and does anything with it other than <code>std::forward</code>ing it exactly once on every static path, or <code>std::forward</code>ing it more than once but qualified with a different data member exactly once on every static path.</li>
+</ul>
+<h3 id="f20-for-out-output-values-prefer-return-values-to-output-parameters"><a name="Rf-out"></a>F.20: For "out" output values, prefer return values to output parameters<a class="headerlink" href="#f20-for-out-output-values-prefer-return-values-to-output-parameters" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>A return value is self-documenting, whereas a <code>&amp;</code> could be either in-out or out-only and is liable to be misused.</p>
+<p>This includes large objects like standard containers that use implicit move operations for performance and to avoid explicit memory management.</p>
+<p>If you have multiple values to return, <a href="#Rf-out-multi">use a tuple</a> or similar multi-member type.</p>
+<h5 id="example_18">Example<a class="headerlink" href="#example_18" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// OK: return pointers to elements with the value x
+vector&lt;const int*&gt; find_all(const vector&lt;int&gt;&amp;, int x);
+
+// Bad: place pointers to elements with value x in-out
+void find_all(const vector&lt;int&gt;&amp;, vector&lt;const int*&gt;&amp; out, int x);
+</code></pre></div>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>A <code>struct</code> of many (individually cheap-to-move) elements might be in aggregate expensive to move.</p>
+<h5 id="exceptions">Exceptions<a class="headerlink" href="#exceptions" title="Permanent link">&para;</a></h5>
+<ul>
+<li>For non-concrete types, such as types in an inheritance hierarchy, return the object by <code>unique_ptr</code> or <code>shared_ptr</code>.</li>
+<li>If a type is expensive to move (e.g., <code>array&lt;BigTrivial&gt;</code>), consider allocating it on the free store and return a handle (e.g., <code>unique_ptr</code>), or passing it in a reference to non-<code>const</code> target object to fill (to be used as an out-parameter).</li>
+<li>To reuse an object that carries capacity (e.g., <code>std::string</code>, <code>std::vector</code>) across multiple calls to the function in an inner loop: <a href="#Rf-out-multi">treat it as an in/out parameter and pass by reference</a>.</li>
+</ul>
+<h5 id="example_19">Example<a class="headerlink" href="#example_19" title="Permanent link">&para;</a></h5>
+<p>Assuming that <code>Matrix</code> has move operations (possibly by keeping its elements in a <code>std::vector</code>):</p>
+<div class="language-text highlight"><pre><span></span><code>Matrix operator+(const Matrix&amp; a, const Matrix&amp; b)
+{
+    Matrix res;
+    // ... fill res with the sum ...
+    return res;
+}
+
+Matrix x = m1 + m2;  // move constructor
+
+y = m3 + m3;         // move assignment
+</code></pre></div>
+<h5 id="note_18">Note<a class="headerlink" href="#note_18" title="Permanent link">&para;</a></h5>
+<p>The return value optimization doesn't handle the assignment case, but the move assignment does.</p>
+<h5 id="example_20">Example<a class="headerlink" href="#example_20" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct Package {      // exceptional case: expensive-to-move object
+    char header[16];
+    char load[2024 - 16];
+};
+
+Package fill();       // Bad: large return value
+void fill(Package&amp;);  // OK
+
+int val();            // OK
+void val(int&amp;);       // Bad: Is val reading its argument
+</code></pre></div>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag reference to non-<code>const</code> parameters that are not read before being written to and are a type that could be cheaply returned; they should be "out" return values.</li>
+</ul>
+<h3 id="f21-to-return-multiple-out-values-prefer-returning-a-struct"><a name="Rf-out-multi"></a>F.21: To return multiple "out" values, prefer returning a struct<a class="headerlink" href="#f21-to-return-multiple-out-values-prefer-returning-a-struct" title="Permanent link">&para;</a></h3>
+<h5 id="reason_17">Reason<a class="headerlink" href="#reason_17" title="Permanent link">&para;</a></h5>
+<p>A return value is self-documenting as an "output-only" value.
+Note that C++ does have multiple return values, by convention of using tuple-like types (<code>struct</code>, <code>array</code>, <code>tuple</code>, etc.),
+possibly with the extra convenience of structured bindings (C++17) at the call site.
+Prefer using a named <code>struct</code> if possible.
+Otherwise, a <code>tuple</code> is useful in variadic templates.</p>
+<h5 id="example_21">Example<a class="headerlink" href="#example_21" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// BAD: output-only parameter documented in a comment
+int f(const string&amp; input, /*output only*/ string&amp; output_data)
+{
+    // ...
+    output_data = something();
+    return status;
+}
+
+// GOOD: self-documenting
+struct f_result { int status; string data; };
+
+f_result f(const string&amp; input)
+{
+    // ...
+    return {status, something()};
+}
+</code></pre></div>
+<p>C++98's standard library used this style in places, by returning <code>pair</code> in some functions.
+For example, given a <code>set&lt;string&gt; my_set</code>, consider:</p>
+<div class="language-text highlight"><pre><span></span><code>// C++98
+pair&lt;set::iterator, bool&gt; result = my_set.insert(&quot;Hello&quot;);
+if (result.second)
+    do_something_with(result.first);    // workaround
+</code></pre></div>
+<p>With C++17 we are able to use "structured bindings" to give each member a name:</p>
+<div class="language-text highlight"><pre><span></span><code>if (auto [ iter, success ] = my_set.insert(&quot;Hello&quot;); success)
+    do_something_with(iter);
+</code></pre></div>
+<p>A <code>struct</code> with meaningful names is more common in modern C++.
+See for example <code>ranges::min_max_result</code>, <code>from_chars_result</code>, and others.</p>
+<h5 id="exception_9">Exception<a class="headerlink" href="#exception_9" title="Permanent link">&para;</a></h5>
+<p>Sometimes, we need to pass an object to a function to manipulate its state.
+In such cases, passing the object by reference <a href="#Rf-inout"><code>T&amp;</code></a> is usually the right technique.
+Explicitly passing an in-out parameter back out again as a return value is often not necessary.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>istream&amp; operator&gt;&gt;(istream&amp; in, string&amp; s);    // much like std::operator&gt;&gt;()
+
+for (string s; in &gt;&gt; s; ) {
+    // do something with line
+}
+</code></pre></div>
+<p>Here, both <code>s</code> and <code>in</code> are used as in-out parameters.
+We pass <code>in</code> by (non-<code>const</code>) reference to be able to manipulate its state.
+We pass <code>s</code> to avoid repeated allocations.
+By reusing <code>s</code> (passed by reference), we allocate new memory only when we need to expand <code>s</code>'s capacity.
+This technique is sometimes called the "caller-allocated out" pattern and is particularly useful for types,
+such as <code>string</code> and <code>vector</code>, that needs to do free store allocations.</p>
+<p>To compare, if we passed out all values as return values, we would write something like this:</p>
+<div class="language-text highlight"><pre><span></span><code>struct get_string_result { istream&amp; in; string s; };
+
+get_string_result get_string(istream&amp; in)  // not recommended
+{
+    string s;
+    in &gt;&gt; s;
+    return { in, move(s) };
+}
+
+for (auto [in, s] = get_string(cin); in; s = get_string(in).s) {
+    // do something with string
+}
+</code></pre></div>
+<p>We consider that significantly less elegant with significantly less performance.</p>
+<p>For a truly strict reading of this rule (F.21), the exception isn't really an exception because it relies on in-out parameters,
+rather than the plain out parameters mentioned in the rule.
+However, we prefer to be explicit, rather than subtle.</p>
+<h5 id="note_19">Note<a class="headerlink" href="#note_19" title="Permanent link">&para;</a></h5>
+<p>In most cases, it is useful to return a specific, user-defined type.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>struct Distance {
+    int value;
+    int unit = 1;   // 1 means meters
+};
+
+Distance d1 = measure(obj1);        // access d1.value and d1.unit
+auto d2 = measure(obj2);            // access d2.value and d2.unit
+auto [value, unit] = measure(obj3); // access value and unit; somewhat redundant
+                                    // to people who know measure()
+auto [x, y] = measure(obj4);        // don&#39;t; it&#39;s likely to be confusing
+</code></pre></div>
+<p>The overly generic <code>pair</code> and <code>tuple</code> should be used only when the value returned represents independent entities rather than an abstraction.</p>
+<p>Another option is to use <code>optional&lt;T&gt;</code> or <code>expected&lt;T, error_code&gt;</code>, rather than <code>pair</code> or <code>tuple</code>.
+When used appropriately these types convey more information about what the members mean than <code>pair&lt;T, bool&gt;</code> or <code>pair&lt;T, error_code&gt;</code> do.</p>
+<h5 id="note_20">Note<a class="headerlink" href="#note_20" title="Permanent link">&para;</a></h5>
+<p>When the object to be returned is initialized from local variables that are expensive to copy,
+explicit <code>move</code> may be helpful to avoid copying:</p>
+<div class="language-text highlight"><pre><span></span><code>pair&lt;LargeObject, LargeObject&gt; f(const string&amp; input)
+{
+    LargeObject large1 = g(input);
+    LargeObject large2 = h(input);
+    // ...
+    return { move(large1), move(large2) }; // no copies
+}
+</code></pre></div>
+<p>Alternatively,</p>
+<div class="language-text highlight"><pre><span></span><code>pair&lt;LargeObject, LargeObject&gt; f(const string&amp; input)
+{
+    // ...
+    return { g(input), h(input) }; // no copies, no moves
+}
+</code></pre></div>
+<p>Note this is different from the <code>return move(...)</code> anti-pattern from <a href="#Res-move">ES.56</a></p>
+<h5 id="enforcement_15">Enforcement<a class="headerlink" href="#enforcement_15" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Output parameters should be replaced by return values.
+  An output parameter is one that the function writes to, invokes a non-<code>const</code> member function, or passes on as a non-<code>const</code>.</li>
+<li><code>pair</code> or <code>tuple</code> return types should be replaced by <code>struct</code>, if possible.
+  In variadic templates, <code>tuple</code> is often unavoidable.</li>
+</ul>
+<h3 id="f60-prefer-t-over-t-when-no-argument-is-a-valid-option"><a name="Rf-ptr-ref"></a>F.60: Prefer <code>T*</code> over <code>T&amp;</code> when "no argument" is a valid option<a class="headerlink" href="#f60-prefer-t-over-t-when-no-argument-is-a-valid-option" title="Permanent link">&para;</a></h3>
+<h5 id="reason_18">Reason<a class="headerlink" href="#reason_18" title="Permanent link">&para;</a></h5>
+<p>A pointer (<code>T*</code>) can be a <code>nullptr</code> and a reference (<code>T&amp;</code>) cannot, there is no valid "null reference".
+Sometimes having <code>nullptr</code> as an alternative to indicated "no object" is useful, but if it is not, a reference is notationally simpler and might yield better code.</p>
+<h5 id="example_22">Example<a class="headerlink" href="#example_22" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>string zstring_to_string(zstring p) // zstring is a char*; that is a C-style string
+{
+    if (!p) return string{};    // p might be nullptr; remember to check
+    return string{p};
+}
+
+void print(const vector&lt;int&gt;&amp; r)
+{
+    // r refers to a vector&lt;int&gt;; no check needed
+}
+</code></pre></div>
+<h5 id="note_21">Note<a class="headerlink" href="#note_21" title="Permanent link">&para;</a></h5>
+<p>It is possible, but not valid C++ to construct a reference that is essentially a <code>nullptr</code> (e.g., <code>T* p = nullptr; T&amp; r = *p;</code>).
+That error is very uncommon.</p>
+<h5 id="note_22">Note<a class="headerlink" href="#note_22" title="Permanent link">&para;</a></h5>
+<p>If you prefer the pointer notation (<code>-&gt;</code> and/or <code>*</code> vs. <code>.</code>), <code>not_null&lt;T*&gt;</code> provides the same guarantee as <code>T&amp;</code>.</p>
+<h5 id="enforcement_16">Enforcement<a class="headerlink" href="#enforcement_16" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag ???</li>
+</ul>
+<h3 id="f22-use-t-or-ownert-to-designate-a-single-object"><a name="Rf-ptr"></a>F.22: Use <code>T*</code> or <code>owner&lt;T*&gt;</code> to designate a single object<a class="headerlink" href="#f22-use-t-or-ownert-to-designate-a-single-object" title="Permanent link">&para;</a></h3>
+<h5 id="reason_19">Reason<a class="headerlink" href="#reason_19" title="Permanent link">&para;</a></h5>
+<p>Readability: it makes the meaning of a plain pointer clear.
+Enables significant tool support.</p>
+<h5 id="note_23">Note<a class="headerlink" href="#note_23" title="Permanent link">&para;</a></h5>
+<p>In traditional C and C++ code, plain <code>T*</code> is used for many weakly-related purposes, such as:</p>
+<ul>
+<li>Identify a (single) object (not to be deleted by this function)</li>
+<li>Point to an object allocated on the free store (and delete it later)</li>
+<li>Hold the <code>nullptr</code></li>
+<li>Identify a C-style string (zero-terminated array of characters)</li>
+<li>Identify an array with a length specified separately</li>
+<li>Identify a location in an array</li>
+</ul>
+<p>This makes it hard to understand what the code does and is supposed to do.
+It complicates checking and tool support.</p>
+<h5 id="example_23">Example<a class="headerlink" href="#example_23" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void use(int* p, int n, char* s, int* q)
+{
+    p[n - 1] = 666; // Bad: we don&#39;t know if p points to n elements;
+                    // assume it does not or use span&lt;int&gt;
+    cout &lt;&lt; s;      // Bad: we don&#39;t know if that s points to a zero-terminated array of char;
+                    // assume it does not or use zstring
+    delete q;       // Bad: we don&#39;t know if *q is allocated on the free store;
+                    // assume it does not or use owner
+}
+</code></pre></div>
+<p>better</p>
+<div class="language-text highlight"><pre><span></span><code>void use2(span&lt;int&gt; p, zstring s, owner&lt;int*&gt; q)
+{
+    p[p.size() - 1] = 666; // OK, a range error can be caught
+    cout &lt;&lt; s; // OK
+    delete q;  // OK
+}
+</code></pre></div>
+<h5 id="note_24">Note<a class="headerlink" href="#note_24" title="Permanent link">&para;</a></h5>
+<p><code>owner&lt;T*&gt;</code> represents ownership, <code>zstring</code> represents a C-style string.</p>
+<p><strong>Also</strong>: Assume that a <code>T*</code> obtained from a smart pointer to <code>T</code> (e.g., <code>unique_ptr&lt;T&gt;</code>) points to a single element.</p>
+<p><strong>See also</strong>: <a href="#gsl-guidelines-support-library">Support library</a></p>
+<p><strong>See also</strong>: <a href="#Ri-array">Do not pass an array as a single pointer</a></p>
+<h5 id="enforcement_17">Enforcement<a class="headerlink" href="#enforcement_17" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) ((Bounds)) Warn for any arithmetic operation on an expression of pointer type that results in a value of pointer type.</li>
+</ul>
+<h3 id="f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value"><a name="Rf-nullptr"></a>F.23: Use a <code>not_null&lt;T&gt;</code> to indicate that "null" is not a valid value<a class="headerlink" href="#f23-use-a-not_nullt-to-indicate-that-null-is-not-a-valid-value" title="Permanent link">&para;</a></h3>
+<h5 id="reason_20">Reason<a class="headerlink" href="#reason_20" title="Permanent link">&para;</a></h5>
+<p>Clarity. A function with a <code>not_null&lt;T&gt;</code> parameter makes it clear that the caller of the function is responsible for any <code>nullptr</code> checks that might be necessary.
+Similarly, a function with a return value of <code>not_null&lt;T&gt;</code> makes it clear that the caller of the function does not need to check for <code>nullptr</code>.</p>
+<h5 id="example_24">Example<a class="headerlink" href="#example_24" title="Permanent link">&para;</a></h5>
+<p><code>not_null&lt;T*&gt;</code> makes it obvious to a reader (human or machine) that a test for <code>nullptr</code> is not necessary before dereference.
+Additionally, when debugging, <code>owner&lt;T*&gt;</code> and <code>not_null&lt;T&gt;</code> can be instrumented to check for correctness.</p>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>int length(Record* p);
+</code></pre></div>
+<p>When I call <code>length(p)</code> should I check if <code>p</code> is <code>nullptr</code> first? Should the implementation of <code>length()</code> check if <code>p</code> is <code>nullptr</code>?</p>
+<div class="language-text highlight"><pre><span></span><code>// it is the caller&#39;s job to make sure p != nullptr
+int length(not_null&lt;Record*&gt; p);
+
+// the implementor of length() must assume that p == nullptr is possible
+int length(Record* p);
+</code></pre></div>
+<h5 id="note_25">Note<a class="headerlink" href="#note_25" title="Permanent link">&para;</a></h5>
+<p>A <code>not_null&lt;T*&gt;</code> is assumed not to be the <code>nullptr</code>; a <code>T*</code> might be the <code>nullptr</code>; both can be represented in memory as a <code>T*</code> (so no run-time overhead is implied).</p>
+<h5 id="note_26">Note<a class="headerlink" href="#note_26" title="Permanent link">&para;</a></h5>
+<p><code>not_null</code> is not just for built-in pointers. It works for <code>unique_ptr</code>, <code>shared_ptr</code>, and other pointer-like types.</p>
+<h5 id="enforcement_18">Enforcement<a class="headerlink" href="#enforcement_18" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) Warn if a raw pointer is dereferenced without being tested against <code>nullptr</code> (or equivalent) within a function, suggest it is declared <code>not_null</code> instead.</li>
+<li>(Simple) Error if a raw pointer is sometimes dereferenced after first being tested against <code>nullptr</code> (or equivalent) within the function and sometimes is not.</li>
+<li>(Simple) Warn if a <code>not_null</code> pointer is tested against <code>nullptr</code> within a function.</li>
+</ul>
+<h3 id="f24-use-a-spant-or-a-span_pt-to-designate-a-half-open-sequence"><a name="Rf-range"></a>F.24: Use a <code>span&lt;T&gt;</code> or a <code>span_p&lt;T&gt;</code> to designate a half-open sequence<a class="headerlink" href="#f24-use-a-spant-or-a-span_pt-to-designate-a-half-open-sequence" title="Permanent link">&para;</a></h3>
+<h5 id="reason_21">Reason<a class="headerlink" href="#reason_21" title="Permanent link">&para;</a></h5>
+<p>Informal/non-explicit ranges are a source of errors.</p>
+<h5 id="example_25">Example<a class="headerlink" href="#example_25" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>X* find(span&lt;X&gt; r, const X&amp; v);    // find v in r
+
+vector&lt;X&gt; vec;
+// ...
+auto p = find({vec.begin(), vec.end()}, X{});  // find X{} in vec
+</code></pre></div>
+<h5 id="note_27">Note<a class="headerlink" href="#note_27" title="Permanent link">&para;</a></h5>
+<p>Ranges are extremely common in C++ code. Typically, they are implicit and their correct use is very hard to ensure.
+In particular, given a pair of arguments <code>(p, n)</code> designating an array <code>[p:p+n)</code>,
+it is in general impossible to know if there really are <code>n</code> elements to access following <code>*p</code>.
+<code>span&lt;T&gt;</code> and <code>span_p&lt;T&gt;</code> are simple helper classes designating a <code>[p:q)</code> range and a range starting with <code>p</code> and ending with the first element for which a predicate is true, respectively.</p>
+<h5 id="example_26">Example<a class="headerlink" href="#example_26" title="Permanent link">&para;</a></h5>
+<p>A <code>span</code> represents a range of elements, but how do we manipulate elements of that range?</p>
+<div class="language-text highlight"><pre><span></span><code>void f(span&lt;int&gt; s)
+{
+    // range traversal (guaranteed correct)
+    for (int x : s) cout &lt;&lt; x &lt;&lt; &#39;\n&#39;;
+
+    // C-style traversal (potentially checked)
+    for (gsl::index i = 0; i &lt; s.size(); ++i) cout &lt;&lt; s[i] &lt;&lt; &#39;\n&#39;;
+
+    // random access (potentially checked)
+    s[7] = 9;
+
+    // extract pointers (potentially checked)
+    std::sort(&amp;s[0], &amp;s[s.size() / 2]);
+}
+</code></pre></div>
+<h5 id="note_28">Note<a class="headerlink" href="#note_28" title="Permanent link">&para;</a></h5>
+<p>A <code>span&lt;T&gt;</code> object does not own its elements and is so small that it can be passed by value.</p>
+<p>Passing a <code>span</code> object as an argument is exactly as efficient as passing a pair of pointer arguments or passing a pointer and an integer count.</p>
+<p><strong>See also</strong>: <a href="#gsl-guidelines-support-library">Support library</a></p>
+<h5 id="enforcement_19">Enforcement<a class="headerlink" href="#enforcement_19" title="Permanent link">&para;</a></h5>
+<p>(Complex) Warn where accesses to pointer parameters are bounded by other parameters that are integral types and suggest they could use <code>span</code> instead.</p>
+<h3 id="f25-use-a-zstring-or-a-not_nullzstring-to-designate-a-c-style-string"><a name="Rf-zstring"></a>F.25: Use a <code>zstring</code> or a <code>not_null&lt;zstring&gt;</code> to designate a C-style string<a class="headerlink" href="#f25-use-a-zstring-or-a-not_nullzstring-to-designate-a-c-style-string" title="Permanent link">&para;</a></h3>
+<h5 id="reason_22">Reason<a class="headerlink" href="#reason_22" title="Permanent link">&para;</a></h5>
+<p>C-style strings are ubiquitous. They are defined by convention: zero-terminated arrays of characters.
+We must distinguish C-style strings from a pointer to a single character or an old-fashioned pointer to an array of characters.</p>
+<p>If you don't need null termination, use <code>string_view</code>.</p>
+<h5 id="example_27">Example<a class="headerlink" href="#example_27" title="Permanent link">&para;</a></h5>
+<p>Consider:</p>
+<div class="language-text highlight"><pre><span></span><code>int length(const char* p);
+</code></pre></div>
+<p>When I call <code>length(s)</code> should I check if <code>s</code> is <code>nullptr</code> first? Should the implementation of <code>length()</code> check if <code>p</code> is <code>nullptr</code>?</p>
+<div class="language-text highlight"><pre><span></span><code>// the implementor of length() must assume that p == nullptr is possible
+int length(zstring p);
+
+// it is the caller&#39;s job to make sure p != nullptr
+int length(not_null&lt;zstring&gt; p);
+</code></pre></div>
+<h5 id="note_29">Note<a class="headerlink" href="#note_29" title="Permanent link">&para;</a></h5>
+<p><code>zstring</code> does not represent ownership.</p>
+<p><strong>See also</strong>: <a href="#gsl-guidelines-support-library">Support library</a></p>
+<h3 id="f26-use-a-unique_ptrt-to-transfer-ownership-where-a-pointer-is-needed"><a name="Rf-unique_ptr"></a>F.26: Use a <code>unique_ptr&lt;T&gt;</code> to transfer ownership where a pointer is needed<a class="headerlink" href="#f26-use-a-unique_ptrt-to-transfer-ownership-where-a-pointer-is-needed" title="Permanent link">&para;</a></h3>
+<h5 id="reason_23">Reason<a class="headerlink" href="#reason_23" title="Permanent link">&para;</a></h5>
+<p>Using <code>unique_ptr</code> is the cheapest way to pass a pointer safely.</p>
+<p><strong>See also</strong>: <a href="#Rc-factory">C.50</a> regarding when to return a <code>shared_ptr</code> from a factory.</p>
+<h5 id="example_28">Example<a class="headerlink" href="#example_28" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>unique_ptr&lt;Shape&gt; get_shape(istream&amp; is)  // assemble shape from input stream
+{
+    auto kind = read_header(is); // read header and identify the next shape on input
+    switch (kind) {
+    case kCircle:
+        return make_unique&lt;Circle&gt;(is);
+    case kTriangle:
+        return make_unique&lt;Triangle&gt;(is);
+    // ...
+    }
+}
+</code></pre></div>
+<h5 id="note_30">Note<a class="headerlink" href="#note_30" title="Permanent link">&para;</a></h5>
+<p>You need to pass a pointer rather than an object if what you are transferring is an object from a class hierarchy that is to be used through an interface (base class).</p>
+<h5 id="enforcement_20">Enforcement<a class="headerlink" href="#enforcement_20" title="Permanent link">&para;</a></h5>
+<p>(Simple) Warn if a function returns a locally allocated raw pointer. Suggest using either <code>unique_ptr</code> or <code>shared_ptr</code> instead.</p>
+<h3 id="f27-use-a-shared_ptrt-to-share-ownership"><a name="Rf-shared_ptr"></a>F.27: Use a <code>shared_ptr&lt;T&gt;</code> to share ownership<a class="headerlink" href="#f27-use-a-shared_ptrt-to-share-ownership" title="Permanent link">&para;</a></h3>
+<h5 id="reason_24">Reason<a class="headerlink" href="#reason_24" title="Permanent link">&para;</a></h5>
+<p>Using <code>std::shared_ptr</code> is the standard way to represent shared ownership. That is, the last owner deletes the object.</p>
+<h5 id="example_29">Example<a class="headerlink" href="#example_29" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>{
+    shared_ptr&lt;const Image&gt; im { read_image(somewhere) };
+
+    std::thread t0 {shade, args0, top_left, im};
+    std::thread t1 {shade, args1, top_right, im};
+    std::thread t2 {shade, args2, bottom_left, im};
+    std::thread t3 {shade, args3, bottom_right, im};
+
+    // detaching threads requires extra care (e.g., to join before
+    // main ends), but even if we do detach the four threads here ...
+}
+// ... shared_ptr ensures that eventually the last thread to
+//     finish safely deletes the image
+</code></pre></div>
+<h5 id="note_31">Note<a class="headerlink" href="#note_31" title="Permanent link">&para;</a></h5>
+<p>Prefer a <code>unique_ptr</code> over a <code>shared_ptr</code> if there is never more than one owner at a time.
+<code>shared_ptr</code> is for shared ownership.</p>
+<p>Note that pervasive use of <code>shared_ptr</code> has a cost (atomic operations on the <code>shared_ptr</code>'s reference count have a measurable aggregate cost).</p>
+<h5 id="alternative">Alternative<a class="headerlink" href="#alternative" title="Permanent link">&para;</a></h5>
+<p>Have a single object own the shared object (e.g. a scoped object) and destroy that (preferably implicitly) when all users have completed.</p>
+<h5 id="enforcement_21">Enforcement<a class="headerlink" href="#enforcement_21" title="Permanent link">&para;</a></h5>
+<p>(Not enforceable) This is a too complex pattern to reliably detect.</p>
+<h3 id="f42-return-a-t-to-indicate-a-position-only"><a name="Rf-return-ptr"></a>F.42: Return a <code>T*</code> to indicate a position (only)<a class="headerlink" href="#f42-return-a-t-to-indicate-a-position-only" title="Permanent link">&para;</a></h3>
+<h5 id="reason_25">Reason<a class="headerlink" href="#reason_25" title="Permanent link">&para;</a></h5>
+<p>That's what pointers are good for.
+Returning a <code>T*</code> to transfer ownership is a misuse.</p>
+<h5 id="example_30">Example<a class="headerlink" href="#example_30" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>Node* find(Node* t, const string&amp; s)  // find s in a binary tree of Nodes
+{
+    if (!t || t-&gt;name == s) return t;
+    if ((auto p = find(t-&gt;left, s))) return p;
+    if ((auto p = find(t-&gt;right, s))) return p;
+    return nullptr;
+}
+</code></pre></div>
+<p>If it isn't the <code>nullptr</code>, the pointer returned by <code>find</code> indicates a <code>Node</code> holding <code>s</code>.
+Importantly, that does not imply a transfer of ownership of the pointed-to object to the caller.</p>
+<h5 id="note_32">Note<a class="headerlink" href="#note_32" title="Permanent link">&para;</a></h5>
+<p>Positions can also be transferred by iterators, indices, and references.
+A reference is often a superior alternative to a pointer <a href="#Rf-ptr-ref">if there is no need to use <code>nullptr</code></a> or <a href="#S-const">if the object referred to should not change</a>.</p>
+<h5 id="note_33">Note<a class="headerlink" href="#note_33" title="Permanent link">&para;</a></h5>
+<p>Do not return a pointer to something that is not in the caller's scope; see <a href="#Rf-dangle">F.43</a>.</p>
+<p><strong>See also</strong>: <a href="#???">discussion of dangling pointer prevention</a></p>
+<h5 id="enforcement_22">Enforcement<a class="headerlink" href="#enforcement_22" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag <code>delete</code>, <code>std::free()</code>, etc. applied to a plain <code>T*</code>.
+Only owners should be deleted.</li>
+<li>Flag <code>new</code>, <code>malloc()</code>, etc. assigned to a plain <code>T*</code>.
+Only owners should be responsible for deletion.</li>
+</ul>
+<h3 id="f43-never-directly-or-indirectly-return-a-pointer-or-a-reference-to-a-local-object"><a name="Rf-dangle"></a>F.43: Never (directly or indirectly) return a pointer or a reference to a local object<a class="headerlink" href="#f43-never-directly-or-indirectly-return-a-pointer-or-a-reference-to-a-local-object" title="Permanent link">&para;</a></h3>
+<h5 id="reason_26">Reason<a class="headerlink" href="#reason_26" title="Permanent link">&para;</a></h5>
+<p>To avoid the crashes and data corruption that can result from the use of such a dangling pointer.</p>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<p>After the return from a function its local objects no longer exist:</p>
+<div class="language-text highlight"><pre><span></span><code>int* f()
+{
+    int fx = 9;
+    return &amp;fx;  // BAD
+}
+
+void g(int* p)   // looks innocent enough
+{
+    int gx;
+    cout &lt;&lt; &quot;*p == &quot; &lt;&lt; *p &lt;&lt; &#39;\n&#39;;
+    *p = 999;
+    cout &lt;&lt; &quot;gx == &quot; &lt;&lt; gx &lt;&lt; &#39;\n&#39;;
+}
+
+void h()
+{
+    int* p = f();
+    int z = *p;  // read from abandoned stack frame (bad)
+    g(p);        // pass pointer to abandoned stack frame to function (bad)
+}
+</code></pre></div>
+<p>Here on one popular implementation I got the output:</p>
+<div class="language-text highlight"><pre><span></span><code>*p == 999
+gx == 999
+</code></pre></div>
+<p>I expected that because the call of <code>g()</code> reuses the stack space abandoned by the call of <code>f()</code> so <code>*p</code> refers to the space now occupied by <code>gx</code>.</p>
+<ul>
+<li>Imagine what would happen if <code>fx</code> and <code>gx</code> were of different types.</li>
+<li>Imagine what would happen if <code>fx</code> or <code>gx</code> was a type with an invariant.</li>
+<li>Imagine what would happen if more that dangling pointer was passed around among a larger set of functions.</li>
+<li>Imagine what a cracker could do with that dangling pointer.</li>
+</ul>
+<p>Fortunately, most (all?) modern compilers catch and warn against this simple case.</p>
+<h5 id="note_34">Note<a class="headerlink" href="#note_34" title="Permanent link">&para;</a></h5>
+<p>This applies to references as well:</p>
+<div class="language-text highlight"><pre><span></span><code>int&amp; f()
+{
+    int x = 7;
+    // ...
+    return x;  // Bad: returns reference to object that is about to be destroyed
+}
+</code></pre></div>
+<h5 id="note_35">Note<a class="headerlink" href="#note_35" title="Permanent link">&para;</a></h5>
+<p>This applies only to non-<code>static</code> local variables.
+All <code>static</code> variables are (as their name indicates) statically allocated, so that pointers to them cannot dangle.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<p>Not all examples of leaking a pointer to a local variable are that obvious:</p>
+<div class="language-text highlight"><pre><span></span><code>int* glob;       // global variables are bad in so many ways
+
+template&lt;class T&gt;
+void steal(T x)
+{
+    glob = x();  // BAD
+}
+
+void f()
+{
+    int i = 99;
+    steal([&amp;] { return &amp;i; });
+}
+
+int main()
+{
+    f();
+    cout &lt;&lt; *glob &lt;&lt; &#39;\n&#39;;
+}
+</code></pre></div>
+<p>Here I managed to read the location abandoned by the call of <code>f</code>.
+The pointer stored in <code>glob</code> could be used much later and cause trouble in unpredictable ways.</p>
+<h5 id="note_36">Note<a class="headerlink" href="#note_36" title="Permanent link">&para;</a></h5>
+<p>The address of a local variable can be "returned"/leaked by a return statement, by a <code>T&amp;</code> out-parameter, as a member of a returned object, as an element of a returned array, and more.</p>
+<h5 id="note_37">Note<a class="headerlink" href="#note_37" title="Permanent link">&para;</a></h5>
+<p>Similar examples can be constructed "leaking" a pointer from an inner scope to an outer one;
+such examples are handled equivalently to leaks of pointers out of a function.</p>
+<p>A slightly different variant of the problem is placing pointers in a container that outlives the objects pointed to.</p>
+<p><strong>See also</strong>: Another way of getting dangling pointers is <a href="#???">pointer invalidation</a>.
+It can be detected/prevented with similar techniques.</p>
+<h5 id="enforcement_23">Enforcement<a class="headerlink" href="#enforcement_23" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Compilers tend to catch return of reference to locals and could in many cases catch return of pointers to locals.</li>
+<li>Static analysis can catch many common patterns of the use of pointers indicating positions (thus eliminating dangling pointers)</li>
+</ul>
+<h3 id="f44-return-a-t-when-copy-is-undesirable-and-returning-no-object-isnt-needed"><a name="Rf-return-ref"></a>F.44: Return a <code>T&amp;</code> when copy is undesirable and "returning no object" isn't needed<a class="headerlink" href="#f44-return-a-t-when-copy-is-undesirable-and-returning-no-object-isnt-needed" title="Permanent link">&para;</a></h3>
+<h5 id="reason_27">Reason<a class="headerlink" href="#reason_27" title="Permanent link">&para;</a></h5>
+<p>The language guarantees that a <code>T&amp;</code> refers to an object, so that testing for <code>nullptr</code> isn't necessary.</p>
+<p><strong>See also</strong>: The return of a reference must not imply transfer of ownership:
+<a href="#???">discussion of dangling pointer prevention</a> and <a href="#???">discussion of ownership</a>.</p>
+<h5 id="example_31">Example<a class="headerlink" href="#example_31" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Car
+{
+    array&lt;wheel, 4&gt; w;
+    // ...
+public:
+    wheel&amp; get_wheel(int i) { Expects(i &lt; w.size()); return w[i]; }
+    // ...
+};
+
+void use()
+{
+    Car c;
+    wheel&amp; w0 = c.get_wheel(0); // w0 has the same lifetime as c
+}
+</code></pre></div>
+<h5 id="enforcement_24">Enforcement<a class="headerlink" href="#enforcement_24" title="Permanent link">&para;</a></h5>
+<p>Flag functions where no <code>return</code> expression could yield <code>nullptr</code></p>
+<h3 id="f45-dont-return-a-t"><a name="Rf-return-ref-ref"></a>F.45: Don't return a <code>T&amp;&amp;</code><a class="headerlink" href="#f45-dont-return-a-t" title="Permanent link">&para;</a></h3>
+<h5 id="reason_28">Reason<a class="headerlink" href="#reason_28" title="Permanent link">&para;</a></h5>
+<p>It's asking to return a reference to a destroyed temporary object.
+A <code>&amp;&amp;</code> is a magnet for temporary objects.</p>
+<h5 id="example_32">Example<a class="headerlink" href="#example_32" title="Permanent link">&para;</a></h5>
+<p>A returned rvalue reference goes out of scope at the end of the full expression to which it is returned:</p>
+<div class="language-text highlight"><pre><span></span><code>auto&amp;&amp; x = max(0, 1);   // OK, so far
+foo(x);                 // Undefined behavior
+</code></pre></div>
+<p>This kind of use is a frequent source of bugs, often incorrectly reported as a compiler bug.
+An implementer of a function should avoid setting such traps for users.</p>
+<p>The <a href="#SS-lifetime">lifetime safety profile</a> will (when completely implemented) catch such problems.</p>
+<h5 id="example_33">Example<a class="headerlink" href="#example_33" title="Permanent link">&para;</a></h5>
+<p>Returning an rvalue reference is fine when the reference to the temporary is being passed "downward" to a callee;
+then, the temporary is guaranteed to outlive the function call (see <a href="#Rf-consume">F.18</a> and <a href="#Rf-forward">F.19</a>).
+However, it's not fine when passing such a reference "upward" to a larger caller scope.
+For passthrough functions that pass in parameters (by ordinary reference or by perfect forwarding) and want to return values, use simple <code>auto</code> return type deduction (not <code>auto&amp;&amp;</code>).</p>
+<p>Assume that <code>F</code> returns by value:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class F&gt;
+auto&amp;&amp; wrapper(F f)
+{
+    log_call(typeid(f)); // or whatever instrumentation
+    return f();          // BAD: returns a reference to a temporary
+}
+</code></pre></div>
+<p>Better:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class F&gt;
+auto wrapper(F f)
+{
+    log_call(typeid(f)); // or whatever instrumentation
+    return f();          // OK
+}
+</code></pre></div>
+<h5 id="exception_10">Exception<a class="headerlink" href="#exception_10" title="Permanent link">&para;</a></h5>
+<p><code>std::move</code> and <code>std::forward</code> do return <code>&amp;&amp;</code>, but they are just casts -- used by convention only in expression contexts where a reference to a temporary object is passed along within the same expression before the temporary is destroyed. We don't know of any other good examples of returning <code>&amp;&amp;</code>.</p>
+<h5 id="enforcement_25">Enforcement<a class="headerlink" href="#enforcement_25" title="Permanent link">&para;</a></h5>
+<p>Flag any use of <code>&amp;&amp;</code> as a return type, except in <code>std::move</code> and <code>std::forward</code>.</p>
+<h3 id="f46-int-is-the-return-type-for-main"><a name="Rf-main"></a>F.46: <code>int</code> is the return type for <code>main()</code><a class="headerlink" href="#f46-int-is-the-return-type-for-main" title="Permanent link">&para;</a></h3>
+<h5 id="reason_29">Reason<a class="headerlink" href="#reason_29" title="Permanent link">&para;</a></h5>
+<p>It's a language rule, but violated through "language extensions" so often that it is worth mentioning.
+Declaring <code>main</code> (the one global <code>main</code> of a program) <code>void</code> limits portability.</p>
+<h5 id="example_34">Example<a class="headerlink" href="#example_34" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>    void main() { /* ... */ };  // bad, not C++
+
+    int main()
+    {
+        std::cout &lt;&lt; &quot;This is the way to do it\n&quot;;
+    }
+</code></pre></div>
+<h5 id="note_38">Note<a class="headerlink" href="#note_38" title="Permanent link">&para;</a></h5>
+<p>We mention this only because of the persistence of this error in the community.
+Note that despite its non-void return type, the main function does not require an explicit return statement.</p>
+<h5 id="enforcement_26">Enforcement<a class="headerlink" href="#enforcement_26" title="Permanent link">&para;</a></h5>
+<ul>
+<li>The compiler should do it</li>
+<li>If the compiler doesn't do it, let tools flag it</li>
+</ul>
+<h3 id="f47-return-t-from-assignment-operators"><a name="Rf-assignment-op"></a>F.47: Return <code>T&amp;</code> from assignment operators<a class="headerlink" href="#f47-return-t-from-assignment-operators" title="Permanent link">&para;</a></h3>
+<h5 id="reason_30">Reason<a class="headerlink" href="#reason_30" title="Permanent link">&para;</a></h5>
+<p>The convention for operator overloads (especially on concrete types) is for
+<code>operator=(const T&amp;)</code> to perform the assignment and then return (non-<code>const</code>)
+<code>*this</code>.  This ensures consistency with standard-library types and follows the
+principle of "do as the ints do."</p>
+<h5 id="note_39">Note<a class="headerlink" href="#note_39" title="Permanent link">&para;</a></h5>
+<p>Historically there was some guidance to make the assignment operator return <code>const T&amp;</code>.
+This was primarily to avoid code of the form <code>(a = b) = c</code> -- such code is not common enough to warrant violating consistency with standard types.</p>
+<h5 id="example_35">Example<a class="headerlink" href="#example_35" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Foo
+{
+ public:
+    ...
+    Foo&amp; operator=(const Foo&amp; rhs)
+    {
+      // Copy members.
+      ...
+      return *this;
+    }
+};
+</code></pre></div>
+<h5 id="enforcement_27">Enforcement<a class="headerlink" href="#enforcement_27" title="Permanent link">&para;</a></h5>
+<p>This should be enforced by tooling by checking the return type (and return
+value) of any assignment operator.</p>
+<h3 id="f48-dont-return-stdmovelocal"><a name="Rf-return-move-local"></a>F.48: Don't <code>return std::move(local)</code><a class="headerlink" href="#f48-dont-return-stdmovelocal" title="Permanent link">&para;</a></h3>
+<h5 id="reason_31">Reason<a class="headerlink" href="#reason_31" title="Permanent link">&para;</a></h5>
+<p>Returning a local variable implicitly moves it anyway.
+An explicit <code>std::move</code> is always a pessimization, because it prevents Return Value Optimization (RVO),
+which can eliminate the move completely.</p>
+<h5 id="example-bad_3">Example, bad<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>S bad()
+{
+  S result;
+  return std::move(result);
+}
+</code></pre></div>
+<h5 id="example-good_1">Example, good<a class="headerlink" href="#example-good_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>S good()
+{
+  S result;
+  // Named RVO: move elision at best, move construction at worst
+  return result;
+}
+</code></pre></div>
+<h5 id="enforcement_28">Enforcement<a class="headerlink" href="#enforcement_28" title="Permanent link">&para;</a></h5>
+<p>This should be enforced by tooling by checking the return expression .</p>
+<h3 id="f49-dont-return-const-t"><a name="Rf-return-const"></a>F.49: Don't return <code>const T</code><a class="headerlink" href="#f49-dont-return-const-t" title="Permanent link">&para;</a></h3>
+<h5 id="reason_32">Reason<a class="headerlink" href="#reason_32" title="Permanent link">&para;</a></h5>
+<p>It is not recommended to return a <code>const</code> value.
+Such older advice is now obsolete; it does not add value, and it interferes with move semantics.</p>
+<h5 id="example_36">Example<a class="headerlink" href="#example_36" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>const vector&lt;int&gt; fct();    // bad: that &quot;const&quot; is more trouble than it is worth
+
+void g(vector&lt;int&gt;&amp; vx)
+{
+    // ...
+    fct() = vx;   // prevented by the &quot;const&quot;
+    // ...
+    vx = fct(); // expensive copy: move semantics suppressed by the &quot;const&quot;
+    // ...
+}
+</code></pre></div>
+<p>The argument for adding <code>const</code> to a return value is that it prevents (very rare) accidental access to a temporary.
+The argument against is that it prevents (very frequent) use of move semantics.</p>
+<p><strong>See also</strong>: <a href="#Rf-out">F.20, the general item about "out" output values</a></p>
+<h5 id="enforcement_29">Enforcement<a class="headerlink" href="#enforcement_29" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag returning a <code>const</code> value. To fix: Remove <code>const</code> to return a non-<code>const</code> value instead.</li>
+</ul>
+<h3 id="f50-use-a-lambda-when-a-function-wont-do-to-capture-local-variables-or-to-write-a-local-function"><a name="Rf-capture-vs-overload"></a>F.50: Use a lambda when a function won't do (to capture local variables, or to write a local function)<a class="headerlink" href="#f50-use-a-lambda-when-a-function-wont-do-to-capture-local-variables-or-to-write-a-local-function" title="Permanent link">&para;</a></h3>
+<h5 id="reason_33">Reason<a class="headerlink" href="#reason_33" title="Permanent link">&para;</a></h5>
+<p>Functions can't capture local variables or be defined at local scope; if you need those things, prefer a lambda where possible, and a handwritten function object where not. On the other hand, lambdas and function objects don't overload; if you need to overload, prefer a function (the workarounds to make lambdas overload are ornate). If either will work, prefer writing a function; use the simplest tool necessary.</p>
+<h5 id="example_37">Example<a class="headerlink" href="#example_37" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// writing a function that should only take an int or a string
+// -- overloading is natural
+void f(int);
+void f(const string&amp;);
+
+// writing a function object that needs to capture local state and appear
+// at statement or expression scope -- a lambda is natural
+vector&lt;work&gt; v = lots_of_work();
+for (int tasknum = 0; tasknum &lt; max; ++tasknum) {
+    pool.run([=, &amp;v] {
+        /*
+        ...
+        ... process 1 / max - th of v, the tasknum - th chunk
+        ...
+        */
+    });
+}
+pool.join();
+</code></pre></div>
+<h5 id="exception_11">Exception<a class="headerlink" href="#exception_11" title="Permanent link">&para;</a></h5>
+<p>Generic lambdas offer a concise way to write function templates and so can be useful even when a normal function template would do equally well with a little more syntax. This advantage will probably disappear in the future once all functions gain the ability to have Concept parameters.</p>
+<h5 id="enforcement_30">Enforcement<a class="headerlink" href="#enforcement_30" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Warn on use of a named non-generic lambda (e.g., <code>auto x = [](int i) { /*...*/; };</code>) that captures nothing and appears at global scope. Write an ordinary function instead.</li>
+</ul>
+<h3 id="f51-where-there-is-a-choice-prefer-default-arguments-over-overloading"><a name="Rf-default-args"></a>F.51: Where there is a choice, prefer default arguments over overloading<a class="headerlink" href="#f51-where-there-is-a-choice-prefer-default-arguments-over-overloading" title="Permanent link">&para;</a></h3>
+<h5 id="reason_34">Reason<a class="headerlink" href="#reason_34" title="Permanent link">&para;</a></h5>
+<p>Default arguments simply provide alternative interfaces to a single implementation.
+There is no guarantee that a set of overloaded functions all implement the same semantics.
+The use of default arguments can avoid code replication.</p>
+<h5 id="note_40">Note<a class="headerlink" href="#note_40" title="Permanent link">&para;</a></h5>
+<p>There is a choice between using default argument and overloading when the alternatives are from a set of arguments of the same types.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>void print(const string&amp; s, format f = {});
+</code></pre></div>
+<p>as opposed to</p>
+<div class="language-text highlight"><pre><span></span><code>void print(const string&amp; s);  // use default format
+void print(const string&amp; s, format f);
+</code></pre></div>
+<p>There is not a choice when a set of functions are used to do a semantically equivalent operation to a set of types. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>void print(const char&amp;);
+void print(int);
+void print(zstring);
+</code></pre></div>
+<h5 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h5>
+<p><a href="#Rh-virtual-default-arg">Default arguments for virtual functions</a></p>
+<h5 id="enforcement_31">Enforcement<a class="headerlink" href="#enforcement_31" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Warn on an overload set where the overloads have a common prefix of parameters (e.g., <code>f(int)</code>, <code>f(int, const string&amp;)</code>, <code>f(int, const string&amp;, double)</code>). (Note: Review this enforcement if it's too noisy in practice.)</li>
+</ul>
+<h3 id="f52-prefer-capturing-by-reference-in-lambdas-that-will-be-used-locally-including-passed-to-algorithms"><a name="Rf-reference-capture"></a>F.52: Prefer capturing by reference in lambdas that will be used locally, including passed to algorithms<a class="headerlink" href="#f52-prefer-capturing-by-reference-in-lambdas-that-will-be-used-locally-including-passed-to-algorithms" title="Permanent link">&para;</a></h3>
+<h5 id="reason_35">Reason<a class="headerlink" href="#reason_35" title="Permanent link">&para;</a></h5>
+<p>For efficiency and correctness, you nearly always want to capture by reference when using the lambda locally. This includes when writing or calling parallel algorithms that are local because they join before returning.</p>
+<h5 id="discussion">Discussion<a class="headerlink" href="#discussion" title="Permanent link">&para;</a></h5>
+<p>The efficiency consideration is that most types are cheaper to pass by reference than by value.</p>
+<p>The correctness consideration is that many calls want to perform side effects on the original object at the call site (see example below). Passing by value prevents this.</p>
+<h5 id="note_41">Note<a class="headerlink" href="#note_41" title="Permanent link">&para;</a></h5>
+<p>Unfortunately, there is no simple way to capture by reference to <code>const</code> to get the efficiency for a local call but also prevent side effects.</p>
+<h5 id="example_38">Example<a class="headerlink" href="#example_38" title="Permanent link">&para;</a></h5>
+<p>Here, a large object (a network message) is passed to an iterative algorithm, and it is not efficient or correct to copy the message (which might not be copyable):</p>
+<div class="language-text highlight"><pre><span></span><code>std::for_each(begin(sockets), end(sockets), [&amp;message](auto&amp; socket)
+{
+    socket.send(message);
+});
+</code></pre></div>
+<h5 id="example_39">Example<a class="headerlink" href="#example_39" title="Permanent link">&para;</a></h5>
+<p>This is a simple three-stage parallel pipeline. Each <code>stage</code> object encapsulates a worker thread and a queue, has a <code>process</code> function to enqueue work, and in its destructor automatically blocks waiting for the queue to empty before ending the thread.</p>
+<div class="language-text highlight"><pre><span></span><code>void send_packets(buffers&amp; bufs)
+{
+    stage encryptor([](buffer&amp; b) { encrypt(b); });
+    stage compressor([&amp;](buffer&amp; b) { compress(b); encryptor.process(b); });
+    stage decorator([&amp;](buffer&amp; b) { decorate(b); compressor.process(b); });
+    for (auto&amp; b : bufs) { decorator.process(b); }
+}  // automatically blocks waiting for pipeline to finish
+</code></pre></div>
+<h5 id="enforcement_32">Enforcement<a class="headerlink" href="#enforcement_32" title="Permanent link">&para;</a></h5>
+<p>Flag a lambda that captures by reference, but is used other than locally within the function scope or passed to a function by reference. (Note: This rule is an approximation, but does flag passing by pointer as those are more likely to be stored by the callee, writing to a heap location accessed via a parameter, returning the lambda, etc. The Lifetime rules will also provide general rules that flag escaping pointers and references including via lambdas.)</p>
+<h3 id="f53-avoid-capturing-by-reference-in-lambdas-that-will-be-used-non-locally-including-returned-stored-on-the-heap-or-passed-to-another-thread"><a name="Rf-value-capture"></a>F.53: Avoid capturing by reference in lambdas that will be used non-locally, including returned, stored on the heap, or passed to another thread<a class="headerlink" href="#f53-avoid-capturing-by-reference-in-lambdas-that-will-be-used-non-locally-including-returned-stored-on-the-heap-or-passed-to-another-thread" title="Permanent link">&para;</a></h3>
+<h5 id="reason_36">Reason<a class="headerlink" href="#reason_36" title="Permanent link">&para;</a></h5>
+<p>Pointers and references to locals shouldn't outlive their scope. Lambdas that capture by reference are just another place to store a reference to a local object, and shouldn't do so if they (or a copy) outlive the scope.</p>
+<h5 id="example-bad_4">Example, bad<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int local = 42;
+
+// Want a reference to local.
+// Note, that after program exits this scope,
+// local no longer exists, therefore
+// process() call will have undefined behavior!
+thread_pool.queue_work([&amp;] { process(local); });
+</code></pre></div>
+<h5 id="example-good_2">Example, good<a class="headerlink" href="#example-good_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int local = 42;
+// Want a copy of local.
+// Since a copy of local is made, it will
+// always be available for the call.
+thread_pool.queue_work([=] { process(local); });
+</code></pre></div>
+<h5 id="note_42">Note<a class="headerlink" href="#note_42" title="Permanent link">&para;</a></h5>
+<p>If a non-local pointer must be captured, consider using <code>unique_ptr</code>; this handles both lifetime and synchronization.</p>
+<p>If the <code>this</code> pointer must be captured, consider using <code>[*this]</code> capture, which creates a copy of the entire object.</p>
+<h5 id="enforcement_33">Enforcement<a class="headerlink" href="#enforcement_33" title="Permanent link">&para;</a></h5>
+<ul>
+<li>(Simple) Warn when capture-list contains a reference to a locally declared variable</li>
+<li>(Complex) Flag when capture-list contains a reference to a locally declared variable and the lambda is passed to a non-<code>const</code> and non-local context</li>
+</ul>
+<h3 id="f54-when-writing-a-lambda-that-captures-this-or-any-class-data-member-dont-use-default-capture"><a name="Rf-this-capture"></a>F.54: When writing a lambda that captures <code>this</code> or any class data member, don't use <code>[=]</code> default capture<a class="headerlink" href="#f54-when-writing-a-lambda-that-captures-this-or-any-class-data-member-dont-use-default-capture" title="Permanent link">&para;</a></h3>
+<h5 id="reason_37">Reason<a class="headerlink" href="#reason_37" title="Permanent link">&para;</a></h5>
+<p>It's confusing. Writing <code>[=]</code> in a member function appears to capture by value, but actually captures data members by reference because it actually captures the invisible <code>this</code> pointer by value. If you meant to do that, write <code>this</code> explicitly.</p>
+<h5 id="example_40">Example<a class="headerlink" href="#example_40" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class My_class {
+    int x = 0;
+    // ...
+
+    void f()
+    {
+        int i = 0;
+        // ...
+
+        auto lambda = [=] { use(i, x); };   // BAD: &quot;looks like&quot; copy/value capture
+
+        x = 42;
+        lambda(); // calls use(0, 42);
+        x = 43;
+        lambda(); // calls use(0, 43);
+
+        // ...
+
+        auto lambda2 = [i, this] { use(i, x); }; // ok, most explicit and least confusing
+
+        // ...
+    }
+};
+</code></pre></div>
+<h5 id="note_43">Note<a class="headerlink" href="#note_43" title="Permanent link">&para;</a></h5>
+<p>If you intend to capture a copy of all class data members, consider C++17 <code>[*this]</code>.</p>
+<h5 id="enforcement_34">Enforcement<a class="headerlink" href="#enforcement_34" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag any lambda capture-list that specifies a capture-default of <code>[=]</code> and also captures <code>this</code> (whether explicitly or via the default capture and a use of <code>this</code> in the body)</li>
+</ul>
+<h3 id="f55-dont-use-va_arg-arguments"><a name="F-varargs"></a>F.55: Don't use <code>va_arg</code> arguments<a class="headerlink" href="#f55-dont-use-va_arg-arguments" title="Permanent link">&para;</a></h3>
+<h5 id="reason_38">Reason<a class="headerlink" href="#reason_38" title="Permanent link">&para;</a></h5>
+<p>Reading from a <code>va_arg</code> assumes that the correct type was actually passed.
+Passing to varargs assumes the correct type will be read.
+This is fragile because it cannot generally be enforced to be safe in the language and so relies on programmer discipline to get it right.</p>
+<h5 id="example_41">Example<a class="headerlink" href="#example_41" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int sum(...)
+{
+    // ...
+    while (/*...*/)
+        result += va_arg(list, int); // BAD, assumes it will be passed ints
+    // ...
+}
+
+sum(3, 2); // ok
+sum(3.14159, 2.71828); // BAD, undefined
+
+template&lt;class ...Args&gt;
+auto sum(Args... args) // GOOD, and much more flexible
+{
+    return (... + args); // note: C++17 &quot;fold expression&quot;
+}
+
+sum(3, 2); // ok: 5
+sum(3.14159, 2.71828); // ok: ~5.85987
+</code></pre></div>
+<h5 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h5>
+<ul>
+<li>overloading</li>
+<li>variadic templates</li>
+<li><code>variant</code> arguments</li>
+<li><code>initializer_list</code> (homogeneous)</li>
+</ul>
+<h5 id="note_44">Note<a class="headerlink" href="#note_44" title="Permanent link">&para;</a></h5>
+<p>Declaring a <code>...</code> parameter is sometimes useful for techniques that don't involve actual argument passing, notably to declare "take-anything" functions so as to disable "everything else" in an overload set or express a catchall case in a template metaprogram.</p>
+<h5 id="enforcement_35">Enforcement<a class="headerlink" href="#enforcement_35" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Issue a diagnostic for using <code>va_list</code>, <code>va_start</code>, or <code>va_arg</code>.</li>
+<li>Issue a diagnostic for passing an argument to a vararg parameter of a function that does not offer an overload for a more specific type in the position of the vararg. To fix: Use a different function, or <code>[[suppress("type")]]</code>.</li>
+</ul>
+<h3 id="f56-avoid-unnecessary-condition-nesting"><a name="F-nesting"></a>F.56: Avoid unnecessary condition nesting<a class="headerlink" href="#f56-avoid-unnecessary-condition-nesting" title="Permanent link">&para;</a></h3>
+<h5 id="reason_39">Reason<a class="headerlink" href="#reason_39" title="Permanent link">&para;</a></h5>
+<p>Shallow nesting of conditions makes the code easier to follow. It also makes the intent clearer.
+Strive to place the essential code at outermost scope, unless this obscures intent.</p>
+<h5 id="example_42">Example<a class="headerlink" href="#example_42" title="Permanent link">&para;</a></h5>
+<p>Use a guard-clause to take care of exceptional cases and return early.</p>
+<div class="language-text highlight"><pre><span></span><code>// Bad: Deep nesting
+void foo() {
+    ...
+    if (x) {
+        computeImportantThings(x);
+    }
+}
+
+// Bad: Still a redundant else.
+void foo() {
+    ...
+    if (!x) {
+        return;
+    }
+    else {
+        computeImportantThings(x);
+    }
+}
+
+// Good: Early return, no redundant else
+void foo() {
+    ...
+    if (!x)
+        return;
+
+    computeImportantThings(x);
+}
+</code></pre></div>
+<h5 id="example_43">Example<a class="headerlink" href="#example_43" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// Bad: Unnecessary nesting of conditions
+void foo() {
+    ...
+    if (x) {
+        if (y) {
+            computeImportantThings(x);
+        }
+    }
+}
+
+// Good: Merge conditions + return early
+void foo() {
+    ...
+    if (!(x &amp;&amp; y))
+        return;
+
+    computeImportantThings(x);
+}
+</code></pre></div>
+<h5 id="enforcement_36">Enforcement<a class="headerlink" href="#enforcement_36" title="Permanent link">&para;</a></h5>
+<p>Flag a redundant <code>else</code>.
+Flag a functions whose body is simply a conditional statement enclosing a block.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

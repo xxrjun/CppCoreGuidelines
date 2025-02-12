@@ -1,0 +1,1941 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../gsl-guidelines-support-library/">
+      
+      
+        <link rel="next" href="../faq-answers-to-frequently-asked-questions/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>NL: Naming and layout suggestions - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nl-naming-and-layout-suggestions-s-naming" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NL: Naming and layout suggestions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nl1-dont-say-in-comments-what-can-be-clearly-stated-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.1: Don't say in comments what can be clearly stated in code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl2-state-intent-in-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.2: State intent in comments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl3-keep-comments-crisp" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.3: Keep comments crisp
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl4-maintain-a-consistent-indentation-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.4: Maintain a consistent indentation style
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl5-avoid-encoding-type-information-in-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.5: Avoid encoding type information in names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl7-make-the-length-of-a-name-roughly-proportional-to-the-length-of-its-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.7: Make the length of a name roughly proportional to the length of its scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl8-use-a-consistent-naming-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.8: Use a consistent naming style
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl9-use-all_caps-for-macro-names-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.9: Use ALL_CAPS for macro names only
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl10-prefer-underscore_style-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.10: Prefer underscore_style names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl11-make-literals-readable" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.11: Make literals readable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl15-use-spaces-sparingly" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.15: Use spaces sparingly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl16-use-a-conventional-class-member-declaration-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.16: Use a conventional class member declaration order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl17-use-kr-derived-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.17: Use K&amp;R-derived layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl18-use-c-style-declarator-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.18: Use C++-style declarator layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl19-avoid-names-that-are-easily-misread" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.19: Avoid names that are easily misread
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl20-dont-place-two-statements-on-the-same-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.20: Don't place two statements on the same line
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl21-declare-one-name-only-per-declaration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.21: Declare one name (only) per declaration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl25-dont-use-void-as-an-argument-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.25: Don't use void as an argument type
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl26-use-conventional-const-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.26: Use conventional const notation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl27-use-a-cpp-suffix-for-code-files-and-h-for-interface-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.27: Use a .cpp suffix for code files and .h for interface files
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nl1-dont-say-in-comments-what-can-be-clearly-stated-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.1: Don't say in comments what can be clearly stated in code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl2-state-intent-in-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.2: State intent in comments
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl3-keep-comments-crisp" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.3: Keep comments crisp
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl4-maintain-a-consistent-indentation-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.4: Maintain a consistent indentation style
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl5-avoid-encoding-type-information-in-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.5: Avoid encoding type information in names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl7-make-the-length-of-a-name-roughly-proportional-to-the-length-of-its-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.7: Make the length of a name roughly proportional to the length of its scope
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl8-use-a-consistent-naming-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.8: Use a consistent naming style
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl9-use-all_caps-for-macro-names-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.9: Use ALL_CAPS for macro names only
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl10-prefer-underscore_style-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.10: Prefer underscore_style names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl11-make-literals-readable" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.11: Make literals readable
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl15-use-spaces-sparingly" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.15: Use spaces sparingly
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl16-use-a-conventional-class-member-declaration-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.16: Use a conventional class member declaration order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl17-use-kr-derived-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.17: Use K&amp;R-derived layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl18-use-c-style-declarator-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.18: Use C++-style declarator layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl19-avoid-names-that-are-easily-misread" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.19: Avoid names that are easily misread
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl20-dont-place-two-statements-on-the-same-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.20: Don't place two statements on the same line
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl21-declare-one-name-only-per-declaration" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.21: Declare one name (only) per declaration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl25-dont-use-void-as-an-argument-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.25: Don't use void as an argument type
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl26-use-conventional-const-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.26: Use conventional const notation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nl27-use-a-cpp-suffix-for-code-files-and-h-for-interface-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      NL.27: Use a .cpp suffix for code files and .h for interface files
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="nl-naming-and-layout-suggestions-s-naming">NL: Naming and layout suggestions {#S-naming}<a class="headerlink" href="#nl-naming-and-layout-suggestions-s-naming" title="Permanent link">&para;</a></h1>
+<p>Consistent naming and layout are helpful.
+If for no other reason because it minimizes "my style is better than your style" arguments.
+However, there are many, many, different styles around and people are passionate about them (pro and con).
+Also, most real-world projects include code from many sources, so standardizing on a single style for all code is often impossible.
+After many requests for guidance from users, we present a set of rules that you might use if you have no better ideas, but the real aim is consistency, rather than any particular rule set.
+IDEs and tools can help (as well as hinder).</p>
+<p>Naming and layout rules:</p>
+<ul>
+<li><a href="#Rl-comments">NL.1: Don't say in comments what can be clearly stated in code</a></li>
+<li><a href="#Rl-comments-intent">NL.2: State intent in comments</a></li>
+<li><a href="#Rl-comments-crisp">NL.3: Keep comments crisp</a></li>
+<li><a href="#Rl-indent">NL.4: Maintain a consistent indentation style</a></li>
+<li><a href="#Rl-name-type">NL.5: Avoid encoding type information in names</a></li>
+<li><a href="#Rl-name-length">NL.7: Make the length of a name roughly proportional to the length of its scope</a></li>
+<li><a href="#Rl-name">NL.8: Use a consistent naming style</a></li>
+<li><a href="#Rl-all-caps">NL.9: Use <code>ALL_CAPS</code> for macro names only</a></li>
+<li><a href="#Rl-camel">NL.10: Prefer <code>underscore_style</code> names</a></li>
+<li><a href="#Rl-literals">NL.11: Make literals readable</a></li>
+<li><a href="#Rl-space">NL.15: Use spaces sparingly</a></li>
+<li><a href="#Rl-order">NL.16: Use a conventional class member declaration order</a></li>
+<li><a href="#Rl-knr">NL.17: Use K&amp;R-derived layout</a></li>
+<li><a href="#Rl-ptr">NL.18: Use C++-style declarator layout</a></li>
+<li><a href="#Rl-misread">NL.19: Avoid names that are easily misread</a></li>
+<li><a href="#Rl-stmt">NL.20: Don't place two statements on the same line</a></li>
+<li><a href="#Rl-dcl">NL.21: Declare one name (only) per declaration</a></li>
+<li><a href="#Rl-void">NL.25: Don't use <code>void</code> as an argument type</a></li>
+<li><a href="#Rl-const">NL.26: Use conventional <code>const</code> notation</a></li>
+<li><a href="#Rl-file-suffix">NL.27: Use a <code>.cpp</code> suffix for code files and <code>.h</code> for interface files</a></li>
+</ul>
+<p>Most of these rules are aesthetic and programmers hold strong opinions.
+IDEs also tend to have defaults and a range of alternatives.
+These rules are suggested defaults to follow unless you have reasons not to.</p>
+<p>We have had comments to the effect that naming and layout are so personal and/or arbitrary that we should not try to "legislate" them.
+We are not "legislating" (see the previous paragraph).
+However, we have had many requests for a set of naming and layout conventions to use when there are no external constraints.</p>
+<p>More specific and detailed rules are easier to enforce.</p>
+<p>These rules bear a strong resemblance to the recommendations in the <a href="http://www.stroustrup.com/Programming/PPP-style.pdf">PPP Style Guide</a>
+written in support of Stroustrup's <a href="http://www.stroustrup.com/programming.html">Programming: Principles and Practice using C++</a>.</p>
+<h3 id="nl1-dont-say-in-comments-what-can-be-clearly-stated-in-code"><a name="Rl-comments"></a>NL.1: Don't say in comments what can be clearly stated in code<a class="headerlink" href="#nl1-dont-say-in-comments-what-can-be-clearly-stated-in-code" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Compilers do not read comments.
+Comments are less precise than code.
+Comments are not updated as consistently as code.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>auto x = m * v1 + vv;   // multiply m with v1 and add the result to vv
+</code></pre></div>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<p>Build an AI program that interprets colloquial English text and see if what is said could be better expressed in C++.</p>
+<h3 id="nl2-state-intent-in-comments"><a name="Rl-comments-intent"></a>NL.2: State intent in comments<a class="headerlink" href="#nl2-state-intent-in-comments" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Code says what is done, not what is supposed to be done. Often intent can be stated more clearly and concisely than the implementation.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void stable_sort(Sortable&amp; c)
+    // sort c in the order determined by &lt;, keep equal elements (as defined by ==) in
+    // their original relative order
+{
+    // ... quite a few lines of non-trivial code ...
+}
+</code></pre></div>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>If the comment and the code disagree, both are likely to be wrong.</p>
+<h3 id="nl3-keep-comments-crisp"><a name="Rl-comments-crisp"></a>NL.3: Keep comments crisp<a class="headerlink" href="#nl3-keep-comments-crisp" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Verbosity slows down understanding and makes the code harder to read by spreading it around in the source file.</p>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>Use intelligible English.
+I might be fluent in Danish, but most programmers are not; the maintainers of my code might not be.
+Avoid SMS lingo and watch your grammar, punctuation, and capitalization.
+Aim for professionalism, not "cool."</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<p>not possible.</p>
+<h3 id="nl4-maintain-a-consistent-indentation-style"><a name="Rl-indent"></a>NL.4: Maintain a consistent indentation style<a class="headerlink" href="#nl4-maintain-a-consistent-indentation-style" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>Readability. Avoidance of "silly mistakes."</p>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int i;
+for (i = 0; i &lt; max; ++i); // bug waiting to happen
+if (i == j)
+    return i;
+</code></pre></div>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>Always indenting the statement after <code>if (...)</code>, <code>for (...)</code>, and <code>while (...)</code> is usually a good idea:</p>
+<div class="language-text highlight"><pre><span></span><code>if (i &lt; 0) error(&quot;negative argument&quot;);
+
+if (i &lt; 0)
+    error(&quot;negative argument&quot;);
+</code></pre></div>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<p>Use a tool.</p>
+<h3 id="nl5-avoid-encoding-type-information-in-names"><a name="Rl-name-type"></a>NL.5: Avoid encoding type information in names<a class="headerlink" href="#nl5-avoid-encoding-type-information-in-names" title="Permanent link">&para;</a></h3>
+<h5 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h5>
+<p>If names reflect types rather than functionality, it becomes hard to change the types used to provide that functionality.
+Also, if the type of a variable is changed, code using it will have to be modified.
+Minimize unintentional conversions.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void print_int(int i);
+void print_string(const char*);
+
+print_int(1);          // repetitive, manual type matching
+print_string(&quot;xyzzy&quot;); // repetitive, manual type matching
+</code></pre></div>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void print(int i);
+void print(string_view);    // also works on any string-like sequence
+
+print(1);              // clear, automatic type matching
+print(&quot;xyzzy&quot;);        // clear, automatic type matching
+</code></pre></div>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p>Names with types encoded are either verbose or cryptic.</p>
+<div class="language-text highlight"><pre><span></span><code>printS  // print a std::string
+prints  // print a C-style string
+printi  // print an int
+</code></pre></div>
+<p>Requiring techniques like Hungarian notation to encode a type has been used in untyped languages, but is generally unnecessary and actively harmful in a strongly statically-typed language like C++, because the annotations get out of date (the warts are just like comments and rot just like them) and they interfere with good use of the language (use the same name and overload resolution instead).</p>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>Some styles use very general (not type-specific) prefixes to denote the general use of a variable.</p>
+<div class="language-text highlight"><pre><span></span><code>auto p = new User();
+auto p = make_unique&lt;User&gt;();
+// note: &quot;p&quot; is not being used to say &quot;raw pointer to type User,&quot;
+//       just generally to say &quot;this is an indirection&quot;
+
+auto cntHits = calc_total_of_hits(/*...*/);
+// note: &quot;cnt&quot; is not being used to encode a type,
+//       just generally to say &quot;this is a count of something&quot;
+</code></pre></div>
+<p>This is not harmful and does not fall under this guideline because it does not encode type information.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>Some styles distinguish members from local variable, and/or from global variable.</p>
+<div class="language-text highlight"><pre><span></span><code>struct S {
+    int m_;
+    S(int m) : m_{abs(m)} { }
+};
+</code></pre></div>
+<p>This is not harmful and does not fall under this guideline because it does not encode type information.</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>Like C++, some styles distinguish types from non-types.
+For example, by capitalizing type names, but not the names of functions and variables.</p>
+<div class="language-text highlight"><pre><span></span><code>typename&lt;typename T&gt;
+class HashTable {   // maps string to T
+    // ...
+};
+
+HashTable&lt;int&gt; index;
+</code></pre></div>
+<p>This is not harmful and does not fall under this guideline because it does not encode type information.</p>
+<h3 id="nl7-make-the-length-of-a-name-roughly-proportional-to-the-length-of-its-scope"><a name="Rl-name-length"></a>NL.7: Make the length of a name roughly proportional to the length of its scope<a class="headerlink" href="#nl7-make-the-length-of-a-name-roughly-proportional-to-the-length-of-its-scope" title="Permanent link">&para;</a></h3>
+<p><strong>Rationale</strong>: The larger the scope the greater the chance of confusion and of an unintended name clash.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>double sqrt(double x);   // return the square root of x; x must be non-negative
+
+int length(const char* p);  // return the number of characters in a zero-terminated C-style string
+
+int length_of_string(const char zero_terminated_array_of_char[])    // bad: verbose
+
+int g;      // bad: global variable with a cryptic name
+
+int open;   // bad: global variable with a short, popular name
+</code></pre></div>
+<p>The use of <code>p</code> for pointer and <code>x</code> for a floating-point variable is conventional and non-confusing in a restricted scope.</p>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="nl8-use-a-consistent-naming-style"><a name="Rl-name"></a>NL.8: Use a consistent naming style<a class="headerlink" href="#nl8-use-a-consistent-naming-style" title="Permanent link">&para;</a></h3>
+<p><strong>Rationale</strong>: Consistency in naming and naming style increases readability.</p>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>There are many styles and when you use multiple libraries, you can't follow all their different conventions.
+Choose a "house style", but leave "imported" libraries with their original style.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<p>ISO Standard, use lower case only and digits, separate words with underscores:</p>
+<ul>
+<li><code>int</code></li>
+<li><code>vector</code></li>
+<li><code>my_map</code></li>
+</ul>
+<p>Avoid identifier names that contain double underscores <code>__</code> or that start with an underscore followed by a capital letter (e.g., <code>_Throws</code>).
+Such identifiers are reserved for the C++ implementation.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<p><a href="http://www.stroustrup.com/Programming/PPP-style.pdf">Stroustrup</a>:
+ISO Standard, but with upper case used for your own types and concepts:</p>
+<ul>
+<li><code>int</code></li>
+<li><code>vector</code></li>
+<li><code>My_map</code></li>
+</ul>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<p>CamelCase: capitalize each word in a multi-word identifier:</p>
+<ul>
+<li><code>int</code></li>
+<li><code>vector</code></li>
+<li><code>MyMap</code></li>
+<li><code>myMap</code></li>
+</ul>
+<p>Some conventions capitalize the first letter, some don't.</p>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>Try to be consistent in your use of acronyms and lengths of identifiers:</p>
+<div class="language-text highlight"><pre><span></span><code>int mtbf {12};
+int mean_time_between_failures {12}; // make up your mind
+</code></pre></div>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>Would be possible except for the use of libraries with varying conventions.</p>
+<h3 id="nl9-use-all_caps-for-macro-names-only"><a name="Rl-all-caps"></a>NL.9: Use <code>ALL_CAPS</code> for macro names only<a class="headerlink" href="#nl9-use-all_caps-for-macro-names-only" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>To avoid confusing macros with names that obey scope and type rules.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f()
+{
+    const int SIZE{1000};  // Bad, use &#39;size&#39; instead
+    int v[SIZE];
+}
+</code></pre></div>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p>In particular, this avoids confusing macros with non-macro symbolic constants (see also <a href="#Renum-caps">Enum.5: Don't use <code>ALL_CAPS</code> for enumerators</a>)</p>
+<div class="language-text highlight"><pre><span></span><code>enum bad { BAD, WORSE, HORRIBLE }; // BAD
+</code></pre></div>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag macros with lower-case letters</li>
+<li>Flag <code>ALL_CAPS</code> non-macro names</li>
+</ul>
+<h3 id="nl10-prefer-underscore_style-names"><a name="Rl-camel"></a>NL.10: Prefer <code>underscore_style</code> names<a class="headerlink" href="#nl10-prefer-underscore_style-names" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>The use of underscores to separate parts of a name is the original C and C++ style and used in the C++ Standard Library.</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>This rule is a default to use only if you have a choice.
+Often, you don't have a choice and must follow an established style for <a href="#Rl-name">consistency</a>.
+The need for consistency beats personal taste.</p>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<p><a href="http://www.stroustrup.com/Programming/PPP-style.pdf">Stroustrup</a>:
+ISO Standard, but with upper case used for your own types and concepts:</p>
+<ul>
+<li><code>int</code></li>
+<li><code>vector</code></li>
+<li><code>My_map</code></li>
+</ul>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<p>Impossible.</p>
+<h3 id="nl11-make-literals-readable"><a name="Rl-literals"></a>NL.11: Make literals readable<a class="headerlink" href="#nl11-make-literals-readable" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>Readability.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<p>Use digit separators to avoid long strings of digits</p>
+<div class="language-text highlight"><pre><span></span><code>auto c = 299&#39;792&#39;458; // m/s2
+auto q2 = 0b0000&#39;1111&#39;0000&#39;0000;
+auto ss_number = 123&#39;456&#39;7890;
+</code></pre></div>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<p>Use literal suffixes where clarification is needed</p>
+<div class="language-text highlight"><pre><span></span><code>auto hello = &quot;Hello!&quot;s; // a std::string
+auto world = &quot;world&quot;;   // a C-style string
+auto interval = 100ms;  // using &lt;chrono&gt;
+</code></pre></div>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<p>Literals should not be sprinkled all over the code as <a href="#Res-magic">"magic constants"</a>,
+but it is still a good idea to make them readable where they are defined.
+It is easy to make a typo in a long string of integers.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<p>Flag long digit sequences. The trouble is to define "long"; maybe 7.</p>
+<h3 id="nl15-use-spaces-sparingly"><a name="Rl-space"></a>NL.15: Use spaces sparingly<a class="headerlink" href="#nl15-use-spaces-sparingly" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>Too much space makes the text larger and distracts.</p>
+<h5 id="example-bad_3">Example, bad<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt; map &gt;
+
+int main(int argc, char * argv [ ])
+{
+    // ...
+}
+</code></pre></div>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;map&gt;
+
+int main(int argc, char* argv[])
+{
+    // ...
+}
+</code></pre></div>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>Some IDEs have their own opinions and add distracting space.</p>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>We value well-placed whitespace as a significant help for readability. Just don't overdo it.</p>
+<h3 id="nl16-use-a-conventional-class-member-declaration-order"><a name="Rl-order"></a>NL.16: Use a conventional class member declaration order<a class="headerlink" href="#nl16-use-a-conventional-class-member-declaration-order" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>A conventional order of members improves readability.</p>
+<p>When declaring a class use the following order</p>
+<ul>
+<li>types: classes, enums, and aliases (<code>using</code>)</li>
+<li>constructors, assignments, destructor</li>
+<li>functions</li>
+<li>data</li>
+</ul>
+<p>Use the <code>public</code> before <code>protected</code> before <code>private</code> order.</p>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class X {
+public:
+    // interface
+protected:
+    // unchecked function for use by derived class implementations
+private:
+    // implementation details
+};
+</code></pre></div>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<p>Sometimes, the default order of members conflicts with a desire to separate the public interface from implementation details.
+In such cases, private types and functions can be placed with private data.</p>
+<div class="language-text highlight"><pre><span></span><code>class X {
+public:
+    // interface
+protected:
+    // unchecked function for use by derived class implementations
+private:
+    // implementation details (types, functions, and data)
+};
+</code></pre></div>
+<h5 id="example-bad_4">Example, bad<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<p>Avoid multiple blocks of declarations of one access (e.g., <code>public</code>) dispersed among blocks of declarations with different access (e.g. <code>private</code>).</p>
+<div class="language-text highlight"><pre><span></span><code>class X {   // bad
+public:
+    void f();
+public:
+    int g();
+    // ...
+};
+</code></pre></div>
+<p>The use of macros to declare groups of members often leads to violation of any ordering rules.
+However, using macros obscures what is being expressed anyway.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<p>Flag departures from the suggested order. There will be a lot of old code that doesn't follow this rule.</p>
+<h3 id="nl17-use-kr-derived-layout"><a name="Rl-knr"></a>NL.17: Use K&amp;R-derived layout<a class="headerlink" href="#nl17-use-kr-derived-layout" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>This is the original C and C++ layout. It preserves vertical space well. It distinguishes different language constructs (such as functions and classes) well.</p>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>In the context of C++, this style is often called "Stroustrup".</p>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>struct Cable {
+    int x;
+    // ...
+};
+
+double foo(int x)
+{
+    if (0 &lt; x) {
+        // ...
+    }
+
+    switch (x) {
+    case 0:
+        // ...
+        break;
+    case amazing:
+        // ...
+        break;
+    default:
+        // ...
+        break;
+    }
+
+    if (0 &lt; x)
+        ++x;
+
+    if (x &lt; 0)
+        something();
+    else
+        something_else();
+
+    return some_value;
+}
+</code></pre></div>
+<p>Note the space between <code>if</code> and <code>(</code></p>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>Use separate lines for each statement, the branches of an <code>if</code>, and the body of a <code>for</code>.</p>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>The <code>{</code> for a <code>class</code> and a <code>struct</code> is <em>not</em> on a separate line, but the <code>{</code> for a function is.</p>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>Capitalize the names of your user-defined types to distinguish them from standards-library types.</p>
+<h5 id="note_18">Note<a class="headerlink" href="#note_18" title="Permanent link">&para;</a></h5>
+<p>Do not capitalize function names.</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<p>If you want enforcement, use an IDE to reformat.</p>
+<h3 id="nl18-use-c-style-declarator-layout"><a name="Rl-ptr"></a>NL.18: Use C++-style declarator layout<a class="headerlink" href="#nl18-use-c-style-declarator-layout" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>The C-style layout emphasizes use in expressions and grammar, whereas the C++-style emphasizes types.
+The use in expressions argument doesn't hold for references.</p>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>T&amp; operator[](size_t);   // OK
+T &amp;operator[](size_t);   // just strange
+T &amp; operator[](size_t);   // undecided
+</code></pre></div>
+<h5 id="note_19">Note<a class="headerlink" href="#note_19" title="Permanent link">&para;</a></h5>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<p>Impossible in the face of history.</p>
+<h3 id="nl19-avoid-names-that-are-easily-misread"><a name="Rl-misread"></a>NL.19: Avoid names that are easily misread<a class="headerlink" href="#nl19-avoid-names-that-are-easily-misread" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>Readability.
+Not everyone has screens and printers that make it easy to distinguish all characters.
+We easily confuse similarly spelled and slightly misspelled words.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int oO01lL = 6; // bad
+
+int splunk = 7;
+int splonk = 8; // bad: splunk and splonk are easily confused
+</code></pre></div>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="nl20-dont-place-two-statements-on-the-same-line"><a name="Rl-stmt"></a>NL.20: Don't place two statements on the same line<a class="headerlink" href="#nl20-dont-place-two-statements-on-the-same-line" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>Readability.
+It is really easy to overlook a statement when there is more on a line.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>int x = 7; char* p = 29;    // don&#39;t
+int x = 7; f(x);  ++x;      // don&#39;t
+</code></pre></div>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<p>Easy.</p>
+<h3 id="nl21-declare-one-name-only-per-declaration"><a name="Rl-dcl"></a>NL.21: Declare one name (only) per declaration<a class="headerlink" href="#nl21-declare-one-name-only-per-declaration" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>Readability.
+Minimizing confusion with the declarator syntax.</p>
+<h5 id="note_20">Note<a class="headerlink" href="#note_20" title="Permanent link">&para;</a></h5>
+<p>For details, see <a href="#Res-name-one">ES.10</a>.</p>
+<h3 id="nl25-dont-use-void-as-an-argument-type"><a name="Rl-void"></a>NL.25: Don't use <code>void</code> as an argument type<a class="headerlink" href="#nl25-dont-use-void-as-an-argument-type" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>It's verbose and only needed where C compatibility matters.</p>
+<h5 id="example_16">Example<a class="headerlink" href="#example_16" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>void f(void);   // bad
+
+void g();       // better
+</code></pre></div>
+<h5 id="note_21">Note<a class="headerlink" href="#note_21" title="Permanent link">&para;</a></h5>
+<p>Even Dennis Ritchie deemed <code>void f(void)</code> an abomination.
+You can make an argument for that abomination in C when function prototypes were rare so that banning:</p>
+<div class="language-text highlight"><pre><span></span><code>int f();
+f(1, 2, &quot;weird but valid C89&quot;);   // hope that f() is defined int f(a, b, c) char* c; { /* ... */ }
+</code></pre></div>
+<p>would have caused major problems, but not in the 21st century and in C++.</p>
+<h3 id="nl26-use-conventional-const-notation"><a name="Rl-const"></a>NL.26: Use conventional <code>const</code> notation<a class="headerlink" href="#nl26-use-conventional-const-notation" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>Conventional notation is more familiar to more programmers.
+Consistency in large code bases.</p>
+<h5 id="example_17">Example<a class="headerlink" href="#example_17" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>const int x = 7;    // OK
+int const y = 9;    // bad
+
+const int *const p = nullptr;   // OK, constant pointer to constant int
+int const *const p = nullptr;   // bad, constant pointer to constant int
+</code></pre></div>
+<h5 id="note_22">Note<a class="headerlink" href="#note_22" title="Permanent link">&para;</a></h5>
+<p>We are well aware that you could claim the "bad" examples are more logical than the ones marked "OK",
+but they also confuse more people, especially novices relying on teaching material using the far more common, conventional OK style.</p>
+<p>As ever, remember that the aim of these naming and layout rules is consistency and that aesthetics vary immensely.</p>
+<p>This is a recommendation for <a href="#S-naming">when you have no constraints or better ideas</a>.
+This rule was added after many requests for guidance.</p>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<p>Flag <code>const</code> used as a suffix for a type.</p>
+<h3 id="nl27-use-a-cpp-suffix-for-code-files-and-h-for-interface-files"><a name="Rl-file-suffix"></a>NL.27: Use a <code>.cpp</code> suffix for code files and <code>.h</code> for interface files<a class="headerlink" href="#nl27-use-a-cpp-suffix-for-code-files-and-h-for-interface-files" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>It's a longstanding convention.
+But consistency is more important, so if your project uses something else, follow that.</p>
+<h5 id="note_23">Note<a class="headerlink" href="#note_23" title="Permanent link">&para;</a></h5>
+<p>This convention reflects a common use pattern:
+Headers are more often shared with C to compile as both C++ and C, which typically uses <code>.h</code>,
+and it's easier to name all headers <code>.h</code> instead of having different extensions for just those headers that are intended to be shared with C.
+On the other hand, implementation files are rarely shared with C and so should typically be distinguished from <code>.c</code> files,
+so it's normally best to name all C++ implementation files something else (such as <code>.cpp</code>).</p>
+<p>The specific names <code>.h</code> and <code>.cpp</code> are not required (just recommended as a default) and other names are in widespread use.
+Examples are <code>.hh</code>, <code>.C</code>, and <code>.cxx</code>. Use such names equivalently.
+In this document, we refer to <code>.h</code> and <code>.cpp</code> as a shorthand for header and implementation files,
+even though the actual extension might be different.</p>
+<p>Your IDE (if you use one) might have strong opinions about suffixes.</p>
+<h5 id="example_18">Example<a class="headerlink" href="#example_18" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// foo.h:
+extern int a;   // a declaration
+extern void foo();
+
+// foo.cpp:
+int a;   // a definition
+void foo() { ++a; }
+</code></pre></div>
+<p><code>foo.h</code> provides the interface to <code>foo.cpp</code>. Global variables are best avoided.</p>
+<h5 id="example-bad_5">Example, bad<a class="headerlink" href="#example-bad_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// foo.h:
+int a;   // a definition
+void foo() { ++a; }
+</code></pre></div>
+<p><code>#include &lt;foo.h&gt;</code> twice in a program and you get a linker error for two one-definition-rule violations.</p>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag non-conventional file names.</li>
+<li>Check that <code>.h</code> and <code>.cpp</code> (and equivalents) follow the rules below.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

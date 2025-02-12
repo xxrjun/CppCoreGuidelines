@@ -1,0 +1,1511 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../nl-naming-and-layout-suggestions/">
+      
+      
+        <link rel="next" href="../appendix-a-libraries/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>FAQ: Answers to frequently asked questions - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#faq-answers-to-frequently-asked-questions-s-faq" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FAQ: Answers to frequently asked questions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faq1-what-do-these-guidelines-aim-to-achieve" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.1: What do these guidelines aim to achieve?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq2-when-and-where-was-this-work-first-announced" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.2: When and where was this work first announced?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq3-who-are-the-authors-and-maintainers-of-these-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.3: Who are the authors and maintainers of these guidelines?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq4-how-can-i-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.4: How can I contribute?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq5-how-can-i-become-an-editormaintainer" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.5: How can I become an editor/maintainer?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq6-have-these-guidelines-been-approved-by-the-iso-c-standards-committee-do-they-represent-the-consensus-of-the-committee" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.6: Have these guidelines been approved by the ISO C++ standards committee? Do they represent the consensus of the committee?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq7-if-these-guidelines-are-not-approved-by-the-committee-why-are-they-under-githubcomisocpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.7: If these guidelines are not approved by the committee, why are they under github.com/isocpp?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq8-will-there-be-a-c98-version-of-these-guidelines-a-c11-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.8: Will there be a C++98 version of these Guidelines? a C++11 version?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq9-do-these-guidelines-propose-new-language-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.9: Do these guidelines propose new language features?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq10-what-version-of-markdown-do-these-guidelines-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.10: What version of Markdown do these guidelines use?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq50-what-is-the-gsl-guidelines-support-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.50: What is the GSL (guidelines support library)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq51-is-githubcommicrosoftgsl-the-gsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.51: Is github.com/Microsoft/GSL the GSL?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq52-why-not-supply-an-actual-gsl-implementation-inwith-these-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.52: Why not supply an actual GSL implementation in/with these guidelines?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq53-why-werent-the-gsl-types-proposed-through-boost" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.53: Why weren't the GSL types proposed through Boost?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq54-has-the-gsl-guidelines-support-library-been-approved-by-the-iso-c-standards-committee" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.54: Has the GSL (guidelines support library) been approved by the ISO C++ standards committee?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq55-if-youre-using-the-standard-types-where-available-why-is-the-gsl-spanchar-different-from-the-string_view-in-the-library-fundamentals-1-technical-specification-and-c17-working-paper-why-not-just-use-the-committee-approved-string_view" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.55: If you're using the standard types where available, why is the GSL span&lt;char&gt; different from the string_view in the Library Fundamentals 1 Technical Specification and C++17 Working Paper? Why not just use the committee-approved string_view?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq56-is-owner-the-same-as-the-proposed-observer_ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.56: Is owner the same as the proposed observer_ptr?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq57-is-stack_array-the-same-as-the-standard-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.57: Is stack_array the same as the standard array?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq58-is-dyn_array-the-same-as-vector-or-the-proposed-dynarray" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.58: Is dyn_array the same as vector or the proposed dynarray?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq59-is-expects-the-same-as-assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.59: Is Expects the same as assert?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq60-is-ensures-the-same-as-assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.60: Is Ensures the same as assert?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#faq1-what-do-these-guidelines-aim-to-achieve" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.1: What do these guidelines aim to achieve?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq2-when-and-where-was-this-work-first-announced" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.2: When and where was this work first announced?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq3-who-are-the-authors-and-maintainers-of-these-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.3: Who are the authors and maintainers of these guidelines?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq4-how-can-i-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.4: How can I contribute?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq5-how-can-i-become-an-editormaintainer" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.5: How can I become an editor/maintainer?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq6-have-these-guidelines-been-approved-by-the-iso-c-standards-committee-do-they-represent-the-consensus-of-the-committee" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.6: Have these guidelines been approved by the ISO C++ standards committee? Do they represent the consensus of the committee?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq7-if-these-guidelines-are-not-approved-by-the-committee-why-are-they-under-githubcomisocpp" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.7: If these guidelines are not approved by the committee, why are they under github.com/isocpp?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq8-will-there-be-a-c98-version-of-these-guidelines-a-c11-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.8: Will there be a C++98 version of these Guidelines? a C++11 version?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq9-do-these-guidelines-propose-new-language-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.9: Do these guidelines propose new language features?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq10-what-version-of-markdown-do-these-guidelines-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.10: What version of Markdown do these guidelines use?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq50-what-is-the-gsl-guidelines-support-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.50: What is the GSL (guidelines support library)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq51-is-githubcommicrosoftgsl-the-gsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.51: Is github.com/Microsoft/GSL the GSL?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq52-why-not-supply-an-actual-gsl-implementation-inwith-these-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.52: Why not supply an actual GSL implementation in/with these guidelines?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq53-why-werent-the-gsl-types-proposed-through-boost" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.53: Why weren't the GSL types proposed through Boost?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq54-has-the-gsl-guidelines-support-library-been-approved-by-the-iso-c-standards-committee" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.54: Has the GSL (guidelines support library) been approved by the ISO C++ standards committee?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq55-if-youre-using-the-standard-types-where-available-why-is-the-gsl-spanchar-different-from-the-string_view-in-the-library-fundamentals-1-technical-specification-and-c17-working-paper-why-not-just-use-the-committee-approved-string_view" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.55: If you're using the standard types where available, why is the GSL span&lt;char&gt; different from the string_view in the Library Fundamentals 1 Technical Specification and C++17 Working Paper? Why not just use the committee-approved string_view?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq56-is-owner-the-same-as-the-proposed-observer_ptr" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.56: Is owner the same as the proposed observer_ptr?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq57-is-stack_array-the-same-as-the-standard-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.57: Is stack_array the same as the standard array?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq58-is-dyn_array-the-same-as-vector-or-the-proposed-dynarray" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.58: Is dyn_array the same as vector or the proposed dynarray?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq59-is-expects-the-same-as-assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.59: Is Expects the same as assert?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#faq60-is-ensures-the-same-as-assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      FAQ.60: Is Ensures the same as assert?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="faq-answers-to-frequently-asked-questions-s-faq">FAQ: Answers to frequently asked questions {#S-faq}<a class="headerlink" href="#faq-answers-to-frequently-asked-questions-s-faq" title="Permanent link">&para;</a></h1>
+<p>This section covers answers to frequently asked questions about these guidelines.</p>
+<h3 id="faq1-what-do-these-guidelines-aim-to-achieve"><a name="Faq-aims"></a>FAQ.1: What do these guidelines aim to achieve?<a class="headerlink" href="#faq1-what-do-these-guidelines-aim-to-achieve" title="Permanent link">&para;</a></h3>
+<p>See the <a href="#S-abstract">top of this page</a>. This is an open-source project to maintain modern authoritative guidelines for writing C++ code using the current C++ Standard. The guidelines are designed to be modern, machine-enforceable wherever possible, and open to contributions and forking so that organizations can easily incorporate them into their own corporate coding guidelines.</p>
+<h3 id="faq2-when-and-where-was-this-work-first-announced"><a name="Faq-announced"></a>FAQ.2: When and where was this work first announced?<a class="headerlink" href="#faq2-when-and-where-was-this-work-first-announced" title="Permanent link">&para;</a></h3>
+<p>It was announced by <a href="https://isocpp.org/blog/2015/09/stroustrup-cppcon15-keynote">Bjarne Stroustrup in his CppCon 2015 opening keynote, "Writing Good C++14"</a>. See also the <a href="https://isocpp.org/blog/2015/09/bjarne-stroustrup-announces-cpp-core-guidelines">accompanying isocpp.org blog post</a>, and for the rationale of the type and memory safety guidelines see <a href="https://isocpp.org/blog/2015/09/sutter-cppcon15-day2plenary">Herb Sutter's follow-up CppCon 2015 talk, "Writing Good C++14 ... By Default"</a>.</p>
+<h3 id="faq3-who-are-the-authors-and-maintainers-of-these-guidelines"><a name="Faq-maintainers"></a>FAQ.3: Who are the authors and maintainers of these guidelines?<a class="headerlink" href="#faq3-who-are-the-authors-and-maintainers-of-these-guidelines" title="Permanent link">&para;</a></h3>
+<p>The initial primary authors and maintainers are Bjarne Stroustrup and Herb Sutter, and the guidelines so far were developed with contributions from experts at CERN, Microsoft, Morgan Stanley, and several other organizations. At the time of their release, the guidelines are in a "0.6" state, and contributions are welcome. As Stroustrup said in his announcement: "We need help!"</p>
+<h3 id="faq4-how-can-i-contribute"><a name="Faq-contribute"></a>FAQ.4: How can I contribute?<a class="headerlink" href="#faq4-how-can-i-contribute" title="Permanent link">&para;</a></h3>
+<p>See <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>. We appreciate volunteer help!</p>
+<h3 id="faq5-how-can-i-become-an-editormaintainer"><a name="Faq-maintainer"></a>FAQ.5: How can I become an editor/maintainer?<a class="headerlink" href="#faq5-how-can-i-become-an-editormaintainer" title="Permanent link">&para;</a></h3>
+<p>By contributing a lot first and having the consistent quality of your contributions recognized. See <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a>. We appreciate volunteer help!</p>
+<h3 id="faq6-have-these-guidelines-been-approved-by-the-iso-c-standards-committee-do-they-represent-the-consensus-of-the-committee"><a name="Faq-iso"></a>FAQ.6: Have these guidelines been approved by the ISO C++ standards committee? Do they represent the consensus of the committee?<a class="headerlink" href="#faq6-have-these-guidelines-been-approved-by-the-iso-c-standards-committee-do-they-represent-the-consensus-of-the-committee" title="Permanent link">&para;</a></h3>
+<p>No. These guidelines are outside the standard. They are intended to serve the standard, and be maintained as current guidelines about how to use the current Standard C++ effectively. We aim to keep them in sync with the standard as that is evolved by the committee.</p>
+<h3 id="faq7-if-these-guidelines-are-not-approved-by-the-committee-why-are-they-under-githubcomisocpp"><a name="Faq-isocpp"></a>FAQ.7: If these guidelines are not approved by the committee, why are they under <code>github.com/isocpp</code>?<a class="headerlink" href="#faq7-if-these-guidelines-are-not-approved-by-the-committee-why-are-they-under-githubcomisocpp" title="Permanent link">&para;</a></h3>
+<p>Because <code>isocpp</code> is the Standard C++ Foundation; the committee's repositories are under <a href="https://github.com/cplusplus">github.com/<em>cplusplus</em></a>. Some neutral organization has to own the copyright and license to make it clear this is not being dominated by any one person or vendor. The natural entity is the Foundation, which exists to promote the use and up-to-date understanding of modern Standard C++ and the work of the committee. This follows the same pattern that isocpp.org did for the <a href="https://isocpp.org/faq">C++ FAQ</a>, which was initially the work of Bjarne Stroustrup, Marshall Cline, and Herb Sutter and contributed to the open project in the same way.</p>
+<h3 id="faq8-will-there-be-a-c98-version-of-these-guidelines-a-c11-version"><a name="Faq-cpp98"></a>FAQ.8: Will there be a C++98 version of these Guidelines? a C++11 version?<a class="headerlink" href="#faq8-will-there-be-a-c98-version-of-these-guidelines-a-c11-version" title="Permanent link">&para;</a></h3>
+<p>No. These guidelines are about how to best use modern standard C++ and write code assuming you have a modern conforming compiler.</p>
+<h3 id="faq9-do-these-guidelines-propose-new-language-features"><a name="Faq-language-extensions"></a>FAQ.9: Do these guidelines propose new language features?<a class="headerlink" href="#faq9-do-these-guidelines-propose-new-language-features" title="Permanent link">&para;</a></h3>
+<p>No. These guidelines are about how to best use modern Standard C++, and they limit themselves to recommending only those features.</p>
+<h3 id="faq10-what-version-of-markdown-do-these-guidelines-use"><a name="Faq-markdown"></a>FAQ.10: What version of Markdown do these guidelines use?<a class="headerlink" href="#faq10-what-version-of-markdown-do-these-guidelines-use" title="Permanent link">&para;</a></h3>
+<p>These coding standards are written using <a href="http://commonmark.org">CommonMark</a>, and <code>&lt;a&gt;</code> HTML anchors.</p>
+<p>We are considering the following extensions from <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown (GFM)</a>:</p>
+<ul>
+<li>fenced code blocks (consistently using indented vs. fenced is under discussion)</li>
+<li>tables (none yet but we'll likely need them, and this is a GFM extension)</li>
+</ul>
+<p>Avoid other HTML tags and other extensions.</p>
+<p>Note: We are not yet consistent with this style.</p>
+<h3 id="faq50-what-is-the-gsl-guidelines-support-library"><a name="Faq-gsl"></a>FAQ.50: What is the GSL (guidelines support library)?<a class="headerlink" href="#faq50-what-is-the-gsl-guidelines-support-library" title="Permanent link">&para;</a></h3>
+<p>The GSL is the small set of types and aliases specified in these guidelines. As of this writing, their specification herein is too sparse; we plan to add a WG21-style interface specification to ensure that different implementations agree, and to propose as a contribution for possible standardization, subject as usual to whatever the committee decides to accept/improve/alter/reject.</p>
+<h3 id="faq51-is-githubcommicrosoftgsl-the-gsl"><a name="Faq-msgsl"></a>FAQ.51: Is <a href="https://github.com/Microsoft/GSL">github.com/Microsoft/GSL</a> the GSL?<a class="headerlink" href="#faq51-is-githubcommicrosoftgsl-the-gsl" title="Permanent link">&para;</a></h3>
+<p>No. That is just a first implementation contributed by Microsoft. Other implementations by other vendors are encouraged, as are forks of and contributions to that implementation. As of this writing one week into the public project, at least one GPLv3 open-source implementation already exists. We plan to produce a WG21-style interface specification to ensure that different implementations agree.</p>
+<h3 id="faq52-why-not-supply-an-actual-gsl-implementation-inwith-these-guidelines"><a name="Faq-gsl-implementation"></a>FAQ.52: Why not supply an actual GSL implementation in/with these guidelines?<a class="headerlink" href="#faq52-why-not-supply-an-actual-gsl-implementation-inwith-these-guidelines" title="Permanent link">&para;</a></h3>
+<p>We are reluctant to bless one particular implementation because we do not want to make people think there is only one, and inadvertently stifle parallel implementations. And if these guidelines included an actual implementation, then whoever contributed it could be mistakenly seen as too influential. We prefer to follow the long-standing approach of the committee, namely to specify interfaces, not implementations. But at the same time we want at least one implementation available; we hope for many.</p>
+<h3 id="faq53-why-werent-the-gsl-types-proposed-through-boost"><a name="Faq-boost"></a>FAQ.53: Why weren't the GSL types proposed through Boost?<a class="headerlink" href="#faq53-why-werent-the-gsl-types-proposed-through-boost" title="Permanent link">&para;</a></h3>
+<p>Because we want to use them immediately, and because they are temporary in that we want to retire them as soon as types that fill the same needs exist in the standard library.</p>
+<h3 id="faq54-has-the-gsl-guidelines-support-library-been-approved-by-the-iso-c-standards-committee"><a name="Faq-gsl-iso"></a>FAQ.54: Has the GSL (guidelines support library) been approved by the ISO C++ standards committee?<a class="headerlink" href="#faq54-has-the-gsl-guidelines-support-library-been-approved-by-the-iso-c-standards-committee" title="Permanent link">&para;</a></h3>
+<p>No. The GSL exists only to supply a few types and aliases that are not currently in the standard library. If the committee decides on standardized versions (of these or other types that fill the same need) then they can be removed from the GSL.</p>
+<h3 id="faq55-if-youre-using-the-standard-types-where-available-why-is-the-gsl-spanchar-different-from-the-string_view-in-the-library-fundamentals-1-technical-specification-and-c17-working-paper-why-not-just-use-the-committee-approved-string_view"><a name="Faq-gsl-string-view"></a>FAQ.55: If you're using the standard types where available, why is the GSL <code>span&lt;char&gt;</code> different from the <code>string_view</code> in the Library Fundamentals 1 Technical Specification and C++17 Working Paper? Why not just use the committee-approved <code>string_view</code>?<a class="headerlink" href="#faq55-if-youre-using-the-standard-types-where-available-why-is-the-gsl-spanchar-different-from-the-string_view-in-the-library-fundamentals-1-technical-specification-and-c17-working-paper-why-not-just-use-the-committee-approved-string_view" title="Permanent link">&para;</a></h3>
+<p>The consensus on the taxonomy of views for the C++ Standard Library was that "view" means "read-only", and "span" means "read/write". If you only need a read-only view of characters that does not need guaranteed bounds-checking and you have C++17, use C++17 <code>std::string_view</code>. Otherwise, if you need a read-write view that does not need guaranteed bounds-checking and you have C++20, use C++20 <code>std::span&lt;char&gt;</code>. Otherwise, use <code>gsl::span&lt;char&gt;</code>.</p>
+<h3 id="faq56-is-owner-the-same-as-the-proposed-observer_ptr"><a name="Faq-gsl-owner"></a>FAQ.56: Is <code>owner</code> the same as the proposed <code>observer_ptr</code>?<a class="headerlink" href="#faq56-is-owner-the-same-as-the-proposed-observer_ptr" title="Permanent link">&para;</a></h3>
+<p>No. <code>owner</code> owns, is an alias, and can be applied to any indirection type. The main intent of <code>observer_ptr</code> is to signify a <em>non</em>-owning pointer.</p>
+<h3 id="faq57-is-stack_array-the-same-as-the-standard-array"><a name="Faq-gsl-stack-array"></a>FAQ.57: Is <code>stack_array</code> the same as the standard <code>array</code>?<a class="headerlink" href="#faq57-is-stack_array-the-same-as-the-standard-array" title="Permanent link">&para;</a></h3>
+<p>No. <code>stack_array</code> is guaranteed to be allocated on the stack. Although a <code>std::array</code> contains its storage directly inside itself, the <code>array</code> object can be put anywhere, including the heap.</p>
+<h3 id="faq58-is-dyn_array-the-same-as-vector-or-the-proposed-dynarray"><a name="Faq-gsl-dyn-array"></a>FAQ.58: Is <code>dyn_array</code> the same as <code>vector</code> or the proposed <code>dynarray</code>?<a class="headerlink" href="#faq58-is-dyn_array-the-same-as-vector-or-the-proposed-dynarray" title="Permanent link">&para;</a></h3>
+<p>No. <code>dyn_array</code> is a container, like <code>vector</code>, but it is not resizable; its size is fixed at runtime when it is constructed.
+It is a safe way to refer to a dynamically "heap"-allocated fixed-size array. Unlike <code>vector</code>, it is intended to replace array-<code>new[]</code>. Unlike the <code>dynarray</code> that has been proposed in the committee, this does not anticipate compiler/language magic to somehow allocate it on the stack when it is a member of an object that is allocated on the stack; it simply refers to a "dynamic" or heap-based array.</p>
+<h3 id="faq59-is-expects-the-same-as-assert"><a name="Faq-gsl-expects"></a>FAQ.59: Is <code>Expects</code> the same as <code>assert</code>?<a class="headerlink" href="#faq59-is-expects-the-same-as-assert" title="Permanent link">&para;</a></h3>
+<p>No. It is a placeholder for language support for contract preconditions.</p>
+<h3 id="faq60-is-ensures-the-same-as-assert"><a name="Faq-gsl-ensures"></a>FAQ.60: Is <code>Ensures</code> the same as <code>assert</code>?<a class="headerlink" href="#faq60-is-ensures-the-same-as-assert" title="Permanent link">&para;</a></h3>
+<p>No. It is a placeholder for language support for contract postconditions.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

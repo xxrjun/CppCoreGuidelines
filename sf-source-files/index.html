@@ -1,0 +1,1794 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../cpl-c-style-programming/">
+      
+      
+        <link rel="next" href="../sl-the-standard-library/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>SF: Source files - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sf-source-files-s-source" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SF: Source files
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sf1-use-a-cpp-suffix-for-code-files-and-h-for-interface-files-if-your-project-doesnt-already-follow-another-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.1: Use a .cpp suffix for code files and .h for interface files if your project doesn't already follow another convention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf2-a-header-file-must-not-contain-object-definitions-or-non-inline-function-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.2: A header file must not contain object definitions or non-inline function definitions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf3-use-header-files-for-all-declarations-used-in-multiple-source-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.3: Use header files for all declarations used in multiple source files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf4-include-header-files-before-other-declarations-in-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.4: Include header files before other declarations in a file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf5-a-cpp-file-must-include-the-header-files-that-defines-its-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.5: A .cpp file must include the header file(s) that defines its interface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf6-use-using-namespace-directives-for-transition-for-foundation-libraries-such-as-std-or-within-a-local-scope-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.6: Use using namespace directives for transition, for foundation libraries (such as std), or within a local scope (only)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf7-dont-write-using-namespace-at-global-scope-in-a-header-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.7: Don't write using namespace at global scope in a header file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf8-use-include-guards-for-all-header-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.8: Use #include guards for all header files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf9-avoid-cyclic-dependencies-among-source-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.9: Avoid cyclic dependencies among source files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf10-avoid-dependencies-on-implicitly-included-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.10: Avoid dependencies on implicitly #included names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf11-header-files-should-be-self-contained" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.11: Header files should be self-contained
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf12-prefer-the-quoted-form-of-include-for-files-relative-to-the-including-file-and-the-angle-bracket-form-everywhere-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.12: Prefer the quoted form of #include for files relative to the including file and the angle bracket form everywhere else
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf13-use-portable-header-identifiers-in-include-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.13: Use portable header identifiers in #include statements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf20-use-namespaces-to-express-logical-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.20: Use namespaces to express logical structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf21-dont-use-an-unnamed-anonymous-namespace-in-a-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.21: Don't use an unnamed (anonymous) namespace in a header
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf22-use-an-unnamed-anonymous-namespace-for-all-internalnon-exported-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.22: Use an unnamed (anonymous) namespace for all internal/non-exported entities
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sf1-use-a-cpp-suffix-for-code-files-and-h-for-interface-files-if-your-project-doesnt-already-follow-another-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.1: Use a .cpp suffix for code files and .h for interface files if your project doesn't already follow another convention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf2-a-header-file-must-not-contain-object-definitions-or-non-inline-function-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.2: A header file must not contain object definitions or non-inline function definitions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf3-use-header-files-for-all-declarations-used-in-multiple-source-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.3: Use header files for all declarations used in multiple source files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf4-include-header-files-before-other-declarations-in-a-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.4: Include header files before other declarations in a file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf5-a-cpp-file-must-include-the-header-files-that-defines-its-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.5: A .cpp file must include the header file(s) that defines its interface
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf6-use-using-namespace-directives-for-transition-for-foundation-libraries-such-as-std-or-within-a-local-scope-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.6: Use using namespace directives for transition, for foundation libraries (such as std), or within a local scope (only)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf7-dont-write-using-namespace-at-global-scope-in-a-header-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.7: Don't write using namespace at global scope in a header file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf8-use-include-guards-for-all-header-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.8: Use #include guards for all header files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf9-avoid-cyclic-dependencies-among-source-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.9: Avoid cyclic dependencies among source files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf10-avoid-dependencies-on-implicitly-included-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.10: Avoid dependencies on implicitly #included names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf11-header-files-should-be-self-contained" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.11: Header files should be self-contained
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf12-prefer-the-quoted-form-of-include-for-files-relative-to-the-including-file-and-the-angle-bracket-form-everywhere-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.12: Prefer the quoted form of #include for files relative to the including file and the angle bracket form everywhere else
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf13-use-portable-header-identifiers-in-include-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.13: Use portable header identifiers in #include statements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf20-use-namespaces-to-express-logical-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.20: Use namespaces to express logical structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf21-dont-use-an-unnamed-anonymous-namespace-in-a-header" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.21: Don't use an unnamed (anonymous) namespace in a header
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sf22-use-an-unnamed-anonymous-namespace-for-all-internalnon-exported-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      SF.22: Use an unnamed (anonymous) namespace for all internal/non-exported entities
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="sf-source-files-s-source">SF: Source files {#S-source}<a class="headerlink" href="#sf-source-files-s-source" title="Permanent link">&para;</a></h1>
+<p>Distinguish between declarations (used as interfaces) and definitions (used as implementations).
+Use header files to represent interfaces and to emphasize logical structure.</p>
+<p>Source file rule summary:</p>
+<ul>
+<li><a href="#Rs-file-suffix">SF.1: Use a <code>.cpp</code> suffix for code files and <code>.h</code> for interface files if your project doesn't already follow another convention</a></li>
+<li><a href="#Rs-inline">SF.2: A header file must not contain object definitions or non-inline function definitions</a></li>
+<li><a href="#Rs-declaration-header">SF.3: Use header files for all declarations used in multiple source files</a></li>
+<li><a href="#Rs-include-order">SF.4: Include header files before other declarations in a file</a></li>
+<li><a href="#Rs-consistency">SF.5: A <code>.cpp</code> file must include the header file(s) that defines its interface</a></li>
+<li><a href="#Rs-using">SF.6: Use <code>using namespace</code> directives for transition, for foundation libraries (such as <code>std</code>), or within a local scope (only)</a></li>
+<li><a href="#Rs-using-directive">SF.7: Don't write <code>using namespace</code> at global scope in a header file</a></li>
+<li><a href="#Rs-guards">SF.8: Use <code>#include</code> guards for all header files</a></li>
+<li><a href="#Rs-cycles">SF.9: Avoid cyclic dependencies among source files</a></li>
+<li><a href="#Rs-implicit">SF.10: Avoid dependencies on implicitly <code>#include</code>d names</a></li>
+<li><a href="#Rs-contained">SF.11: Header files should be self-contained</a></li>
+<li><a href="#Rs-incform">SF.12: Prefer the quoted form of <code>#include</code> for files relative to the including file and the angle bracket form everywhere else</a></li>
+<li>
+<p><a href="#Rs-portable-header-id">SF.13: Use portable header identifiers in <code>#include</code> statements</a></p>
+</li>
+<li>
+<p><a href="#Rs-namespace">SF.20: Use <code>namespace</code>s to express logical structure</a></p>
+</li>
+<li><a href="#Rs-unnamed">SF.21: Don't use an unnamed (anonymous) namespace in a header</a></li>
+<li><a href="#Rs-unnamed2">SF.22: Use an unnamed (anonymous) namespace for all internal/non-exported entities</a></li>
+</ul>
+<h3 id="sf1-use-a-cpp-suffix-for-code-files-and-h-for-interface-files-if-your-project-doesnt-already-follow-another-convention"><a name="Rs-file-suffix"></a>SF.1: Use a <code>.cpp</code> suffix for code files and <code>.h</code> for interface files if your project doesn't already follow another convention<a class="headerlink" href="#sf1-use-a-cpp-suffix-for-code-files-and-h-for-interface-files-if-your-project-doesnt-already-follow-another-convention" title="Permanent link">&para;</a></h3>
+<p>See <a href="#Rl-file-suffix">NL.27</a></p>
+<h3 id="sf2-a-header-file-must-not-contain-object-definitions-or-non-inline-function-definitions"><a name="Rs-inline"></a>SF.2: A header file must not contain object definitions or non-inline function definitions<a class="headerlink" href="#sf2-a-header-file-must-not-contain-object-definitions-or-non-inline-function-definitions" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Including entities subject to the one-definition rule leads to linkage errors.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// file.h:
+namespace Foo {
+    int x = 7;
+    int xx() { return x+x; }
+}
+
+// file1.cpp:
+#include &lt;file.h&gt;
+// ... more ...
+
+ // file2.cpp:
+#include &lt;file.h&gt;
+// ... more ...
+</code></pre></div>
+<p>Linking <code>file1.cpp</code> and <code>file2.cpp</code> will give two linker errors.</p>
+<p><strong>Alternative formulation</strong>: A header file must contain only:</p>
+<ul>
+<li><code>#include</code>s of other header files (possibly with include guards)</li>
+<li>templates</li>
+<li>class definitions</li>
+<li>function declarations</li>
+<li><code>extern</code> declarations</li>
+<li><code>inline</code> function definitions</li>
+<li><code>constexpr</code> definitions</li>
+<li><code>const</code> definitions</li>
+<li><code>using</code> alias definitions</li>
+<li>???</li>
+</ul>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<p>Check the positive list above.</p>
+<h3 id="sf3-use-header-files-for-all-declarations-used-in-multiple-source-files"><a name="Rs-declaration-header"></a>SF.3: Use header files for all declarations used in multiple source files<a class="headerlink" href="#sf3-use-header-files-for-all-declarations-used-in-multiple-source-files" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Maintainability. Readability.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// bar.cpp:
+void bar() { cout &lt;&lt; &quot;bar\n&quot;; }
+
+// foo.cpp:
+extern void bar();
+void foo() { bar(); }
+</code></pre></div>
+<p>A maintainer of <code>bar</code> cannot find all declarations of <code>bar</code> if its type needs changing.
+The user of <code>bar</code> cannot know if the interface used is complete and correct. At best, error messages come (late) from the linker.</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag declarations of entities in other source files not placed in a <code>.h</code>.</li>
+</ul>
+<h3 id="sf4-include-header-files-before-other-declarations-in-a-file"><a name="Rs-include-order"></a>SF.4: Include header files before other declarations in a file<a class="headerlink" href="#sf4-include-header-files-before-other-declarations-in-a-file" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Minimize context dependencies and increase readability.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+
+// ... my code here ...
+</code></pre></div>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;vector&gt;
+
+// ... my code here ...
+
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+</code></pre></div>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>This applies to both <code>.h</code> and <code>.cpp</code> files.</p>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>There is an argument for insulating code from declarations and macros in header files by <code>#including</code> headers <em>after</em> the code we want to protect
+(as in the example labeled "bad").
+However</p>
+<ul>
+<li>that only works for one file (at one level): Use that technique in a header included with other headers and the vulnerability reappears.</li>
+<li>a namespace (an "implementation namespace") can protect against many context dependencies.</li>
+<li>full protection and flexibility require modules.</li>
+</ul>
+<p><strong>See also</strong>:</p>
+<ul>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4592.pdf">Working Draft, Extensions to C++ for Modules</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0141r0.pdf">Modules, Componentization, and Transition</a></li>
+</ul>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<p>Easy.</p>
+<h3 id="sf5-a-cpp-file-must-include-the-header-files-that-defines-its-interface"><a name="Rs-consistency"></a>SF.5: A <code>.cpp</code> file must include the header file(s) that defines its interface<a class="headerlink" href="#sf5-a-cpp-file-must-include-the-header-files-that-defines-its-interface" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>This enables the compiler to do an early consistency check.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// foo.h:
+void foo(int);
+int bar(long);
+int foobar(int);
+
+// foo.cpp:
+void foo(int) { /* ... */ }
+int bar(double) { /* ... */ }
+double foobar(int);
+</code></pre></div>
+<p>The errors will not be caught until link time for a program calling <code>bar</code> or <code>foobar</code>.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// foo.h:
+void foo(int);
+int bar(long);
+int foobar(int);
+
+// foo.cpp:
+#include &quot;foo.h&quot;
+
+void foo(int) { /* ... */ }
+int bar(double) { /* ... */ }
+double foobar(int);   // error: wrong return type
+</code></pre></div>
+<p>The return-type error for <code>foobar</code> is now caught immediately when <code>foo.cpp</code> is compiled.
+The argument-type error for <code>bar</code> cannot be caught until link time because of the possibility of overloading, but systematic use of <code>.h</code> files increases the likelihood that it is caught earlier by the programmer.</p>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="sf6-use-using-namespace-directives-for-transition-for-foundation-libraries-such-as-std-or-within-a-local-scope-only"><a name="Rs-using"></a>SF.6: Use <code>using namespace</code> directives for transition, for foundation libraries (such as <code>std</code>), or within a local scope (only)<a class="headerlink" href="#sf6-use-using-namespace-directives-for-transition-for-foundation-libraries-such-as-std-or-within-a-local-scope-only" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p><code>using namespace</code> can lead to name clashes, so it should be used sparingly.
+ However, it is not always possible to qualify every name from a namespace in user code (e.g., during transition)
+ and sometimes a namespace is so fundamental and prevalent in a code base, that consistent qualification would be verbose and distracting.</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;string&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+// ...
+</code></pre></div>
+<p>Here (obviously), the standard library is used pervasively and apparently no other library is used, so requiring <code>std::</code> everywhere
+could be distracting.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<p>The use of <code>using namespace std;</code> leaves the programmer open to a name clash with a name from the standard library</p>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;cmath&gt;
+using namespace std;
+
+int g(int x)
+{
+    int sqrt = 7;
+    // ...
+    return sqrt(x); // error
+}
+</code></pre></div>
+<p>However, this is not particularly likely to lead to a resolution that is not an error and
+people who use <code>using namespace std</code> are supposed to know about <code>std</code> and about this risk.</p>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>A <code>.cpp</code> file is a form of local scope.
+There is little difference in the opportunities for name clashes in an N-line <code>.cpp</code> containing a <code>using namespace X</code>,
+an N-line function containing a <code>using namespace X</code>,
+and M functions each containing a <code>using namespace X</code>with N lines of code in total.</p>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p><a href="#Rs-using-directive">Don't write <code>using namespace</code> at global scope in a header file</a>.</p>
+<h3 id="sf7-dont-write-using-namespace-at-global-scope-in-a-header-file"><a name="Rs-using-directive"></a>SF.7: Don't write <code>using namespace</code> at global scope in a header file<a class="headerlink" href="#sf7-dont-write-using-namespace-at-global-scope-in-a-header-file" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>Doing so takes away an <code>#include</code>r's ability to effectively disambiguate and to use alternatives. It also makes <code>#include</code>d headers order-dependent as they might have different meaning when included in different orders.</p>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// bad.h
+#include &lt;iostream&gt;
+using namespace std; // bad
+
+// user.cpp
+#include &quot;bad.h&quot;
+
+bool copy(/*... some parameters ...*/);    // some function that happens to be named copy
+
+int main()
+{
+    copy(/*...*/);    // now overloads local ::copy and std::copy, could be ambiguous
+}
+</code></pre></div>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>An exception is <code>using namespace std::literals;</code>. This is necessary to use string literals
+in header files and given <a href="http://eel.is/c++draft/over.literal">the rules</a> - users are required
+to name their own UDLs <code>operator""_x</code> - they will not collide with the standard library.</p>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>Flag <code>using namespace</code> at global scope in a header file.</p>
+<h3 id="sf8-use-include-guards-for-all-header-files"><a name="Rs-guards"></a>SF.8: Use <code>#include</code> guards for all header files<a class="headerlink" href="#sf8-use-include-guards-for-all-header-files" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>To avoid files being <code>#include</code>d several times.</p>
+<p>In order to avoid include guard collisions, do not just name the guard after the filename.
+Be sure to also include a key and good differentiator, such as the name of library or component
+the header file is part of.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// file foobar.h:
+#ifndef LIBRARY_FOOBAR_H
+#define LIBRARY_FOOBAR_H
+// ... declarations ...
+#endif // LIBRARY_FOOBAR_H
+</code></pre></div>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>Flag <code>.h</code> files without <code>#include</code> guards.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>Some implementations offer vendor extensions like <code>#pragma once</code> as alternative to include guards.
+It is not standard and it is not portable.  It injects the hosting machine's filesystem semantics
+into your program, in addition to locking you down to a vendor.
+Our recommendation is to write in ISO C++: See <a href="#Rp-Cplusplus">rule P.2</a>.</p>
+<h3 id="sf9-avoid-cyclic-dependencies-among-source-files"><a name="Rs-cycles"></a>SF.9: Avoid cyclic dependencies among source files<a class="headerlink" href="#sf9-avoid-cyclic-dependencies-among-source-files" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p>Cycles complicate comprehension and slow down compilation. They also
+complicate conversion to use language-supported modules (when they become
+available).</p>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>Eliminate cycles; don't just break them with <code>#include</code> guards.</p>
+<h5 id="example-bad_3">Example, bad<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// file1.h:
+#include &quot;file2.h&quot;
+
+// file2.h:
+#include &quot;file3.h&quot;
+
+// file3.h:
+#include &quot;file1.h&quot;
+</code></pre></div>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<p>Flag all cycles.</p>
+<h3 id="sf10-avoid-dependencies-on-implicitly-included-names"><a name="Rs-implicit"></a>SF.10: Avoid dependencies on implicitly <code>#include</code>d names<a class="headerlink" href="#sf10-avoid-dependencies-on-implicitly-included-names" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>Avoid surprises.
+Avoid having to change <code>#include</code>s if an <code>#include</code>d header changes.
+Avoid accidentally becoming dependent on implementation details and logically separate entities included in a header.</p>
+<h5 id="example-bad_4">Example, bad<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;iostream&gt;
+using namespace std;
+
+void use()
+{
+    string s;
+    cin &gt;&gt; s;               // fine
+    getline(cin, s);        // error: getline() not defined
+    if (s == &quot;surprise&quot;) {  // error == not defined
+        // ...
+    }
+}
+</code></pre></div>
+<p><code>&lt;iostream&gt;</code> exposes the definition of <code>std::string</code> ("why?" makes for a fun trivia question),
+but it is not required to do so by transitively including the entire <code>&lt;string&gt;</code> header,
+resulting in the popular beginner question "why doesn't <code>getline(cin,s);</code> work?"
+or even an occasional "<code>string</code>s cannot be compared with <code>==</code>").</p>
+<p>The solution is to explicitly <code>#include &lt;string&gt;</code>:</p>
+<h5 id="example-good">Example, good<a class="headerlink" href="#example-good" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+void use()
+{
+    string s;
+    cin &gt;&gt; s;               // fine
+    getline(cin, s);        // fine
+    if (s == &quot;surprise&quot;) {  // fine
+        // ...
+    }
+}
+</code></pre></div>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>Some headers exist exactly to collect a set of consistent declarations from a variety of headers.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>// basic_std_lib.h:
+
+#include &lt;string&gt;
+#include &lt;map&gt;
+#include &lt;iostream&gt;
+#include &lt;random&gt;
+#include &lt;vector&gt;
+</code></pre></div>
+<p>a user can now get that set of declarations with a single <code>#include</code></p>
+<div class="language-text highlight"><pre><span></span><code>#include &quot;basic_std_lib.h&quot;
+</code></pre></div>
+<p>This rule against implicit inclusion is not meant to prevent such deliberate aggregation.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<p>Enforcement would require some knowledge about what in a header is meant to be "exported" to users and what is there to enable implementation.
+No really good solution is possible until we have modules.</p>
+<h3 id="sf11-header-files-should-be-self-contained"><a name="Rs-contained"></a>SF.11: Header files should be self-contained<a class="headerlink" href="#sf11-header-files-should-be-self-contained" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>Usability, headers should be simple to use and work when included on their own.
+Headers should encapsulate the functionality they provide.
+Avoid clients of a header having to manage that header's dependencies.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>#include &quot;helpers.h&quot;
+// helpers.h depends on std::string and includes &lt;string&gt;
+</code></pre></div>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>Failing to follow this results in difficult to diagnose errors for clients of a header.</p>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p>A header should include all its dependencies. Be careful about using relative paths because C++ implementations diverge on their meaning.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<p>A test should verify that the header file itself compiles or that a cpp file which only includes the header file compiles.</p>
+<h3 id="sf12-prefer-the-quoted-form-of-include-for-files-relative-to-the-including-file-and-the-angle-bracket-form-everywhere-else"><a name="Rs-incform"></a>SF.12: Prefer the quoted form of <code>#include</code> for files relative to the including file and the angle bracket form everywhere else<a class="headerlink" href="#sf12-prefer-the-quoted-form-of-include-for-files-relative-to-the-including-file-and-the-angle-bracket-form-everywhere-else" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>The <a href="http://eel.is/c++draft/cpp.include">standard</a> provides flexibility for compilers to implement
+the two forms of <code>#include</code> selected using the angle (<code>&lt;&gt;</code>) or quoted (<code>""</code>) syntax. Vendors take
+advantage of this and use different search algorithms and methods for specifying the include path.</p>
+<p>Nevertheless, the guidance is to use the quoted form for including files that exist at a relative path to the file containing the <code>#include</code> statement (from within the same component or project) and to use the angle bracket form everywhere else, where possible. This encourages being clear about the locality of the file relative to files that include it, or scenarios where the different search algorithm is required. It makes it easy to understand at a glance whether a header is being included from a local relative file versus a standard library header or a header from the alternate search path (e.g. a header from another library or a common set of includes).</p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// foo.cpp:
+#include &lt;string&gt;                // From the standard library, requires the &lt;&gt; form
+#include &lt;some_library/common.h&gt; // A file that is not locally relative, included from another library; use the &lt;&gt; form
+#include &quot;foo.h&quot;                 // A file locally relative to foo.cpp in the same project, use the &quot;&quot; form
+#include &quot;util/util.h&quot;           // A file locally relative to foo.cpp in the same project, use the &quot;&quot; form
+#include &lt;component_b/bar.h&gt;     // A file in the same project located via a search path, use the &lt;&gt; form
+</code></pre></div>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>Failing to follow this results in difficult to diagnose errors due to picking up the wrong file by incorrectly specifying the scope when it is included. For example, in a typical case where the <code>#include ""</code> search algorithm might search for a file existing at a local relative path first, then using this form to refer to a file that is not locally relative could mean that if a file ever comes into existence at the local relative path (e.g. the including file is moved to a new location), it will now be found ahead of the previous include file and the set of includes will have been changed in an unexpected way.</p>
+<p>Library creators should put their headers in a folder and have clients include those files using the relative path <code>#include &lt;some_library/common.h&gt;</code></p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<p>A test should identify whether headers referenced via <code>""</code> could be referenced with <code>&lt;&gt;</code>.</p>
+<h3 id="sf13-use-portable-header-identifiers-in-include-statements"><a name="Rs-portable-header-id"></a>SF.13: Use portable header identifiers in <code>#include</code> statements<a class="headerlink" href="#sf13-use-portable-header-identifiers-in-include-statements" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>The <a href="http://eel.is/c++draft/cpp.include">standard</a> does not specify how compilers uniquely locate headers from an identifier in an <code>#include</code> directive, nor does it specify what constitutes uniqueness. For example, whether the implementation considers the identifiers to be case-sensitive, or whether the identifiers are file system paths to a header file, and if so, how a hierarchical file system path is delimited.</p>
+<p>To maximize the portability of <code>#include</code> directives across compilers, guidance is to:</p>
+<ul>
+<li>use case-sensitivity for the header identifier, matching how the header is defined by the standard, specification, implementation, or file that provides the header.</li>
+<li>when the header identifier is a hierarchical file path, use forward-slash <code>/</code> to delimit path components as this is the most widely-accepted path-delimiting character.</li>
+</ul>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// good examples
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &quot;util/util.h&quot;
+
+// bad examples
+#include &lt;VECTOR&gt;        // bad: the standard library defines a header identified as &lt;vector&gt;, not &lt;VECTOR&gt;
+#include &lt;String&gt;        // bad: the standard library defines a header identified as &lt;string&gt;, not &lt;String&gt;
+#include &quot;Util/Util.H&quot;   // bad: the header file exists on the file system as &quot;util/util.h&quot;
+#include &quot;util\util.h&quot;   // bad: may not work if the implementation interprets `\u` as an escape sequence, or where &#39;\&#39; is not a valid path separator
+</code></pre></div>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<p>It is only possible to enforce on implementations where header identifiers are case-sensitive and which only support <code>/</code> as a file path delimiter.</p>
+<h3 id="sf20-use-namespaces-to-express-logical-structure"><a name="Rs-namespace"></a>SF.20: Use <code>namespace</code>s to express logical structure<a class="headerlink" href="#sf20-use-namespaces-to-express-logical-structure" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="sf21-dont-use-an-unnamed-anonymous-namespace-in-a-header"><a name="Rs-unnamed"></a>SF.21: Don't use an unnamed (anonymous) namespace in a header<a class="headerlink" href="#sf21-dont-use-an-unnamed-anonymous-namespace-in-a-header" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>It is almost always a bug to mention an unnamed namespace in a header file.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>// file foo.h:
+namespace
+{
+    const double x = 1.234;  // bad
+
+    double foo(double y)     // bad
+    {
+        return y + x;
+    }
+}
+
+namespace Foo
+{
+    const double x = 1.234; // good
+
+    inline double foo(double y)        // good
+    {
+        return y + x;
+    }
+}
+</code></pre></div>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag any use of an anonymous namespace in a header file.</li>
+</ul>
+<h3 id="sf22-use-an-unnamed-anonymous-namespace-for-all-internalnon-exported-entities"><a name="Rs-unnamed2"></a>SF.22: Use an unnamed (anonymous) namespace for all internal/non-exported entities<a class="headerlink" href="#sf22-use-an-unnamed-anonymous-namespace-for-all-internalnon-exported-entities" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>Nothing external can depend on an entity in a nested unnamed namespace.
+Consider putting every definition in an implementation source file in an unnamed namespace unless that is defining an "external/exported" entity.</p>
+<h5 id="example-bad_5">Example; bad<a class="headerlink" href="#example-bad_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>static int f();
+int g();
+static bool h();
+int k();
+</code></pre></div>
+<h5 id="example-good_1">Example; good<a class="headerlink" href="#example-good_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>namespace {
+    int f();
+    bool h();
+}
+int g();
+int k();
+</code></pre></div>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<p>An API class and its members can't live in an unnamed namespace; but any "helper" class or function that is defined in an implementation source file should be at an unnamed namespace scope.</p>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<ul>
+<li>???</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

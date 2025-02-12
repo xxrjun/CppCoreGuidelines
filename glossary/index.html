@@ -1,0 +1,1189 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../appendix-d-supporting-tools/">
+      
+      
+        <link rel="next" href="../to-do-unclassified-proto-rules/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>Glossary - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#glossary-s-glossary" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Glossary
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="glossary-s-glossary">Glossary {#S-glossary}<a class="headerlink" href="#glossary-s-glossary" title="Permanent link">&para;</a></h1>
+<p>A relatively informal definition of terms used in the guidelines
+(based off the glossary in <a href="http://www.stroustrup.com/programming.html">Programming: Principles and Practice using C++</a>)</p>
+<p>More information on many topics about C++ can be found on the <a href="https://isocpp.org">Standard C++ Foundation</a>'s site.</p>
+<ul>
+<li><em>ABI</em>: Application Binary Interface, a specification for a specific hardware platform combined with the operating system. Contrast with API.</li>
+<li><em>abstract class</em>: a class that cannot be directly used to create objects; often used to define an interface to derived classes.
+  A class is made abstract by having a pure virtual function or only protected constructors.</li>
+<li><em>abstraction</em>: a description of something that selectively and deliberately ignores (hides) details (e.g., implementation details); selective ignorance.</li>
+<li><em>address</em>: a value that allows us to find an object in a computer's memory.</li>
+<li><em>algorithm</em>: a procedure or formula for solving a problem; a finite series of computational steps to produce a result.</li>
+<li><em>alias</em>: an alternative way of referring to an object; often a name, pointer, or reference.</li>
+<li><em>API</em>: Application Programming Interface, a set of functions that form the communication between various software components. Contrast with ABI.</li>
+<li><em>application</em>: a program or a collection of programs that is considered an entity by its users.</li>
+<li><em>approximation</em>: something (e.g., a value or a design) that is close to the perfect or ideal (value or design).
+  Often an approximation is a result of trade-offs among ideals.</li>
+<li><em>argument</em>: a value passed to a function or a template, in which it is accessed through a parameter.</li>
+<li><em>array</em>: a homogeneous sequence of elements, usually numbered, e.g., <code>[0:max)</code>.</li>
+<li><em>assertion</em>: a statement inserted into a program to state (assert) that something must always be true at this point in the program.</li>
+<li><em>base class</em>: a type that is intended to be derived from (e.g., has a non-<code>final</code> virtual function), and objects of the type are intended to be used only indirectly (e.g., by pointer). [In strict terms, "base class" could be defined as "something we derived from" but we are specifying in terms of the class designer's intent.] Typically a base class has one or more virtual functions.</li>
+<li><em>bit</em>: the basic unit of information in a computer. A bit can have the value 0 or the value 1.</li>
+<li><em>bug</em>: an error in a program.</li>
+<li><em>byte</em>: the basic unit of addressing in most computers. Typically, a byte holds 8 bits.</li>
+<li><em>class</em>: a user-defined type that can contain data members, function members, and member types.</li>
+<li><em>code</em>: a program or a part of a program; ambiguously used for both source code and object code.</li>
+<li><em>compiler</em>: a program that turns source code into object code.</li>
+<li><em>complexity</em>: a hard-to-precisely-define notion or measure of the difficulty of constructing a solution to a problem or of the solution itself.
+  Sometimes complexity is used to (simply) mean an estimate of the number of operations needed to execute an algorithm.</li>
+<li><em>computation</em>: the execution of some code, usually taking some input and producing some output.</li>
+<li><em>concept</em>: (1) a notion, and idea; (2) a set of requirements, usually for a template argument.</li>
+<li><em>concrete type</em>: a type that is not a base class, and objects of the type are intended to be used directly (not only by pointer/indirection), its size is known, it can typically be allocated anywhere the programmer wants (e.g., stack or statically).</li>
+<li><em>constant</em>: a value that cannot be changed (in a given scope); not mutable.</li>
+<li><em>constructor</em>: an operation that initializes ("constructs") an object.
+  Typically a constructor establishes an invariant and often acquires resources needed for an object to be used (which are then typically released by a destructor).</li>
+<li><em>container</em>: an object that holds elements (other objects).</li>
+<li><em>copy</em>: an operation that makes two objects have values that compare equal. See also move.</li>
+<li><em>correctness</em>: a program or a piece of a program is correct if it meets its specification.
+  Unfortunately, a specification can be incomplete or inconsistent, or can fail to meet users' reasonable expectations.
+  Thus, to produce acceptable code, we sometimes have to do more than just follow the formal specification.</li>
+<li><em>cost</em>: the expense (e.g., in programmer time, run time, or space) of producing a program or of executing it.
+  Ideally, cost should be a function of complexity.</li>
+<li><em>customization point</em>: ???</li>
+<li><em>data</em>: values used in a computation.</li>
+<li><em>debugging</em>: the act of searching for and removing errors from a program; usually far less systematic than testing.</li>
+<li><em>declaration</em>: the specification of a name with its type in a program.</li>
+<li><em>definition</em>: a declaration of an entity that supplies all information necessary to complete a program using the entity.
+  Simplified definition: a declaration that allocates memory.</li>
+<li><em>derived class</em>: a class derived from one or more base classes.</li>
+<li><em>design</em>: an overall description of how a piece of software should operate to meet its specification.</li>
+<li><em>destructor</em>: an operation that is implicitly invoked (called) when an object is destroyed (e.g., at the end of a scope). Often, it releases resources.</li>
+<li><em>encapsulation</em>: protecting something meant to be private (e.g., implementation details) from unauthorized access.</li>
+<li><em>error</em>: a mismatch between reasonable expectations of program behavior (often expressed as a requirement or a users' guide) and what a program actually does.</li>
+<li><em>executable</em>: a program ready to be run (executed) on a computer.</li>
+<li><em>feature creep</em>: a tendency to add excess functionality to a program "just in case."</li>
+<li><em>file</em>: a container of permanent information in a computer.</li>
+<li><em>floating-point number</em>: a computer's approximation of a real number, such as 7.93 and 10.78e-3.</li>
+<li><em>function</em>: a named unit of code that can be invoked (called) from different parts of a program; a logical unit of computation.</li>
+<li><em>generic programming</em>: a style of programming focused on the design and efficient implementation of algorithms.
+  A generic algorithm will work for all argument types that meet its requirements. In C++, generic programming typically uses templates.</li>
+<li><em>global variable</em>: technically, a named object in namespace scope.</li>
+<li><em>handle</em>: a class that allows access to another through a member pointer or reference. See also resource, copy, move.</li>
+<li><em>header</em>: a file containing declarations used to share interfaces between parts of a program.</li>
+<li><em>hiding</em>: the act of preventing a piece of information from being directly seen or accessed.
+  For example, a name from a nested (inner) scope can prevent that same name from an outer (enclosing) scope from being directly used.</li>
+<li><em>ideal</em>: the perfect version of something we are striving for. Usually we have to make trade-offs and settle for an approximation.</li>
+<li><em>implementation</em>: (1) the act of writing and testing code; (2) the code that implements a program.</li>
+<li><em>infinite loop</em>: a loop where the termination condition never becomes true. See iteration.</li>
+<li><em>infinite recursion</em>: a recursion that doesn't end until the machine runs out of memory to hold the calls.
+  In reality, such recursion is never infinite but is terminated by some hardware error.</li>
+<li><em>information hiding</em>: the act of separating interface and implementation, thus hiding implementation details not meant for the user's attention and providing an abstraction.</li>
+<li><em>initialize</em>: giving an object its first (initial) value.</li>
+<li><em>input</em>: values used by a computation (e.g., function arguments and characters typed on a keyboard).</li>
+<li><em>integer</em>: a whole number, such as 42 and -99.</li>
+<li><em>interface</em>: a declaration or a set of declarations specifying how a piece of code (such as a function or a class) can be called.</li>
+<li><em>invariant</em>: something that must be always true at a given point (or points) of a program; typically used to describe the state (set of values) of an object or the state of a loop before entry into the repeated statement.</li>
+<li><em>iteration</em>: the act of repeatedly executing a piece of code; see recursion.</li>
+<li><em>iterator</em>: an object that identifies an element of a sequence.</li>
+<li><em>ISO</em>: International Organization for Standardization. The C++ language is an ISO standard, ISO/IEC 14882. More information at <a href="http://iso.org">iso.org</a>.</li>
+<li><em>library</em>: a collection of types, functions, classes, etc. implementing a set of facilities (abstractions) meant to be potentially used as part of more than one program.</li>
+<li><em>lifetime</em>: the time from the initialization of an object until it becomes unusable (goes out of scope, is deleted, or the program terminates).</li>
+<li><em>linker</em>: a program that combines object code files and libraries into an executable program.</li>
+<li><em>literal</em>: a notation that directly specifies a value, such as 12 specifying the integer value "twelve."</li>
+<li><em>loop</em>: a piece of code executed repeatedly; in C++, typically a for-statement or a <code>while</code>-statement.</li>
+<li><em>move</em>: an operation that transfers a value from one object to another leaving behind a value representing "empty." See also copy.</li>
+<li><em>move-only type</em>: a concrete type that is movable but not copyable.</li>
+<li><em>mutable</em>: changeable; the opposite of immutable, constant, and invariable.</li>
+<li><em>object</em>: (1) an initialized region of memory of a known type which holds a value of that type; (2) a region of memory.</li>
+<li><em>object code</em>: output from a compiler intended as input for a linker (for the linker to produce executable code).</li>
+<li><em>object file</em>: a file containing object code.</li>
+<li><em>object-oriented programming</em>: (OOP) a style of programming focused on the design and use of classes and class hierarchies.</li>
+<li><em>operation</em>: something that can perform some action, such as a function and an operator.</li>
+<li><em>output</em>: values produced by a computation (e.g., a function result or lines of characters written on a screen).</li>
+<li><em>overflow</em>: producing a value that cannot be stored in its intended target.</li>
+<li><em>overload</em>: defining two functions or operators with the same name but different argument (operand) types.</li>
+<li><em>override</em>: defining a function in a derived class with the same name and argument types as a virtual function in the base class, thus making the function callable through the interface defined by the base class.</li>
+<li><em>owner</em>: an object responsible for releasing a resource.</li>
+<li><em>paradigm</em>: a somewhat pretentious term for design or programming style; often used with the (erroneous) implication that there exists a paradigm that is superior to all others.</li>
+<li><em>parameter</em>: a declaration of an explicit input to a function or a template. When called, a function can access the arguments passed through the names of its parameters.</li>
+<li><em>pointer</em>: (1) a value used to identify a typed object in memory; (2) a variable holding such a value.</li>
+<li><em>post-condition</em>: a condition that must hold upon exit from a piece of code, such as a function or a loop.</li>
+<li><em>pre-condition</em>: a condition that must hold upon entry into a piece of code, such as a function or a loop.</li>
+<li><em>program</em>: code (possibly with associated data) that is sufficiently complete to be executed by a computer.</li>
+<li><em>programming</em>: the art of expressing solutions to problems as code.</li>
+<li><em>programming language</em>: a language for expressing programs.</li>
+<li><em>pseudo code</em>: a description of a computation written in an informal notation rather than a programming language.</li>
+<li><em>pure virtual function</em>: a virtual function that must be overridden in a derived class.</li>
+<li><em>RAII</em>: ("Resource Acquisition Is Initialization") a basic technique for resource management based on scopes.</li>
+<li><em>range</em>: a sequence of values that can be described by a start point and an end point. For example, <code>[0:5)</code> means the values 0, 1, 2, 3, and 4.</li>
+<li><em>recursion</em>: the act of a function calling itself; see also iteration.</li>
+<li><em>reference</em>: (1) a value describing the location of a typed value in memory; (2) a variable holding such a value.</li>
+<li><em>regular expression</em>: a notation for patterns in character strings.</li>
+<li><em>regular</em>: a semiregular type that is equality-comparable (see <code>std::regular</code> concept). After a copy, the copied object compares equal to the original object. A regular type behaves similarly to built-in types like <code>int</code> and can be compared with <code>==</code>.
+In particular, an object of a regular type can be copied and the result of a copy is a separate object that compares equal to the original. See also <em>semiregular type</em>.</li>
+<li><em>requirement</em>: (1) a description of the desired behavior of a program or part of a program; (2) a description of the assumptions a function or template makes of its arguments.</li>
+<li><em>resource</em>: something that is acquired and must later be released, such as a file handle, a lock, or memory. See also handle, owner.</li>
+<li><em>rounding</em>: conversion of a value to the mathematically nearest value of a less precise type.</li>
+<li><em>RTTI</em>: Run-Time Type Information. ???</li>
+<li><em>scope</em>: the region of program text (source code) in which a name can be referred to.</li>
+<li><em>semiregular</em>: a concrete type that is copyable (including movable) and default-constructible (see <code>std::semiregular</code> concept). The result of a copy is an independent object with the same value as the original. A semiregular type behaves roughly like a built-in type like <code>int</code>, but possibly without a <code>==</code> operator. See also <em>regular type</em>.</li>
+<li><em>sequence</em>: elements that can be visited in a linear order.</li>
+<li><em>software</em>: a collection of pieces of code and associated data; often used interchangeably with program.</li>
+<li><em>source code</em>: code as produced by a programmer and (in principle) readable by other programmers.</li>
+<li><em>source file</em>: a file containing source code.</li>
+<li><em>specification</em>: a description of what a piece of code should do.</li>
+<li><em>standard</em>: an officially agreed upon definition of something, such as a programming language.</li>
+<li><em>state</em>: a set of values.</li>
+<li><em>STL</em>: the containers, iterators, and algorithms part of the standard library.</li>
+<li><em>string</em>: a sequence of characters.</li>
+<li><em>style</em>: a set of techniques for programming leading to a consistent use of language features; sometimes used in a very restricted sense to refer just to low-level rules for naming and appearance of code.</li>
+<li><em>subtype</em>: derived type; a type that has all the properties of a type and possibly more.</li>
+<li><em>supertype</em>: base type; a type that has a subset of the properties of a type.</li>
+<li><em>system</em>: (1) a program or a set of programs for performing a task on a computer; (2) a shorthand for "operating system", that is, the fundamental execution environment and tools for a computer.</li>
+<li><em>TS</em>: <a href="https://www.iso.org/deliverables-all.html?type=ts">Technical Specification</a>, A Technical Specification addresses work still under technical development, or where it is believed that there will be a future, but not immediate, possibility of agreement on an International Standard. A Technical Specification is published for immediate use, but it also provides a means to obtain feedback. The aim is that it will eventually be transformed and republished as an International Standard.</li>
+<li><em>template</em>: a class or a function parameterized by one or more types or (compile-time) values; the basic C++ language construct supporting generic programming.</li>
+<li><em>testing</em>: a systematic search for errors in a program.</li>
+<li><em>trade-off</em>: the result of balancing several design and implementation criteria.</li>
+<li><em>truncation</em>: loss of information in a conversion from a type into another that cannot exactly represent the value to be converted.</li>
+<li><em>type</em>: something that defines a set of possible values and a set of operations for an object.</li>
+<li><em>uninitialized</em>: the (undefined) state of an object before it is initialized.</li>
+<li><em>unit</em>: (1) a standard measure that gives meaning to a value (e.g., km for a distance); (2) a distinguished (e.g., named) part of a larger whole.</li>
+<li><em>use case</em>: a specific (typically simple) use of a program meant to test its functionality and demonstrate its purpose.</li>
+<li><em>value</em>: a set of bits in memory interpreted according to a type.</li>
+<li><em>value type</em>: a term some people use to mean a regular or semiregular type.</li>
+<li><em>variable</em>: a named object of a given type; contains a value unless uninitialized.</li>
+<li><em>virtual function</em>: a member function that can be overridden in a derived class.</li>
+<li><em>word</em>: a basic unit of memory in a computer, often the unit used to hold an integer.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

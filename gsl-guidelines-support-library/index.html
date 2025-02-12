@@ -1,0 +1,1332 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../pro-profiles/">
+      
+      
+        <link rel="next" href="../nl-naming-and-layout-suggestions/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>GSL: Guidelines support library - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gsl-guidelines-support-library-s-gsl" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              GSL: Guidelines support library
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gslview-views" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.view: Views
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslowner-ownership-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.owner: Ownership pointers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslassert-assertions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.assert: Assertions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslutil-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.util: Utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslconcept-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.concept: Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GSL.concept: Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gslptr-smart-pointer-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.ptr: Smart pointer concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gslview-views" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.view: Views
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslowner-ownership-pointers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.owner: Ownership pointers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslassert-assertions" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.assert: Assertions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslutil-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.util: Utilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gslconcept-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.concept: Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GSL.concept: Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gslptr-smart-pointer-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      GSL.ptr: Smart pointer concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gsl-guidelines-support-library-s-gsl">GSL: Guidelines support library {#S-gsl}<a class="headerlink" href="#gsl-guidelines-support-library-s-gsl" title="Permanent link">&para;</a></h1>
+<p>The GSL is a small library of facilities designed to support this set of guidelines.
+Without these facilities, the guidelines would have to be far more restrictive on language details.</p>
+<p>The Core Guidelines support library is defined in namespace <code>gsl</code> and the names might be aliases for standard library or other well-known library names. Using the (compile-time) indirection through the <code>gsl</code> namespace allows for experimentation and for local variants of the support facilities.</p>
+<p>The GSL is header only, and can be found at <a href="https://github.com/Microsoft/GSL">GSL: Guidelines support library</a>.
+The support library facilities are designed to be extremely lightweight (zero-overhead) so that they impose no overhead compared to using conventional alternatives.
+Where desirable, they can be "instrumented" with additional functionality (e.g., checks) for tasks such as debugging.</p>
+<p>These Guidelines use types from the standard (e.g., C++17) in addition to ones from the GSL.
+For example, we assume a <code>variant</code> type, but this is not currently in GSL.
+Eventually, use <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0088r3.html">the one voted into C++17</a>.</p>
+<p>Some of the GSL types listed below might not be supported in the library you use due to technical reasons such as limitations in the current versions of C++.
+Therefore, please consult your GSL documentation to find out more.</p>
+<p>For each GSL type below we state an invariant for that type. That invariant holds as long as user code only changes the state of a GSL object using the type's provided member/free functions (i.e., user code does not bypass the type's interface to change the object's value/bits by violating any other Guidelines rule).</p>
+<p>Summary of GSL components:</p>
+<ul>
+<li><a href="#SS-views">GSL.view: Views</a></li>
+<li><a href="#SS-ownership">GSL.owner: Ownership pointers</a></li>
+<li><a href="#SS-assertions">GSL.assert: Assertions</a></li>
+<li><a href="#SS-utilities">GSL.util: Utilities</a></li>
+<li><a href="#SS-gsl-concepts">GSL.concept: Concepts</a></li>
+</ul>
+<p>We plan for a "ISO C++ standard style" semi-formal specification of the GSL.</p>
+<p>We rely on the ISO C++ Standard Library and hope for parts of the GSL to be absorbed into the standard library.</p>
+<h2 id="gslview-views"><a name="SS-views"></a>GSL.view: Views<a class="headerlink" href="#gslview-views" title="Permanent link">&para;</a></h2>
+<p>These types allow the user to distinguish between owning and non-owning pointers and between pointers to a single object and pointers to the first element of a sequence.</p>
+<p>These "views" are never owners.</p>
+<p>References are never owners (see <a href="#Rr-ref">R.4</a>). Note: References have many opportunities to outlive the objects they refer to (returning a local variable by reference, holding a reference to an element of a vector and doing <code>push_back</code>, binding to <code>std::max(x, y + 1)</code>, etc). The Lifetime safety profile aims to address those things, but even so <code>owner&lt;T&amp;&gt;</code> does not make sense and is discouraged.</p>
+<p>The names are mostly ISO standard-library style (lower case and underscore):</p>
+<ul>
+<li><code>T*</code>      // The <code>T*</code> is not an owner, might be null; assumed to be pointing to a single element.</li>
+<li><code>T&amp;</code>      // The <code>T&amp;</code> is not an owner and can never be a "null reference"; references are always bound to objects.</li>
+</ul>
+<p>The "raw-pointer" notation (e.g. <code>int*</code>) is assumed to have its most common meaning; that is, a pointer points to an object, but does not own it.
+Owners should be converted to resource handles (e.g., <code>unique_ptr</code> or <code>vector&lt;T&gt;</code>) or marked <code>owner&lt;T*&gt;</code>.</p>
+<ul>
+<li><code>owner&lt;T*&gt;</code>   // a <code>T*</code> that owns the object pointed/referred to; might be <code>nullptr</code>.</li>
+</ul>
+<p><code>owner</code> is used to mark owning pointers in code that cannot be upgraded to use proper resource handles.
+Reasons for that include:</p>
+<ul>
+<li>Cost of conversion.</li>
+<li>The pointer is used with an ABI.</li>
+<li>The pointer is part of the implementation of a resource handle.</li>
+</ul>
+<p>An <code>owner&lt;T&gt;</code> differs from a resource handle for a <code>T</code> by still requiring an explicit <code>delete</code>.</p>
+<p>An <code>owner&lt;T&gt;</code> is assumed to refer to an object on the free store (heap).</p>
+<p>If something is not supposed to be <code>nullptr</code>, say so:</p>
+<ul>
+<li>
+<p><code>not_null&lt;T&gt;</code>   // <code>T</code> is usually a pointer type (e.g., <code>not_null&lt;int*&gt;</code> and <code>not_null&lt;owner&lt;Foo*&gt;&gt;</code>) that must not be <code>nullptr</code>.
+  <code>T</code> can be any type for which <code>==nullptr</code> is meaningful.</p>
+</li>
+<li>
+<p><code>span&lt;T&gt;</code>       // <code>[p:p+n)</code>, constructor from <code>{p, q}</code> and <code>{p, n}</code>; <code>T</code> is the pointer type</p>
+</li>
+<li><code>span_p&lt;T&gt;</code>     // <code>{p, predicate}</code> <code>[p:q)</code> where <code>q</code> is the first element for which <code>predicate(*p)</code> is true</li>
+</ul>
+<p>A <code>span&lt;T&gt;</code> refers to zero or more mutable <code>T</code>s unless <code>T</code> is a <code>const</code> type. All accesses to elements of the span, notably via <code>operator[]</code>, are guaranteed to be bounds-checked by default.</p>
+<blockquote>
+<p>Note: GSL's <code>span</code> (initially called <code>array_view</code>) was proposed for inclusion in the C++ standard library, and was adopted (with changes to its name and interface) except only that <code>std::span</code> does not provide for guaranteed bounds checking. Therefore GSL changed <code>span</code>'s name and interface to track <code>std::span</code> and should be exactly the same as <code>std::span</code>, and the only difference should be that GSL <code>span</code> is fully bounds-safe by default. If bounds-safety might affect its interface, then those change proposals should be brought back via the ISO C++ committee to keep <code>gsl::span</code> interface-compatible with <code>std::span</code>. If a future evolution of <code>std::span</code> adds bounds checking, <code>gsl::span</code> can be removed.</p>
+</blockquote>
+<p>"Pointer arithmetic" is best done within <code>span</code>s.
+A <code>char*</code> that points to more than one <code>char</code> but is not a C-style string (e.g., a pointer into an input buffer) should be represented by a <code>span</code>.</p>
+<ul>
+<li><code>zstring</code>    // a <code>char*</code> supposed to be a C-style string; that is, a zero-terminated sequence of <code>char</code> or <code>nullptr</code></li>
+<li><code>czstring</code>   // a <code>const char*</code> supposed to be a C-style string; that is, a zero-terminated sequence of <code>const</code> <code>char</code> or <code>nullptr</code></li>
+</ul>
+<p>Logically, those last two aliases are not needed, but we are not always logical, and they make the distinction between a pointer to one <code>char</code> and a pointer to a C-style string explicit.
+A sequence of characters that is not assumed to be zero-terminated should be a <code>span&lt;char&gt;</code>, or if that is impossible because of ABI issues a <code>char*</code>, rather than a <code>zstring</code>.</p>
+<p>Use <code>not_null&lt;zstring&gt;</code> for C-style strings that cannot be <code>nullptr</code>. ??? Do we need a name for <code>not_null&lt;zstring&gt;</code>? or is its ugliness a feature?</p>
+<h2 id="gslowner-ownership-pointers"><a name="SS-ownership"></a>GSL.owner: Ownership pointers<a class="headerlink" href="#gslowner-ownership-pointers" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>unique_ptr&lt;T&gt;</code>     // unique ownership: <code>std::unique_ptr&lt;T&gt;</code></li>
+<li><code>shared_ptr&lt;T&gt;</code>     // shared ownership: <code>std::shared_ptr&lt;T&gt;</code> (a counted pointer)</li>
+<li><code>stack_array&lt;T&gt;</code>    // A stack-allocated array. The number of elements is determined at construction and fixed thereafter. The elements are mutable unless <code>T</code> is a <code>const</code> type.</li>
+<li><code>dyn_array&lt;T&gt;</code>      // A container, non-growing dynamically allocated array. The number of elements is determined at construction and fixed thereafter.
+  The elements are mutable unless <code>T</code> is a <code>const</code> type. Basically a <code>span</code> that allocates and owns its elements.</li>
+</ul>
+<h2 id="gslassert-assertions"><a name="SS-assertions"></a>GSL.assert: Assertions<a class="headerlink" href="#gslassert-assertions" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>Expects</code>     // precondition assertion. Currently placed in function bodies. Later, should be moved to declarations.
+                // <code>Expects(p)</code> terminates the program unless <code>p == true</code>
+                // <code>Expects</code> is under control of some options (enforcement, error message, alternatives to terminate)</li>
+<li><code>Ensures</code>     // postcondition assertion. Currently placed in function bodies. Later, should be moved to declarations.</li>
+</ul>
+<p>These assertions are currently macros (yuck!) and must appear in function definitions (only)
+pending standard committee decisions on contracts and assertion syntax.
+See <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0380r1.pdf">the contract proposal</a>; using the attribute syntax,
+for example, <code>Expects(p)</code> will become <code>[[expects: p]]</code>.</p>
+<h2 id="gslutil-utilities"><a name="SS-utilities"></a>GSL.util: Utilities<a class="headerlink" href="#gslutil-utilities" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>finally</code>        // <code>finally(f)</code> makes a <code>final_action{f}</code> with a destructor that invokes <code>f</code></li>
+<li><code>narrow_cast</code>    // <code>narrow_cast&lt;T&gt;(x)</code> is <code>static_cast&lt;T&gt;(x)</code></li>
+<li><code>narrow</code>         // <code>narrow&lt;T&gt;(x)</code> is <code>static_cast&lt;T&gt;(x)</code> if <code>static_cast&lt;T&gt;(x) == x</code> with no signedness promotions, or it throws <code>narrowing_error</code> (e.g., <code>narrow&lt;unsigned&gt;(-42)</code> throws)</li>
+<li><code>[[implicit]]</code>   // "Marker" to put on single-argument constructors to explicitly make them non-explicit.</li>
+<li><code>move_owner</code>     // <code>p = move_owner(q)</code> means <code>p = q</code> but ???</li>
+<li><code>joining_thread</code> // a RAII style version of <code>std::thread</code> that joins.</li>
+<li><code>index</code>          // a type to use for all container and array indexing (currently an alias for <code>ptrdiff_t</code>)</li>
+</ul>
+<h2 id="gslconcept-concepts"><a name="SS-gsl-concepts"></a>GSL.concept: Concepts<a class="headerlink" href="#gslconcept-concepts" title="Permanent link">&para;</a></h2>
+<p>These concepts (type predicates) are borrowed from
+Andrew Sutton's Origin library,
+the Range proposal,
+and the ISO WG21 Palo Alto TR.
+Many of them are very similar to what became part of the ISO C++ standard in C++20.</p>
+<ul>
+<li><code>String</code></li>
+<li><code>Number</code></li>
+<li><code>Boolean</code></li>
+<li><code>Range</code>              // in C++20, <code>std::ranges::range</code></li>
+<li><code>Sortable</code>           // in C++20, <code>std::sortable</code></li>
+<li><code>EqualityComparable</code> // in C++20, <code>std::equality_comparable</code></li>
+<li><code>Convertible</code>        // in C++20, <code>std::convertible_to</code></li>
+<li><code>Common</code>             // in C++20, <code>std::common_with</code></li>
+<li><code>Integral</code>           // in C++20, <code>std::integral</code></li>
+<li><code>SignedIntegral</code>     // in C++20, <code>std::signed_integral</code></li>
+<li><code>SemiRegular</code>        // in C++20, <code>std::semiregular</code></li>
+<li><code>Regular</code>            // in C++20, <code>std::regular</code></li>
+<li><code>TotallyOrdered</code>     // in C++20, <code>std::totally_ordered</code></li>
+<li><code>Function</code>           // in C++20, <code>std::invocable</code></li>
+<li><code>RegularFunction</code>    // in C++20, <code>std::regular_invocable</code></li>
+<li><code>Predicate</code>          // in C++20, <code>std::predicate</code></li>
+<li><code>Relation</code>           // in C++20, <code>std::relation</code></li>
+<li>...</li>
+</ul>
+<h3 id="gslptr-smart-pointer-concepts"><a name="SS-gsl-smartptrconcepts"></a>GSL.ptr: Smart pointer concepts<a class="headerlink" href="#gslptr-smart-pointer-concepts" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>Pointer</code>  // A type with <code>*</code>, <code>-&gt;</code>, <code>==</code>, and default construction (default construction is assumed to set the singular "null" value)</li>
+<li><code>Unique_pointer</code>  // A type that matches <code>Pointer</code>, is movable, and is not copyable</li>
+<li><code>Shared_pointer</code>   // A type that matches <code>Pointer</code>, and is copyable</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

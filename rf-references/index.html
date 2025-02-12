@@ -1,0 +1,1388 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../nr-non-rules-and-myths/">
+      
+      
+        <link rel="next" href="../pro-profiles/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>RF: References - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rf-references-s-references" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RF: References
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../t-templates-and-generic-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rfrules-coding-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.rules: Coding rules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfbooks-books-with-coding-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.books: Books with coding guidelines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfc-c-programming-c11c14" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.C++: C++ Programming (C++11/C++14)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfweb-websites" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.web: Websites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rsvideo-videos-about-modern-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS.video: Videos about "modern C++"
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfman-manuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.man: Manuals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfcore-core-guidelines-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.core: Core Guidelines materials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Acknowledgements
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rfrules-coding-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.rules: Coding rules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfbooks-books-with-coding-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.books: Books with coding guidelines
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfc-c-programming-c11c14" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.C++: C++ Programming (C++11/C++14)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfweb-websites" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.web: Websites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rsvideo-videos-about-modern-c" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS.video: Videos about "modern C++"
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfman-manuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.man: Manuals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rfcore-core-guidelines-materials" class="md-nav__link">
+    <span class="md-ellipsis">
+      RF.core: Core Guidelines materials
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#acknowledgements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Acknowledgements
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rf-references-s-references">RF: References {#S-references}<a class="headerlink" href="#rf-references-s-references" title="Permanent link">&para;</a></h1>
+<p>Many coding standards, rules, and guidelines have been written for C++, and especially for specialized uses of C++.
+Many</p>
+<ul>
+<li>focus on lower-level issues, such as the spelling of identifiers</li>
+<li>are written by C++ novices</li>
+<li>see "stopping programmers from doing unusual things" as their primary aim</li>
+<li>aim at portability across many compilers (some 10 years old)</li>
+<li>are written to preserve decades old code bases</li>
+<li>aim at a single application domain</li>
+<li>are downright counterproductive</li>
+<li>are ignored (must be ignored by programmers to get their work done well)</li>
+</ul>
+<p>A bad coding standard is worse than no coding standard.
+However an appropriate set of guidelines are much better than no standards: "Form is liberating."</p>
+<p>Why can't we just have a language that allows all we want and disallows all we don't want ("a perfect language")?
+Fundamentally, because affordable languages (and their tool chains) also serve people with needs that differ from yours and serve more needs than you have today.
+Also, your needs change over time and a general-purpose language is needed to allow you to adapt.
+A language that is ideal for today would be overly restrictive tomorrow.</p>
+<p>Coding guidelines adapt the use of a language to specific needs.
+Thus, there cannot be a single coding style for everybody.
+We expect different organizations to provide additions, typically with more restrictions and firmer style rules.</p>
+<p>Reference sections:</p>
+<ul>
+<li><a href="#SS-rules">RF.rules: Coding rules</a></li>
+<li><a href="#SS-books">RF.books: Books with coding guidelines</a></li>
+<li><a href="#SS-Cplusplus">RF.C++: C++ Programming (C++11/C++14/C++17)</a></li>
+<li><a href="#SS-web">RF.web: Websites</a></li>
+<li><a href="#SS-vid">RS.video: Videos about "modern C++"</a></li>
+<li><a href="#SS-man">RF.man: Manuals</a></li>
+<li><a href="#SS-core">RF.core: Core Guidelines materials</a></li>
+</ul>
+<h2 id="rfrules-coding-rules"><a name="SS-rules"></a>RF.rules: Coding rules<a class="headerlink" href="#rfrules-coding-rules" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://web.archive.org/web/20220629085753/https://www.autosar.org/fileadmin/user_upload/standards/adaptive/17-03/AUTOSAR_RS_CPP14Guidelines.pdf">AUTOSAR Guidelines for the use of the C++14 language in critical and safety-related systems v17.10</a></li>
+<li><a href="http://www.boost.org/development/requirements.html">Boost Library Requirements and Guidelines</a>.
+  ???.</li>
+<li><a href="https://github.com/bloomberg/bde/wiki/CodingStandards.pdf">Bloomberg: BDE C++ Coding</a>.
+  Has a strong emphasis on code organization and layout.</li>
+<li>Facebook: ???</li>
+<li><a href="https://gcc.gnu.org/codingconventions.html">GCC Coding Conventions</a>.
+  C++03 and (reasonably) a bit backwards looking.</li>
+<li><a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a>.
+  Geared toward C++17 and (also) older code bases. Google experts are now actively collaborating here on helping to improve these Guidelines, and hopefully to merge efforts so these can be a modern common set they could also recommend.</li>
+<li><a href="http://www.stroustrup.com/JSF-AV-rules.pdf">JSF++: JOINT STRIKE FIGHTER AIR VEHICLE C++ CODING STANDARDS</a>.
+  Document Number 2RDU00001 Rev C. December 2005.
+  For flight control software.
+  For hard-real-time.
+  This means that it is necessarily very restrictive ("if the program fails somebody dies").
+  For example, no free store allocation or deallocation is allowed to occur after the plane takes off (no memory overflow and no fragmentation allowed).
+  No exception is allowed to be used (because there was no available tool for guaranteeing that an exception would be handled within a fixed short time).
+  Libraries used have to have been approved for mission critical applications.
+  Any similarities to this set of guidelines are unsurprising because Bjarne Stroustrup was an author of JSF++.
+  Recommended, but note its very specific focus.</li>
+<li><a href="https://misra.org.uk/product/misra-cpp2023/">MISRA C++:2023 Guidelines for the use C++17 in critical systems</a>.</li>
+<li><a href="https://firefox-source-docs.mozilla.org/code-quality/coding-style/using_cxx_in_firefox_code.html">Using C++ in Mozilla Code</a>.
+  As the name indicates, this aims for portability across many (old) compilers.
+  As such, it is restrictive.</li>
+<li><a href="http://geosoft.no/development/cppstyle.html">Geosoft.no: C++ Programming Style Guidelines</a>.
+  ???.</li>
+<li><a href="http://www.possibility.com/Cpp/CppCodingStandard.html">Possibility.com: C++ Coding Standard</a>.
+  ???.</li>
+<li><a href="https://wiki.sei.cmu.edu/confluence/x/Wnw-BQ">SEI CERT: Secure C++ Coding Standard</a>.
+  A very nicely done set of rules (with examples and rationales) done for security-sensitive code.
+  Many of their rules apply generally.</li>
+<li><a href="http://www.codingstandard.com/">High Integrity C++ Coding Standard</a>.</li>
+<li><a href="http://llvm.org/docs/CodingStandards.html">llvm</a>.
+  Somewhat brief, based on C++14, and (not unreasonably) adjusted to its domain.</li>
+<li>???</li>
+</ul>
+<h2 id="rfbooks-books-with-coding-guidelines"><a name="SS-books"></a>RF.books: Books with coding guidelines<a class="headerlink" href="#rfbooks-books-with-coding-guidelines" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#Meyers96">Meyers96</a> Scott Meyers: <em>More Effective C++</em>. Addison-Wesley 1996.</li>
+<li><a href="#Meyers97">Meyers97</a> Scott Meyers: <em>Effective C++, Second Edition</em>. Addison-Wesley 1997.</li>
+<li><a href="#Meyers01">Meyers01</a> Scott Meyers: <em>Effective STL</em>. Addison-Wesley 2001.</li>
+<li><a href="#Meyers05">Meyers05</a> Scott Meyers: <em>Effective C++, Third Edition</em>. Addison-Wesley 2005.</li>
+<li><a href="#Meyers15">Meyers15</a> Scott Meyers: <em>Effective Modern C++</em>. O'Reilly 2015.</li>
+<li><a href="#SuttAlex05">SuttAlex05</a> Sutter and Alexandrescu: <em>C++ Coding Standards</em>. Addison-Wesley 2005. More a set of meta-rules than a set of rules. Pre-C++11.</li>
+<li><a href="#Stroustrup05">Stroustrup05</a> Bjarne Stroustrup: <a href="http://www.stroustrup.com/SELLrationale.pdf">A rationale for semantically enhanced library languages</a>.
+  LCSD05. October 2005.</li>
+<li><a href="#Stroustrup05">Stroustrup14</a> Stroustrup: <a href="http://www.stroustrup.com/Tour.html">A Tour of C++</a>.
+  Addison Wesley 2014.
+  Each chapter ends with an advice section consisting of a set of recommendations.</li>
+<li><a href="#Stroustrup13">Stroustrup13</a> Stroustrup: <a href="http://www.stroustrup.com/4th.html">The C++ Programming Language (4th Edition)</a>.
+  Addison Wesley 2013.
+  Each chapter ends with an advice section consisting of a set of recommendations.</li>
+<li>Stroustrup: <a href="http://www.stroustrup.com/Programming/PPP-style.pdf">Style Guide</a>
+  for <a href="http://www.stroustrup.com/programming.html">Programming: Principles and Practice using C++</a>.
+  Mostly low-level naming and layout rules.
+  Primarily a teaching tool.</li>
+</ul>
+<h2 id="rfc-c-programming-c11c14"><a name="SS-Cplusplus"></a>RF.C++: C++ Programming (C++11/C++14)<a class="headerlink" href="#rfc-c-programming-c11c14" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="http://www.stroustrup.com/4th.html">TC++PL4</a>:
+A thorough description of the C++ language and standard libraries for experienced programmers.</li>
+<li><a href="http://www.stroustrup.com/Tour.html">Tour++</a>:
+An overview of the C++ language and standard libraries for experienced programmers.</li>
+<li><a href="http://www.stroustrup.com/programming.html">Programming: Principles and Practice using C++</a>:
+A textbook for beginners and relative novices.</li>
+</ul>
+<h2 id="rfweb-websites"><a name="SS-web"></a>RF.web: Websites<a class="headerlink" href="#rfweb-websites" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://isocpp.org">isocpp.org</a></li>
+<li><a href="http://www.stroustrup.com">Bjarne Stroustrup's home pages</a></li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/">WG21</a></li>
+<li><a href="http://www.boost.org">Boost</a><a name="Boost"></a></li>
+<li><a href="https://opensource.adobe.com/">Adobe open source</a></li>
+<li><a href="http://pocoproject.org/">Poco libraries</a></li>
+<li>Sutter's Mill?</li>
+<li>???</li>
+</ul>
+<h2 id="rsvideo-videos-about-modern-c"><a name="SS-vid"></a>RS.video: Videos about "modern C++"<a class="headerlink" href="#rsvideo-videos-about-modern-c" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Bjarne Stroustrup: <a href="http://channel9.msdn.com/Events/GoingNative/GoingNative-2012/Keynote-Bjarne-Stroustrup-Cpp11-Style">C++11 Style</a>. 2012.</li>
+<li>Bjarne Stroustrup: <a href="http://channel9.msdn.com/Events/GoingNative/2013/Opening-Keynote-Bjarne-Stroustrup">The Essence of C++: With Examples in C++84, C++98, C++11, and C++14</a>. 2013</li>
+<li>All the talks from <a href="https://isocpp.org/blog/2014/11/cppcon-videos-c9">CppCon '14</a></li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=86xWVb4XIyE">The essence of C++</a> at the University of Edinburgh. 2014.</li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=_wzc7a3McOs">The Evolution of C++ Past, Present and Future</a>. CppCon 2016 keynote.</li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=nesCaocNjtQ">Make Simple Tasks Simple!</a>. CppCon 2014 keynote.</li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=1OEu9C51K2A">Writing Good C++14</a>. CppCon 2015 keynote about the Core Guidelines.</li>
+<li>Herb Sutter: <a href="https://www.youtube.com/watch?v=hEx5DNLWGgA">Writing Good C++14... By Default</a>. CppCon 2015 keynote about the Core Guidelines.</li>
+<li>CppCon 15</li>
+<li>??? C++ Next</li>
+<li>??? Meting C++</li>
+<li>??? more ???</li>
+</ul>
+<h2 id="rfman-manuals"><a name="SS-man"></a>RF.man: Manuals<a class="headerlink" href="#rfman-manuals" title="Permanent link">&para;</a></h2>
+<ul>
+<li>ISO C++ Standard C++11.</li>
+<li>ISO C++ Standard C++14.</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4606.pdf">ISO C++ Standard C++17</a>. Committee Draft.</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">Palo Alto "Concepts" TR</a>.</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4553.pdf">ISO C++ Concepts TS</a>.</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4569.pdf">WG21 Ranges report</a>. Draft.</li>
+</ul>
+<h2 id="rfcore-core-guidelines-materials"><a name="SS-core"></a>RF.core: Core Guidelines materials<a class="headerlink" href="#rfcore-core-guidelines-materials" title="Permanent link">&para;</a></h2>
+<p>This section contains materials that have been useful for presenting the core guidelines and the ideas behind them:</p>
+<ul>
+<li><a href="https://github.com/isocpp/CppCoreGuidelines/tree/master/docs">Our documents directory</a></li>
+<li>Stroustrup, Sutter, and Dos Reis: <a href="http://www.stroustrup.com/resource-model.pdf">A brief introduction to C++'s model for type- and resource-safety</a>. A paper with lots of examples.</li>
+<li>Sergey Zubkov: <a href="https://www.youtube.com/watch?v=DyLwdl_6vmU">a Core Guidelines talk</a>
+and here are the <a href="http://2017.cppconf.ru/talks/sergey-zubkov">slides</a>. In Russian. 2017.</li>
+<li>Neil MacIntosh: <a href="https://www.youtube.com/watch?v=_GhNnCuaEjo">The Guideline Support Library: One Year Later</a>. CppCon 2016.</li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=1OEu9C51K2A">Writing Good C++14</a>. CppCon 2015 keynote.</li>
+<li>Herb Sutter: <a href="https://www.youtube.com/watch?v=hEx5DNLWGgA">Writing Good C++14... By Default</a>. CppCon 2015 keynote.</li>
+<li>Peter Sommerlad: <a href="https://www.youtube.com/watch?v=fQ926v4ZzAM">C++ Core Guidelines - Modernize your C++ Code Base</a>. ACCU 2017.</li>
+<li>Bjarne Stroustrup: <a href="https://www.youtube.com/watch?v=01zI9kV4h8c">No Littering!</a>. Bay Area ACCU 2016.
+It gives some idea of the ambition level for the Core Guidelines.</li>
+</ul>
+<p>Note that slides for CppCon presentations are available (links with the posted videos).</p>
+<p>Contributions to this list would be most welcome.</p>
+<h2 id="acknowledgements"><a name="SS-ack"></a>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permanent link">&para;</a></h2>
+<p>Thanks to the many people who contributed rules, suggestions, supporting information, references, etc.:</p>
+<ul>
+<li>Peter Juhl</li>
+<li>Neil MacIntosh</li>
+<li>Axel Naumann</li>
+<li>Andrew Pardoe</li>
+<li>Gabriel Dos Reis</li>
+<li>Zhuang, Jiangang (Jeff)</li>
+<li>Sergey Zubkov</li>
+</ul>
+<p>and see the contributor list on the github.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>

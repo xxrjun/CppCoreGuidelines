@@ -1,0 +1,3943 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../con-constants-and-immutability/">
+      
+      
+        <link rel="next" href="../cpl-c-style-programming/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
+    
+    
+      
+        <title>T: Templates and generic programming - C++ Core Guidelines</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#t-templates-and-generic-programming-s-templates" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++ Core Guidelines" class="md-header__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++ Core Guidelines
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              T: Templates and generic programming
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++ Core Guidelines" class="md-nav__button md-logo" aria-label="C++ Core Guidelines" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++ Core Guidelines
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xxrjun/CppCoreGuidelines" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xxrjun/CppCoreGuidelines
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NOTICE/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NOTICE
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abstract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Abstract
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../in-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    In: Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../p-philosophy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    P: Philosophy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../i-interfaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I: Interfaces
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../f-functions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    F: Functions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../c-classes-and-class-hierarchies/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C: Classes and class hierarchies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enum-enumerations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enum: Enumerations
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../r-resource-management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    R: Resource management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../es-expressions-and-statements/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ES: Expressions and statements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../per-performance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Per: Performance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cp-concurrency-and-parallelism/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CP: Concurrency and parallelism
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e-error-handling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    E: Error handling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../con-constants-and-immutability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Con: Constants and immutability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    T: Templates and generic programming
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tgp-generic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.gp: Generic programming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.gp: Generic programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t1-use-templates-to-raise-the-level-of-abstraction-of-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.1: Use templates to raise the level of abstraction of code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t2-use-templates-to-express-algorithms-that-apply-to-many-argument-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.2: Use templates to express algorithms that apply to many argument types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t3-use-templates-to-express-containers-and-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.3: Use templates to express containers and ranges
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t4-use-templates-to-express-syntax-tree-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.4: Use templates to express syntax tree manipulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t5-combine-generic-and-oo-techniques-to-amplify-their-strengths-not-their-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.5: Combine generic and OO techniques to amplify their strengths, not their costs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tconcepts-concept-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.concepts: Concept rules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcon-use-concept-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.con-use: Concept use
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.con-use: Concept use">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t10-specify-concepts-for-all-template-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.10: Specify concepts for all template arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t11-whenever-possible-use-standard-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.11: Whenever possible use standard concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t12-prefer-concept-names-over-auto-for-local-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.12: Prefer concept names over auto for local variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t13-prefer-the-shorthand-notation-for-simple-single-type-argument-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.13: Prefer the shorthand notation for simple, single-type argument concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tconceptsdef-concept-definition-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.concepts.def: Concept definition rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.concepts.def: Concept definition rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t20-avoid-concepts-without-meaningful-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.20: Avoid "concepts" without meaningful semantics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t21-require-a-complete-set-of-operations-for-a-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.21: Require a complete set of operations for a concept
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t22-specify-axioms-for-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.22: Specify axioms for concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t23-differentiate-a-refined-concept-from-its-more-general-case-by-adding-new-use-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.23: Differentiate a refined concept from its more general case by adding new use patterns.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t24-use-tag-classes-or-traits-to-differentiate-concepts-that-differ-only-in-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.24: Use tag classes or traits to differentiate concepts that differ only in semantics.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t25-avoid-complementary-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.25: Avoid complementary constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t26-prefer-to-define-concepts-in-terms-of-use-patterns-rather-than-simple-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.26: Prefer to define concepts in terms of use-patterns rather than simple syntax
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template interfaces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Template interfaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t40-use-function-objects-to-pass-operations-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.40: Use function objects to pass operations to algorithms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t41-require-only-essential-properties-in-a-templates-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.41: Require only essential properties in a template's concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t42-use-template-aliases-to-simplify-notation-and-hide-implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.42: Use template aliases to simplify notation and hide implementation details
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t43-prefer-using-over-typedef-for-defining-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.43: Prefer using over typedef for defining aliases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t44-use-function-templates-to-deduce-class-template-argument-types-where-feasible" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.44: Use function templates to deduce class template argument types (where feasible)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t46-require-template-arguments-to-be-at-least-semiregular" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.46: Require template arguments to be at least semiregular
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t47-avoid-highly-visible-unconstrained-templates-with-common-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.47: Avoid highly visible unconstrained templates with common names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t48-if-your-compiler-does-not-support-concepts-fake-them-with-enable_if" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.48: If your compiler does not support concepts, fake them with enable_if
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t49-where-possible-avoid-type-erasure" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.49: Where possible, avoid type-erasure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tdef-template-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.def: Template definitions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.def: Template definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t60-minimize-a-templates-context-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.60: Minimize a template's context dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t61-do-not-over-parameterize-members-scary" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.61: Do not over-parameterize members (SCARY)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t62-place-non-dependent-class-template-members-in-a-non-templated-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.62: Place non-dependent class template members in a non-templated base class
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t64-use-specialization-to-provide-alternative-implementations-of-class-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.64: Use specialization to provide alternative implementations of class templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t65-use-tag-dispatch-to-provide-alternative-implementations-of-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.65: Use tag dispatch to provide alternative implementations of a function
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t67-use-specialization-to-provide-alternative-implementations-for-irregular-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.67: Use specialization to provide alternative implementations for irregular types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t68-use-rather-than-within-templates-to-avoid-ambiguities" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.68: Use {} rather than () within templates to avoid ambiguities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t69-inside-a-template-dont-make-an-unqualified-non-member-function-call-unless-you-intend-it-to-be-a-customization-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.69: Inside a template, don't make an unqualified non-member function call unless you intend it to be a customization point
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ttemp-hier-template-and-hierarchy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.temp-hier: Template and hierarchy rules:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.temp-hier: Template and hierarchy rules:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t80-do-not-naively-templatize-a-class-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.80: Do not naively templatize a class hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t81-do-not-mix-hierarchies-and-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.81: Do not mix hierarchies and arrays
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t82-linearize-a-hierarchy-when-virtual-functions-are-undesirable" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.82: Linearize a hierarchy when virtual functions are undesirable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t83-do-not-declare-a-member-function-template-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.83: Do not declare a member function template virtual
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t84-use-a-non-template-core-implementation-to-provide-an-abi-stable-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.84: Use a non-template core implementation to provide an ABI-stable interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tvar-variadic-template-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.var: Variadic template rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.var: Variadic template rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t100-use-variadic-templates-when-you-need-a-function-that-takes-a-variable-number-of-arguments-of-a-variety-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.100: Use variadic templates when you need a function that takes a variable number of arguments of a variety of types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t101-how-to-pass-arguments-to-a-variadic-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.101: ??? How to pass arguments to a variadic template ???
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t102-how-to-process-arguments-to-a-variadic-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.102: How to process arguments to a variadic template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t103-dont-use-variadic-templates-for-homogeneous-argument-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.103: Don't use variadic templates for homogeneous argument lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tmeta-template-metaprogramming-tmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.meta: Template metaprogramming (TMP)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.meta: Template metaprogramming (TMP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t120-use-template-metaprogramming-only-when-you-really-need-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.120: Use template metaprogramming only when you really need to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t121-use-template-metaprogramming-primarily-to-emulate-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.121: Use template metaprogramming primarily to emulate concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t122-use-templates-usually-template-aliases-to-compute-types-at-compile-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.122: Use templates (usually template aliases) to compute types at compile time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t123-use-constexpr-functions-to-compute-values-at-compile-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.123: Use constexpr functions to compute values at compile time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t124-prefer-to-use-standard-library-tmp-facilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.124: Prefer to use standard-library TMP facilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t125-if-you-need-to-go-beyond-the-standard-library-tmp-facilities-use-an-existing-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.125: If you need to go beyond the standard-library TMP facilities, use an existing library
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-template-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other template rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other template rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t140-if-an-operation-can-be-reused-give-it-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.140: If an operation can be reused, give it a name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t141-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.141: Use an unnamed lambda if you need a simple function object in one place only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t142-use-template-variables-to-simplify-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.142?: Use template variables to simplify notation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t143-dont-write-unintentionally-non-generic-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.143: Don't write unintentionally non-generic code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t144-dont-specialize-function-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.144: Don't specialize function templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t150-check-that-a-class-matches-a-concept-using-static_assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.150: Check that a class matches a concept using static_assert
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpl-c-style-programming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPL: C-style programming
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sf-source-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SF: Source files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sl-the-standard-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SL: The Standard Library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a-architectural-ideas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A: Architectural ideas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-non-rules-and-myths/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NR: Non-Rules and myths
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rf-references/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RF: References
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pro-profiles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pro: Profiles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gsl-guidelines-support-library/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GSL: Guidelines support library
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nl-naming-and-layout-suggestions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    NL: Naming and layout suggestions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq-answers-to-frequently-asked-questions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ: Answers to frequently asked questions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-a-libraries/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix A: Libraries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-b-modernizing-code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix B: Modernizing code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-c-discussion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix C: Discussion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../appendix-d-supporting-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Appendix D: Supporting tools
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../glossary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Glossary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../to-do-unclassified-proto-rules/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    To-do: Unclassified proto-rules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bibliography/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bibliography
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tgp-generic-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.gp: Generic programming
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.gp: Generic programming">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t1-use-templates-to-raise-the-level-of-abstraction-of-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.1: Use templates to raise the level of abstraction of code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t2-use-templates-to-express-algorithms-that-apply-to-many-argument-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.2: Use templates to express algorithms that apply to many argument types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t3-use-templates-to-express-containers-and-ranges" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.3: Use templates to express containers and ranges
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t4-use-templates-to-express-syntax-tree-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.4: Use templates to express syntax tree manipulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t5-combine-generic-and-oo-techniques-to-amplify-their-strengths-not-their-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.5: Combine generic and OO techniques to amplify their strengths, not their costs
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tconcepts-concept-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.concepts: Concept rules
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tcon-use-concept-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.con-use: Concept use
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.con-use: Concept use">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t10-specify-concepts-for-all-template-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.10: Specify concepts for all template arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t11-whenever-possible-use-standard-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.11: Whenever possible use standard concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t12-prefer-concept-names-over-auto-for-local-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.12: Prefer concept names over auto for local variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t13-prefer-the-shorthand-notation-for-simple-single-type-argument-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.13: Prefer the shorthand notation for simple, single-type argument concepts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tconceptsdef-concept-definition-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.concepts.def: Concept definition rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.concepts.def: Concept definition rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t20-avoid-concepts-without-meaningful-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.20: Avoid "concepts" without meaningful semantics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t21-require-a-complete-set-of-operations-for-a-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.21: Require a complete set of operations for a concept
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t22-specify-axioms-for-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.22: Specify axioms for concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t23-differentiate-a-refined-concept-from-its-more-general-case-by-adding-new-use-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.23: Differentiate a refined concept from its more general case by adding new use patterns.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t24-use-tag-classes-or-traits-to-differentiate-concepts-that-differ-only-in-semantics" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.24: Use tag classes or traits to differentiate concepts that differ only in semantics.
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t25-avoid-complementary-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.25: Avoid complementary constraints
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t26-prefer-to-define-concepts-in-terms-of-use-patterns-rather-than-simple-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.26: Prefer to define concepts in terms of use-patterns rather than simple syntax
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-interfaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template interfaces
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Template interfaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t40-use-function-objects-to-pass-operations-to-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.40: Use function objects to pass operations to algorithms
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t41-require-only-essential-properties-in-a-templates-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.41: Require only essential properties in a template's concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t42-use-template-aliases-to-simplify-notation-and-hide-implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.42: Use template aliases to simplify notation and hide implementation details
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t43-prefer-using-over-typedef-for-defining-aliases" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.43: Prefer using over typedef for defining aliases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t44-use-function-templates-to-deduce-class-template-argument-types-where-feasible" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.44: Use function templates to deduce class template argument types (where feasible)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t46-require-template-arguments-to-be-at-least-semiregular" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.46: Require template arguments to be at least semiregular
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t47-avoid-highly-visible-unconstrained-templates-with-common-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.47: Avoid highly visible unconstrained templates with common names
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t48-if-your-compiler-does-not-support-concepts-fake-them-with-enable_if" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.48: If your compiler does not support concepts, fake them with enable_if
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t49-where-possible-avoid-type-erasure" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.49: Where possible, avoid type-erasure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tdef-template-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.def: Template definitions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.def: Template definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t60-minimize-a-templates-context-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.60: Minimize a template's context dependencies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t61-do-not-over-parameterize-members-scary" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.61: Do not over-parameterize members (SCARY)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t62-place-non-dependent-class-template-members-in-a-non-templated-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.62: Place non-dependent class template members in a non-templated base class
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t64-use-specialization-to-provide-alternative-implementations-of-class-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.64: Use specialization to provide alternative implementations of class templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t65-use-tag-dispatch-to-provide-alternative-implementations-of-a-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.65: Use tag dispatch to provide alternative implementations of a function
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t67-use-specialization-to-provide-alternative-implementations-for-irregular-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.67: Use specialization to provide alternative implementations for irregular types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t68-use-rather-than-within-templates-to-avoid-ambiguities" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.68: Use {} rather than () within templates to avoid ambiguities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t69-inside-a-template-dont-make-an-unqualified-non-member-function-call-unless-you-intend-it-to-be-a-customization-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.69: Inside a template, don't make an unqualified non-member function call unless you intend it to be a customization point
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ttemp-hier-template-and-hierarchy-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.temp-hier: Template and hierarchy rules:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.temp-hier: Template and hierarchy rules:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t80-do-not-naively-templatize-a-class-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.80: Do not naively templatize a class hierarchy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t81-do-not-mix-hierarchies-and-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.81: Do not mix hierarchies and arrays
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t82-linearize-a-hierarchy-when-virtual-functions-are-undesirable" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.82: Linearize a hierarchy when virtual functions are undesirable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t83-do-not-declare-a-member-function-template-virtual" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.83: Do not declare a member function template virtual
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t84-use-a-non-template-core-implementation-to-provide-an-abi-stable-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.84: Use a non-template core implementation to provide an ABI-stable interface
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tvar-variadic-template-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.var: Variadic template rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.var: Variadic template rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t100-use-variadic-templates-when-you-need-a-function-that-takes-a-variable-number-of-arguments-of-a-variety-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.100: Use variadic templates when you need a function that takes a variable number of arguments of a variety of types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t101-how-to-pass-arguments-to-a-variadic-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.101: ??? How to pass arguments to a variadic template ???
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t102-how-to-process-arguments-to-a-variadic-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.102: How to process arguments to a variadic template
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t103-dont-use-variadic-templates-for-homogeneous-argument-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.103: Don't use variadic templates for homogeneous argument lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tmeta-template-metaprogramming-tmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.meta: Template metaprogramming (TMP)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="T.meta: Template metaprogramming (TMP)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t120-use-template-metaprogramming-only-when-you-really-need-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.120: Use template metaprogramming only when you really need to
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t121-use-template-metaprogramming-primarily-to-emulate-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.121: Use template metaprogramming primarily to emulate concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t122-use-templates-usually-template-aliases-to-compute-types-at-compile-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.122: Use templates (usually template aliases) to compute types at compile time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t123-use-constexpr-functions-to-compute-values-at-compile-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.123: Use constexpr functions to compute values at compile time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t124-prefer-to-use-standard-library-tmp-facilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.124: Prefer to use standard-library TMP facilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t125-if-you-need-to-go-beyond-the-standard-library-tmp-facilities-use-an-existing-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.125: If you need to go beyond the standard-library TMP facilities, use an existing library
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-template-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Other template rules
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Other template rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#t140-if-an-operation-can-be-reused-give-it-a-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.140: If an operation can be reused, give it a name
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t141-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.141: Use an unnamed lambda if you need a simple function object in one place only
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t142-use-template-variables-to-simplify-notation" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.142?: Use template variables to simplify notation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t143-dont-write-unintentionally-non-generic-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.143: Don't write unintentionally non-generic code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t144-dont-specialize-function-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.144: Don't specialize function templates
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#t150-check-that-a-class-matches-a-concept-using-static_assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      T.150: Check that a class matches a concept using static_assert
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="t-templates-and-generic-programming-s-templates">T: Templates and generic programming {#S-templates}<a class="headerlink" href="#t-templates-and-generic-programming-s-templates" title="Permanent link">&para;</a></h1>
+<p>Generic programming is programming using types and algorithms parameterized by types, values, and algorithms.
+In C++, generic programming is supported by the <code>template</code> language mechanisms.</p>
+<p>Arguments to generic functions are characterized by sets of requirements on the argument types and values involved.
+In C++, these requirements are expressed by compile-time predicates called concepts.</p>
+<p>Templates can also be used for meta-programming; that is, programs that compose code at compile time.</p>
+<p>A central notion in generic programming is "concepts"; that is, requirements on template arguments presented as compile-time predicates.
+"Concepts" were standardized in C++20, although they were first made available, in slightly older syntax, in GCC 6.1.</p>
+<p>Template use rule summary:</p>
+<ul>
+<li><a href="#Rt-raise">T.1: Use templates to raise the level of abstraction of code</a></li>
+<li><a href="#Rt-algo">T.2: Use templates to express algorithms that apply to many argument types</a></li>
+<li><a href="#Rt-cont">T.3: Use templates to express containers and ranges</a></li>
+<li><a href="#Rt-expr">T.4: Use templates to express syntax tree manipulation</a></li>
+<li><a href="#Rt-generic-oo">T.5: Combine generic and OO techniques to amplify their strengths, not their costs</a></li>
+</ul>
+<p>Concept use rule summary:</p>
+<ul>
+<li><a href="#Rt-concepts">T.10: Specify concepts for all template arguments</a></li>
+<li><a href="#Rt-std-concepts">T.11: Whenever possible use standard concepts</a></li>
+<li><a href="#Rt-auto">T.12: Prefer concept names over <code>auto</code> for local variables</a></li>
+<li><a href="#Rt-shorthand">T.13: Prefer the shorthand notation for simple, single-type argument concepts</a></li>
+<li>???</li>
+</ul>
+<p>Concept definition rule summary:</p>
+<ul>
+<li><a href="#Rt-low">T.20: Avoid "concepts" without meaningful semantics</a></li>
+<li><a href="#Rt-complete">T.21: Require a complete set of operations for a concept</a></li>
+<li><a href="#Rt-axiom">T.22: Specify axioms for concepts</a></li>
+<li><a href="#Rt-refine">T.23: Differentiate a refined concept from its more general case by adding new use patterns</a></li>
+<li><a href="#Rt-tag">T.24: Use tag classes or traits to differentiate concepts that differ only in semantics</a></li>
+<li><a href="#Rt-not">T.25: Avoid complementary constraints</a></li>
+<li><a href="#Rt-use">T.26: Prefer to define concepts in terms of use-patterns rather than simple syntax</a></li>
+<li><a href="#Rt-???">T.30: Use concept negation (<code>!C&lt;T&gt;</code>) sparingly to express a minor difference</a></li>
+<li><a href="#Rt-???">T.31: Use concept disjunction (<code>C1&lt;T&gt; || C2&lt;T&gt;</code>) sparingly to express alternatives</a></li>
+<li>???</li>
+</ul>
+<p>Template interface rule summary:</p>
+<ul>
+<li><a href="#Rt-fo">T.40: Use function objects to pass operations to algorithms</a></li>
+<li><a href="#Rt-essential">T.41: Require only essential properties in a template's concepts</a></li>
+<li><a href="#Rt-alias">T.42: Use template aliases to simplify notation and hide implementation details</a></li>
+<li><a href="#Rt-using">T.43: Prefer <code>using</code> over <code>typedef</code> for defining aliases</a></li>
+<li><a href="#Rt-deduce">T.44: Use function templates to deduce class template argument types (where feasible)</a></li>
+<li><a href="#Rt-regular">T.46: Require template arguments to be at least semiregular</a></li>
+<li><a href="#Rt-visible">T.47: Avoid highly visible unconstrained templates with common names</a></li>
+<li><a href="#Rt-concept-def">T.48: If your compiler does not support concepts, fake them with <code>enable_if</code></a></li>
+<li><a href="#Rt-erasure">T.49: Where possible, avoid type-erasure</a></li>
+</ul>
+<p>Template definition rule summary:</p>
+<ul>
+<li><a href="#Rt-depend">T.60: Minimize a template's context dependencies</a></li>
+<li><a href="#Rt-scary">T.61: Do not over-parameterize members (SCARY)</a></li>
+<li><a href="#Rt-nondependent">T.62: Place non-dependent class template members in a non-templated base class</a></li>
+<li><a href="#Rt-specialization">T.64: Use specialization to provide alternative implementations of class templates</a></li>
+<li><a href="#Rt-tag-dispatch">T.65: Use tag dispatch to provide alternative implementations of functions</a></li>
+<li><a href="#Rt-specialization2">T.67: Use specialization to provide alternative implementations for irregular types</a></li>
+<li><a href="#Rt-cast">T.68: Use <code>{}</code> rather than <code>()</code> within templates to avoid ambiguities</a></li>
+<li><a href="#Rt-customization">T.69: Inside a template, don't make an unqualified non-member function call unless you intend it to be a customization point</a></li>
+</ul>
+<p>Template and hierarchy rule summary:</p>
+<ul>
+<li><a href="#Rt-hier">T.80: Do not naively templatize a class hierarchy</a></li>
+<li><a href="#Rt-array">T.81: Do not mix hierarchies and arrays</a> // ??? somewhere in "hierarchies"</li>
+<li><a href="#Rt-linear">T.82: Linearize a hierarchy when virtual functions are undesirable</a></li>
+<li><a href="#Rt-virtual">T.83: Do not declare a member function template virtual</a></li>
+<li><a href="#Rt-abi">T.84: Use a non-template core implementation to provide an ABI-stable interface</a></li>
+<li><a href="#Rt-???">T.??: ????</a></li>
+</ul>
+<p>Variadic template rule summary:</p>
+<ul>
+<li><a href="#Rt-variadic">T.100: Use variadic templates when you need a function that takes a variable number of arguments of a variety of types</a></li>
+<li><a href="#Rt-variadic-pass">T.101: ??? How to pass arguments to a variadic template ???</a></li>
+<li><a href="#Rt-variadic-process">T.102: ??? How to process arguments to a variadic template ???</a></li>
+<li><a href="#Rt-variadic-not">T.103: Don't use variadic templates for homogeneous argument lists</a></li>
+<li><a href="#Rt-???">T.??: ????</a></li>
+</ul>
+<p>Metaprogramming rule summary:</p>
+<ul>
+<li><a href="#Rt-metameta">T.120: Use template metaprogramming only when you really need to</a></li>
+<li><a href="#Rt-emulate">T.121: Use template metaprogramming primarily to emulate concepts</a></li>
+<li><a href="#Rt-tmp">T.122: Use templates (usually template aliases) to compute types at compile time</a></li>
+<li><a href="#Rt-fct">T.123: Use <code>constexpr</code> functions to compute values at compile time</a></li>
+<li><a href="#Rt-std-tmp">T.124: Prefer to use standard-library TMP facilities</a></li>
+<li><a href="#Rt-lib">T.125: If you need to go beyond the standard-library TMP facilities, use an existing library</a></li>
+<li><a href="#Rt-???">T.??: ????</a></li>
+</ul>
+<p>Other template rules summary:</p>
+<ul>
+<li><a href="#Rt-name">T.140: If an operation can be reused, give it a name</a></li>
+<li><a href="#Rt-lambda">T.141: Use an unnamed lambda if you need a simple function object in one place only</a></li>
+<li><a href="#Rt-var">T.142: Use template variables to simplify notation</a></li>
+<li><a href="#Rt-non-generic">T.143: Don't write unintentionally non-generic code</a></li>
+<li><a href="#Rt-specialize-function">T.144: Don't specialize function templates</a></li>
+<li><a href="#Rt-check-class">T.150: Check that a class matches a concept using <code>static_assert</code></a></li>
+<li><a href="#Rt-???">T.??: ????</a></li>
+</ul>
+<h2 id="tgp-generic-programming"><a name="SS-GP"></a>T.gp: Generic programming<a class="headerlink" href="#tgp-generic-programming" title="Permanent link">&para;</a></h2>
+<p>Generic programming is programming using types and algorithms parameterized by types, values, and algorithms.</p>
+<h3 id="t1-use-templates-to-raise-the-level-of-abstraction-of-code"><a name="Rt-raise"></a>T.1: Use templates to raise the level of abstraction of code<a class="headerlink" href="#t1-use-templates-to-raise-the-level-of-abstraction-of-code" title="Permanent link">&para;</a></h3>
+<h5 id="reason">Reason<a class="headerlink" href="#reason" title="Permanent link">&para;</a></h5>
+<p>Generality. Reuse. Efficiency. Encourages consistent definition of user types.</p>
+<h5 id="example-bad">Example, bad<a class="headerlink" href="#example-bad" title="Permanent link">&para;</a></h5>
+<p>Conceptually, the following requirements are wrong because what we want of <code>T</code> is more than just the very low-level concepts of "can be incremented" or "can be added":</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    requires Incrementable&lt;T&gt;
+T sum1(vector&lt;T&gt;&amp; v, T s)
+{
+    for (auto x : v) s += x;
+    return s;
+}
+
+template&lt;typename T&gt;
+    requires Simple_number&lt;T&gt;
+T sum2(vector&lt;T&gt;&amp; v, T s)
+{
+    for (auto x : v) s = s + x;
+    return s;
+}
+</code></pre></div>
+<p>Assuming that <code>Incrementable</code> does not support <code>+</code> and <code>Simple_number</code> does not support <code>+=</code>, we have overconstrained implementers of <code>sum1</code> and <code>sum2</code>.
+And, in this case, missed an opportunity for a generalization.</p>
+<h5 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    requires Arithmetic&lt;T&gt;
+T sum(vector&lt;T&gt;&amp; v, T s)
+{
+    for (auto x : v) s += x;
+    return s;
+}
+</code></pre></div>
+<p>Assuming that <code>Arithmetic</code> requires both <code>+</code> and <code>+=</code>, we have constrained the user of <code>sum</code> to provide a complete arithmetic type.
+That is not a minimal requirement, but it gives the implementer of algorithms much needed freedom and ensures that any <code>Arithmetic</code> type
+can be used for a wide variety of algorithms.</p>
+<p>For additional generality and reusability, we could also use a more general <code>Container</code> or <code>Range</code> concept instead of committing to only one container, <code>vector</code>.</p>
+<h5 id="note">Note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h5>
+<p>If we define a template to require exactly the operations required for a single implementation of a single algorithm
+(e.g., requiring just <code>+=</code> rather than also <code>=</code> and <code>+</code>) and only those, we have overconstrained maintainers.
+We aim to minimize requirements on template arguments, but the absolutely minimal requirements of an implementation is rarely a meaningful concept.</p>
+<h5 id="note_1">Note<a class="headerlink" href="#note_1" title="Permanent link">&para;</a></h5>
+<p>Templates can be used to express essentially everything (they are Turing complete), but the aim of generic programming (as expressed using templates)
+is to efficiently generalize operations/algorithms over a set of types with similar semantic properties.</p>
+<h5 id="enforcement">Enforcement<a class="headerlink" href="#enforcement" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag algorithms with "overly simple" requirements, such as direct use of specific operators without a concept.</li>
+<li>Do not flag the definition of the "overly simple" concepts themselves; they might simply be building blocks for more useful concepts.</li>
+</ul>
+<h3 id="t2-use-templates-to-express-algorithms-that-apply-to-many-argument-types"><a name="Rt-algo"></a>T.2: Use templates to express algorithms that apply to many argument types<a class="headerlink" href="#t2-use-templates-to-express-algorithms-that-apply-to-many-argument-types" title="Permanent link">&para;</a></h3>
+<h5 id="reason_1">Reason<a class="headerlink" href="#reason_1" title="Permanent link">&para;</a></h5>
+<p>Generality. Minimizing the amount of source code. Interoperability. Reuse.</p>
+<h5 id="example_1">Example<a class="headerlink" href="#example_1" title="Permanent link">&para;</a></h5>
+<p>That's the foundation of the STL. A single <code>find</code> algorithm easily works with any kind of input range:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename Iter, typename Val&gt;
+    // requires Input_iterator&lt;Iter&gt;
+    //       &amp;&amp; Equality_comparable&lt;Value_type&lt;Iter&gt;, Val&gt;
+Iter find(Iter b, Iter e, Val v)
+{
+    // ...
+}
+</code></pre></div>
+<h5 id="note_2">Note<a class="headerlink" href="#note_2" title="Permanent link">&para;</a></h5>
+<p>Don't use a template unless you have a realistic need for more than one template argument type.
+Don't overabstract.</p>
+<h5 id="enforcement_1">Enforcement<a class="headerlink" href="#enforcement_1" title="Permanent link">&para;</a></h5>
+<p>??? tough, probably needs a human</p>
+<h3 id="t3-use-templates-to-express-containers-and-ranges"><a name="Rt-cont"></a>T.3: Use templates to express containers and ranges<a class="headerlink" href="#t3-use-templates-to-express-containers-and-ranges" title="Permanent link">&para;</a></h3>
+<h5 id="reason_2">Reason<a class="headerlink" href="#reason_2" title="Permanent link">&para;</a></h5>
+<p>Containers need an element type, and expressing that as a template argument is general, reusable, and type safe.
+It also avoids brittle or inefficient workarounds. Convention: That's the way the STL does it.</p>
+<h5 id="example_2">Example<a class="headerlink" href="#example_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    // requires Regular&lt;T&gt;
+class Vector {
+    // ...
+    T* elem;   // points to sz Ts
+    int sz;
+};
+
+Vector&lt;double&gt; v(10);
+v[7] = 9.9;
+</code></pre></div>
+<h5 id="example-bad_1">Example, bad<a class="headerlink" href="#example-bad_1" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Container {
+    // ...
+    void* elem;   // points to size elements of some type
+    int sz;
+};
+
+Container c(10, sizeof(double));
+((double*) c.elem)[7] = 9.9;
+</code></pre></div>
+<p>This doesn't directly express the intent of the programmer and hides the structure of the program from the type system and optimizer.</p>
+<p>Hiding the <code>void*</code> behind macros simply obscures the problems and introduces new opportunities for confusion.</p>
+<p><strong>Exceptions</strong>: If you need an ABI-stable interface, you might have to provide a base implementation and express the (type-safe) template in terms of that.
+See <a href="#Rt-abi">Stable base</a>.</p>
+<h5 id="enforcement_2">Enforcement<a class="headerlink" href="#enforcement_2" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag uses of <code>void*</code>s and casts outside low-level implementation code</li>
+</ul>
+<h3 id="t4-use-templates-to-express-syntax-tree-manipulation"><a name="Rt-expr"></a>T.4: Use templates to express syntax tree manipulation<a class="headerlink" href="#t4-use-templates-to-express-syntax-tree-manipulation" title="Permanent link">&para;</a></h3>
+<h5 id="reason_3">Reason<a class="headerlink" href="#reason_3" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_3">Example<a class="headerlink" href="#example_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<p><strong>Exceptions</strong>: ???</p>
+<h3 id="t5-combine-generic-and-oo-techniques-to-amplify-their-strengths-not-their-costs"><a name="Rt-generic-oo"></a>T.5: Combine generic and OO techniques to amplify their strengths, not their costs<a class="headerlink" href="#t5-combine-generic-and-oo-techniques-to-amplify-their-strengths-not-their-costs" title="Permanent link">&para;</a></h3>
+<h5 id="reason_4">Reason<a class="headerlink" href="#reason_4" title="Permanent link">&para;</a></h5>
+<p>Generic and OO techniques are complementary.</p>
+<h5 id="example_4">Example<a class="headerlink" href="#example_4" title="Permanent link">&para;</a></h5>
+<p>Static helps dynamic: Use static polymorphism to implement dynamically polymorphic interfaces.</p>
+<div class="language-text highlight"><pre><span></span><code>class Command {
+    // pure virtual functions
+};
+
+// implementations
+template&lt;/*...*/&gt;
+class ConcreteCommand : public Command {
+    // implement virtuals
+};
+</code></pre></div>
+<h5 id="example_5">Example<a class="headerlink" href="#example_5" title="Permanent link">&para;</a></h5>
+<p>Dynamic helps static: Offer a generic, comfortable, statically bound interface, but internally dispatch dynamically, so you offer a uniform object layout.
+Examples include type erasure as with <code>std::shared_ptr</code>'s deleter (but <a href="#Rt-erasure">don't overuse type erasure</a>).</p>
+<div class="language-text highlight"><pre><span></span><code>#include &lt;memory&gt;
+
+class Object {
+public:
+    template&lt;typename T&gt;
+    Object(T&amp;&amp; obj)
+        : concept_(std::make_shared&lt;ConcreteCommand&lt;T&gt;&gt;(std::forward&lt;T&gt;(obj))) {}
+
+    int get_id() const { return concept_-&gt;get_id(); }
+
+private:
+    struct Command {
+        virtual ~Command() {}
+        virtual int get_id() const = 0;
+    };
+
+    template&lt;typename T&gt;
+    struct ConcreteCommand final : Command {
+        ConcreteCommand(T&amp;&amp; obj) noexcept : object_(std::forward&lt;T&gt;(obj)) {}
+        int get_id() const final { return object_.get_id(); }
+
+    private:
+        T object_;
+    };
+
+    std::shared_ptr&lt;Command&gt; concept_;
+};
+
+class Bar {
+public:
+    int get_id() const { return 1; }
+};
+
+struct Foo {
+public:
+    int get_id() const { return 2; }
+};
+
+Object o(Bar{});
+Object o2(Foo{});
+</code></pre></div>
+<h5 id="note_3">Note<a class="headerlink" href="#note_3" title="Permanent link">&para;</a></h5>
+<p>In a class template, non-virtual functions are only instantiated if they're used -- but virtual functions are instantiated every time.
+This can bloat code size, and might overconstrain a generic type by instantiating functionality that is never needed.
+Avoid this, even though the standard-library facets made this mistake.</p>
+<h5 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h5>
+<ul>
+<li>ref ???</li>
+<li>ref ???</li>
+<li>ref ???</li>
+</ul>
+<h5 id="enforcement_3">Enforcement<a class="headerlink" href="#enforcement_3" title="Permanent link">&para;</a></h5>
+<p>See the reference to more specific rules.</p>
+<h2 id="tconcepts-concept-rules"><a name="SS-concepts"></a>T.concepts: Concept rules<a class="headerlink" href="#tconcepts-concept-rules" title="Permanent link">&para;</a></h2>
+<p>Concepts is a C++20 facility for specifying requirements for template arguments.
+They are crucial in the thinking about generic programming and the basis of much work on future C++ libraries
+(standard and other).</p>
+<p>This section assumes concept support</p>
+<p>Concept use rule summary:</p>
+<ul>
+<li><a href="#Rt-concepts">T.10: Specify concepts for all template arguments</a></li>
+<li><a href="#Rt-std-concepts">T.11: Whenever possible use standard concepts</a></li>
+<li><a href="#Rt-auto">T.12: Prefer concept names over <code>auto</code></a></li>
+<li><a href="#Rt-shorthand">T.13: Prefer the shorthand notation for simple, single-type argument concepts</a></li>
+<li>???</li>
+</ul>
+<p>Concept definition rule summary:</p>
+<ul>
+<li><a href="#Rt-low">T.20: Avoid "concepts" without meaningful semantics</a></li>
+<li><a href="#Rt-complete">T.21: Require a complete set of operations for a concept</a></li>
+<li><a href="#Rt-axiom">T.22: Specify axioms for concepts</a></li>
+<li><a href="#Rt-refine">T.23: Differentiate a refined concept from its more general case by adding new use patterns</a></li>
+<li><a href="#Rt-tag">T.24: Use tag classes or traits to differentiate concepts that differ only in semantics</a></li>
+<li><a href="#Rt-not">T.25: Avoid complimentary constraints</a></li>
+<li><a href="#Rt-use">T.26: Prefer to define concepts in terms of use-patterns rather than simple syntax</a></li>
+<li>???</li>
+</ul>
+<h2 id="tcon-use-concept-use"><a name="SS-concept-use"></a>T.con-use: Concept use<a class="headerlink" href="#tcon-use-concept-use" title="Permanent link">&para;</a></h2>
+<h3 id="t10-specify-concepts-for-all-template-arguments"><a name="Rt-concepts"></a>T.10: Specify concepts for all template arguments<a class="headerlink" href="#t10-specify-concepts-for-all-template-arguments" title="Permanent link">&para;</a></h3>
+<h5 id="reason_5">Reason<a class="headerlink" href="#reason_5" title="Permanent link">&para;</a></h5>
+<p>Correctness and readability.
+The assumed meaning (syntax and semantics) of a template argument is fundamental to the interface of a template.
+A concept dramatically improves documentation and error handling for the template.
+Specifying concepts for template arguments is a powerful design tool.</p>
+<h5 id="example_6">Example<a class="headerlink" href="#example_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename Iter, typename Val&gt;
+    requires input_iterator&lt;Iter&gt;
+             &amp;&amp; equality_comparable_with&lt;iter_value_t&lt;Iter&gt;, Val&gt;
+Iter find(Iter b, Iter e, Val v)
+{
+    // ...
+}
+</code></pre></div>
+<p>or equivalently and more succinctly:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;input_iterator Iter, typename Val&gt;
+    requires equality_comparable_with&lt;iter_value_t&lt;Iter&gt;, Val&gt;
+Iter find(Iter b, Iter e, Val v)
+{
+    // ...
+}
+</code></pre></div>
+<h5 id="note_4">Note<a class="headerlink" href="#note_4" title="Permanent link">&para;</a></h5>
+<p>Plain <code>typename</code> (or <code>auto</code>) is the least constraining concept.
+It should be used only rarely when nothing more than "it's a type" can be assumed.
+This is typically only needed when (as part of template metaprogramming code) we manipulate pure expression trees, postponing type checking.</p>
+<p><strong>References</strong>: TC++PL4</p>
+<h5 id="enforcement_4">Enforcement<a class="headerlink" href="#enforcement_4" title="Permanent link">&para;</a></h5>
+<p>Flag template type arguments without concepts</p>
+<h3 id="t11-whenever-possible-use-standard-concepts"><a name="Rt-std-concepts"></a>T.11: Whenever possible use standard concepts<a class="headerlink" href="#t11-whenever-possible-use-standard-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_6">Reason<a class="headerlink" href="#reason_6" title="Permanent link">&para;</a></h5>
+<p>"Standard" concepts (as provided by the <a href="#gsl-guidelines-support-library">GSL</a> and the ISO standard itself)
+save us the work of thinking up our own concepts, are better thought out than we can manage to do in a hurry, and improve interoperability.</p>
+<h5 id="note_5">Note<a class="headerlink" href="#note_5" title="Permanent link">&para;</a></h5>
+<p>Unless you are creating a new generic library, most of the concepts you need will already be defined by the standard library.</p>
+<h5 id="example_7">Example<a class="headerlink" href="#example_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    // don&#39;t define this: sortable is in &lt;iterator&gt;
+concept Ordered_container = Sequence&lt;T&gt; &amp;&amp; Random_access&lt;Iterator&lt;T&gt;&gt; &amp;&amp; Ordered&lt;Value_type&lt;T&gt;&gt;;
+
+void sort(Ordered_container auto&amp; s);
+</code></pre></div>
+<p>This <code>Ordered_container</code> is quite plausible, but it is very similar to the <code>sortable</code> concept in the standard library.
+Is it better? Is it right? Does it accurately reflect the standard's requirements for <code>sort</code>?
+It is better and simpler just to use <code>sortable</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>void sort(sortable auto&amp; s);   // better
+</code></pre></div>
+<h5 id="note_6">Note<a class="headerlink" href="#note_6" title="Permanent link">&para;</a></h5>
+<p>The set of "standard" concepts is evolving as we approach an ISO standard including concepts.</p>
+<h5 id="note_7">Note<a class="headerlink" href="#note_7" title="Permanent link">&para;</a></h5>
+<p>Designing a useful concept is challenging.</p>
+<h5 id="enforcement_5">Enforcement<a class="headerlink" href="#enforcement_5" title="Permanent link">&para;</a></h5>
+<p>Hard.</p>
+<ul>
+<li>Look for unconstrained arguments, templates that use "unusual"/non-standard concepts, templates that use "homebrew" concepts without axioms.</li>
+<li>Develop a concept-discovery tool (e.g., see <a href="http://www.stroustrup.com/sle2010_webversion.pdf">an early experiment</a>).</li>
+</ul>
+<h3 id="t12-prefer-concept-names-over-auto-for-local-variables"><a name="Rt-auto"></a>T.12: Prefer concept names over <code>auto</code> for local variables<a class="headerlink" href="#t12-prefer-concept-names-over-auto-for-local-variables" title="Permanent link">&para;</a></h3>
+<h5 id="reason_7">Reason<a class="headerlink" href="#reason_7" title="Permanent link">&para;</a></h5>
+<p><code>auto</code> is the weakest concept. Concept names convey more meaning than just <code>auto</code>.</p>
+<h5 id="example_8">Example<a class="headerlink" href="#example_8" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;string&gt; v{ &quot;abc&quot;, &quot;xyz&quot; };
+auto&amp; x = v.front();        // bad
+String auto&amp; s = v.front(); // good (String is a GSL concept)
+</code></pre></div>
+<h5 id="enforcement_6">Enforcement<a class="headerlink" href="#enforcement_6" title="Permanent link">&para;</a></h5>
+<ul>
+<li>???</li>
+</ul>
+<h3 id="t13-prefer-the-shorthand-notation-for-simple-single-type-argument-concepts"><a name="Rt-shorthand"></a>T.13: Prefer the shorthand notation for simple, single-type argument concepts<a class="headerlink" href="#t13-prefer-the-shorthand-notation-for-simple-single-type-argument-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_8">Reason<a class="headerlink" href="#reason_8" title="Permanent link">&para;</a></h5>
+<p>Readability. Direct expression of an idea.</p>
+<h5 id="example_9">Example<a class="headerlink" href="#example_9" title="Permanent link">&para;</a></h5>
+<p>To say "<code>T</code> is <code>sortable</code>":</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;       // Correct but verbose: &quot;The parameter is
+    requires sortable&lt;T&gt;   // of type T which is the name of a type
+void sort(T&amp;);             // that is sortable&quot;
+
+template&lt;sortable T&gt;       // Better: &quot;The parameter is of type T
+void sort(T&amp;);             // which is Sortable&quot;
+
+void sort(sortable auto&amp;); // Best: &quot;The parameter is Sortable&quot;
+</code></pre></div>
+<p>The shorter versions better match the way we speak. Note that many templates don't need to use the <code>template</code> keyword.</p>
+<h5 id="enforcement_7">Enforcement<a class="headerlink" href="#enforcement_7" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Not feasible in the short term when people convert from the <code>&lt;typename T&gt;</code> and <code>&lt;class T</code>&gt; notation.</li>
+<li>Later, flag declarations that first introduce a typename and then constrain it with a simple, single-type-argument concept.</li>
+</ul>
+<h2 id="tconceptsdef-concept-definition-rules"><a name="SS-concepts-def"></a>T.concepts.def: Concept definition rules<a class="headerlink" href="#tconceptsdef-concept-definition-rules" title="Permanent link">&para;</a></h2>
+<p>Defining good concepts is non-trivial.
+Concepts are meant to represent fundamental concepts in an application domain (hence the name "concepts").
+Similarly throwing together a set of syntactic constraints to be used for the arguments for a single class or algorithm is not what concepts were designed for
+and will not give the full benefits of the mechanism.</p>
+<p>Obviously, defining concepts is most useful for code that can use an implementation (e.g., C++20 or later)
+but defining concepts is in itself a useful design technique and help catch conceptual errors and clean up the concepts (sic!) of an implementation.</p>
+<h3 id="t20-avoid-concepts-without-meaningful-semantics"><a name="Rt-low"></a>T.20: Avoid "concepts" without meaningful semantics<a class="headerlink" href="#t20-avoid-concepts-without-meaningful-semantics" title="Permanent link">&para;</a></h3>
+<h5 id="reason_9">Reason<a class="headerlink" href="#reason_9" title="Permanent link">&para;</a></h5>
+<p>Concepts are meant to express semantic notions, such as "a number", "a range" of elements, and "totally ordered."
+Simple constraints, such as "has a <code>+</code> operator" and "has a <code>&gt;</code> operator" cannot be meaningfully specified in isolation
+and should be used only as building blocks for meaningful concepts, rather than in user code.</p>
+<h5 id="example-bad_2">Example, bad<a class="headerlink" href="#example-bad_2" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+// bad; insufficient
+concept Addable = requires(T a, T b) { a + b; };
+
+template&lt;Addable N&gt;
+auto algo(const N&amp; a, const N&amp; b) // use two numbers
+{
+    // ...
+    return a + b;
+}
+
+int x = 7;
+int y = 9;
+auto z = algo(x, y);   // z = 16
+
+string xx = &quot;7&quot;;
+string yy = &quot;9&quot;;
+auto zz = algo(xx, yy);   // zz = &quot;79&quot;
+</code></pre></div>
+<p>Maybe the concatenation was expected. More likely, it was an accident. Defining minus equivalently would give dramatically different sets of accepted types.
+This <code>Addable</code> violates the mathematical rule that addition is supposed to be commutative: <code>a+b == b+a</code>.</p>
+<h5 id="note_8">Note<a class="headerlink" href="#note_8" title="Permanent link">&para;</a></h5>
+<p>The ability to specify meaningful semantics is a defining characteristic of a true concept, as opposed to a syntactic constraint.</p>
+<h5 id="example_10">Example<a class="headerlink" href="#example_10" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+// The operators +, -, *, and / for a number are assumed to follow the usual mathematical rules
+concept Number = requires(T a, T b) { a + b; a - b; a * b; a / b; };
+
+template&lt;Number N&gt;
+auto algo(const N&amp; a, const N&amp; b)
+{
+    // ...
+    return a + b;
+}
+
+int x = 7;
+int y = 9;
+auto z = algo(x, y);   // z = 16
+
+string xx = &quot;7&quot;;
+string yy = &quot;9&quot;;
+auto zz = algo(xx, yy);   // error: string is not a Number
+</code></pre></div>
+<h5 id="note_9">Note<a class="headerlink" href="#note_9" title="Permanent link">&para;</a></h5>
+<p>Concepts with multiple operations have far lower chance of accidentally matching a type than a single-operation concept.</p>
+<h5 id="enforcement_8">Enforcement<a class="headerlink" href="#enforcement_8" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag single-operation <code>concepts</code> when used outside the definition of other <code>concepts</code>.</li>
+<li>Flag uses of <code>enable_if</code> that appear to simulate single-operation <code>concepts</code>.</li>
+</ul>
+<h3 id="t21-require-a-complete-set-of-operations-for-a-concept"><a name="Rt-complete"></a>T.21: Require a complete set of operations for a concept<a class="headerlink" href="#t21-require-a-complete-set-of-operations-for-a-concept" title="Permanent link">&para;</a></h3>
+<h5 id="reason_10">Reason<a class="headerlink" href="#reason_10" title="Permanent link">&para;</a></h5>
+<p>Ease of comprehension.
+Improved interoperability.
+Helps implementers and maintainers.</p>
+<h5 id="note_10">Note<a class="headerlink" href="#note_10" title="Permanent link">&para;</a></h5>
+<p>This is a specific variant of the general rule that <a href="#Rt-low">a concept must make semantic sense</a>.</p>
+<h5 id="example-bad_3">Example, bad<a class="headerlink" href="#example-bad_3" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; concept Subtractable = requires(T a, T b) { a - b; };
+</code></pre></div>
+<p>This makes no semantic sense.
+You need at least <code>+</code> to make <code>-</code> meaningful and useful.</p>
+<p>Examples of complete sets are</p>
+<ul>
+<li><code>Arithmetic</code>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code></li>
+<li><code>Comparable</code>: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code></li>
+</ul>
+<h5 id="note_11">Note<a class="headerlink" href="#note_11" title="Permanent link">&para;</a></h5>
+<p>This rule applies whether we use direct language support for concepts or not.
+It is a general design rule that even applies to non-templates:</p>
+<div class="language-text highlight"><pre><span></span><code>class Minimal {
+    // ...
+};
+
+bool operator==(const Minimal&amp;, const Minimal&amp;);
+bool operator&lt;(const Minimal&amp;, const Minimal&amp;);
+
+Minimal operator+(const Minimal&amp;, const Minimal&amp;);
+// no other operators
+
+void f(const Minimal&amp; x, const Minimal&amp; y)
+{
+    if (!(x == y)) { /* ... */ }    // OK
+    if (x != y) { /* ... */ }       // surprise! error
+
+    while (!(x &lt; y)) { /* ... */ }  // OK
+    while (x &gt;= y) { /* ... */ }    // surprise! error
+
+    x = x + y;          // OK
+    x += y;             // surprise! error
+}
+</code></pre></div>
+<p>This is minimal, but surprising and constraining for users.
+It could even be less efficient.</p>
+<p>The rule supports the view that a concept should reflect a (mathematically) coherent set of operations.</p>
+<h5 id="example_11">Example<a class="headerlink" href="#example_11" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Convenient {
+    // ...
+};
+
+bool operator==(const Convenient&amp;, const Convenient&amp;);
+bool operator&lt;(const Convenient&amp;, const Convenient&amp;);
+// ... and the other comparison operators ...
+
+Convenient operator+(const Convenient&amp;, const Convenient&amp;);
+// ... and the other arithmetic operators ...
+
+void f(const Convenient&amp; x, const Convenient&amp; y)
+{
+    if (!(x == y)) { /* ... */ }    // OK
+    if (x != y) { /* ... */ }       // OK
+
+    while (!(x &lt; y)) { /* ... */ }  // OK
+    while (x &gt;= y) { /* ... */ }    // OK
+
+    x = x + y;     // OK
+    x += y;        // OK
+}
+</code></pre></div>
+<p>It can be a nuisance to define all operators, but not hard.
+Ideally, that rule should be language supported by giving you comparison operators by default.</p>
+<h5 id="enforcement_9">Enforcement<a class="headerlink" href="#enforcement_9" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag classes that support "odd" subsets of a set of operators, e.g., <code>==</code> but not <code>!=</code> or <code>+</code> but not <code>-</code>.
+  Yes, <code>std::string</code> is "odd", but it's too late to change that.</li>
+</ul>
+<h3 id="t22-specify-axioms-for-concepts"><a name="Rt-axiom"></a>T.22: Specify axioms for concepts<a class="headerlink" href="#t22-specify-axioms-for-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_11">Reason<a class="headerlink" href="#reason_11" title="Permanent link">&para;</a></h5>
+<p>A meaningful/useful concept has a semantic meaning.
+Expressing these semantics in an informal, semi-formal, or formal way makes the concept comprehensible to readers and the effort to express it can catch conceptual errors.
+Specifying semantics is a powerful design tool.</p>
+<h5 id="example_12">Example<a class="headerlink" href="#example_12" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    // The operators +, -, *, and / for a number are assumed to follow the usual mathematical rules
+    // axiom(T a, T b) { a + b == b + a; a - a == 0; a * (b + c) == a * b + a * c; /*...*/ }
+    concept Number = requires(T a, T b) {
+        { a + b } -&gt; convertible_to&lt;T&gt;;
+        { a - b } -&gt; convertible_to&lt;T&gt;;
+        { a * b } -&gt; convertible_to&lt;T&gt;;
+        { a / b } -&gt; convertible_to&lt;T&gt;;
+    };
+</code></pre></div>
+<h5 id="note_12">Note<a class="headerlink" href="#note_12" title="Permanent link">&para;</a></h5>
+<p>This is an axiom in the mathematical sense: something that can be assumed without proof.
+In general, axioms are not provable, and when they are the proof is often beyond the capability of a compiler.
+An axiom might not be general, but the template writer can assume that it holds for all inputs actually used (similar to a precondition).</p>
+<h5 id="note_13">Note<a class="headerlink" href="#note_13" title="Permanent link">&para;</a></h5>
+<p>In this context axioms are Boolean expressions.
+See the <a href="#S-references">Palo Alto TR</a> for examples.
+Currently, C++ does not support axioms (even the ISO Concepts TS), so we have to make do with comments for a longish while.
+Once language support is available, the <code>//</code> in front of the axiom can be removed</p>
+<h5 id="note_14">Note<a class="headerlink" href="#note_14" title="Permanent link">&para;</a></h5>
+<p>The GSL concepts have well-defined semantics; see the Palo Alto TR and the Ranges TS.</p>
+<h5 id="exception">Exception<a class="headerlink" href="#exception" title="Permanent link">&para;</a></h5>
+<p>Early versions of a new "concept" still under development will often just define simple sets of constraints without a well-specified semantics.
+Finding good semantics can take effort and time.
+An incomplete set of constraints can still be very useful:</p>
+<div class="language-text highlight"><pre><span></span><code>// balancer for a generic binary tree
+template&lt;typename Node&gt; concept Balancer = requires(Node* p) {
+    add_fixup(p);
+    touch(p);
+    detach(p);
+};
+</code></pre></div>
+<p>So a <code>Balancer</code> must supply at least these operations on a tree <code>Node</code>,
+but we are not yet ready to specify detailed semantics because a new kind of balanced tree might require more operations
+and the precise general semantics for all nodes is hard to pin down in the early stages of design.</p>
+<p>A "concept" that is incomplete or without a well-specified semantics can still be useful.
+For example, it allows for some checking during initial experimentation.
+However, it should not be assumed to be stable.
+Each new use case might require such an incomplete concept to be improved.</p>
+<h5 id="enforcement_10">Enforcement<a class="headerlink" href="#enforcement_10" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Look for the word "axiom" in concept definition comments</li>
+</ul>
+<h3 id="t23-differentiate-a-refined-concept-from-its-more-general-case-by-adding-new-use-patterns"><a name="Rt-refine"></a>T.23: Differentiate a refined concept from its more general case by adding new use patterns.<a class="headerlink" href="#t23-differentiate-a-refined-concept-from-its-more-general-case-by-adding-new-use-patterns" title="Permanent link">&para;</a></h3>
+<h5 id="reason_12">Reason<a class="headerlink" href="#reason_12" title="Permanent link">&para;</a></h5>
+<p>Otherwise they cannot be distinguished automatically by the compiler.</p>
+<h5 id="example_13">Example<a class="headerlink" href="#example_13" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename I&gt;
+// Note: input_iterator is defined in &lt;iterator&gt;
+concept Input_iter = requires(I iter) { ++iter; };
+
+template&lt;typename I&gt;
+// Note: forward_iterator is defined in &lt;iterator&gt;
+concept Fwd_iter = Input_iter&lt;I&gt; &amp;&amp; requires(I iter) { iter++; };
+</code></pre></div>
+<p>The compiler can determine refinement based on the sets of required operations (here, suffix <code>++</code>).
+This decreases the burden on implementers of these types since
+they do not need any special declarations to "hook into the concept".
+If two concepts have exactly the same requirements, they are logically equivalent (there is no refinement).</p>
+<h5 id="enforcement_11">Enforcement<a class="headerlink" href="#enforcement_11" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag a concept that has exactly the same requirements as another already-seen concept (neither is more refined).
+To disambiguate them, see <a href="#Rt-tag">T.24</a>.</li>
+</ul>
+<h3 id="t24-use-tag-classes-or-traits-to-differentiate-concepts-that-differ-only-in-semantics"><a name="Rt-tag"></a>T.24: Use tag classes or traits to differentiate concepts that differ only in semantics.<a class="headerlink" href="#t24-use-tag-classes-or-traits-to-differentiate-concepts-that-differ-only-in-semantics" title="Permanent link">&para;</a></h3>
+<h5 id="reason_13">Reason<a class="headerlink" href="#reason_13" title="Permanent link">&para;</a></h5>
+<p>Two concepts requiring the same syntax but having different semantics leads to ambiguity unless the programmer differentiates them.</p>
+<h5 id="example_14">Example<a class="headerlink" href="#example_14" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename I&gt;    // iterator providing random access
+// Note: random_access_iterator is defined in &lt;iterator&gt;
+concept RA_iter = ...;
+
+template&lt;typename I&gt;    // iterator providing random access to contiguous data
+// Note: contiguous_iterator is defined in &lt;iterator&gt;
+concept Contiguous_iter =
+    RA_iter&lt;I&gt; &amp;&amp; is_contiguous_v&lt;I&gt;;  // using is_contiguous trait
+</code></pre></div>
+<p>The programmer (in a library) must define <code>is_contiguous</code> (a trait) appropriately.</p>
+<p>Wrapping a tag class into a concept leads to a simpler expression of this idea:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename I&gt; concept Contiguous = is_contiguous_v&lt;I&gt;;
+
+template&lt;typename I&gt;
+concept Contiguous_iter = RA_iter&lt;I&gt; &amp;&amp; Contiguous&lt;I&gt;;
+</code></pre></div>
+<p>The programmer (in a library) must define <code>is_contiguous</code> (a trait) appropriately.</p>
+<h5 id="note_15">Note<a class="headerlink" href="#note_15" title="Permanent link">&para;</a></h5>
+<p>Traits can be trait classes or type traits.
+These can be user-defined or standard-library ones.
+Prefer the standard-library ones.</p>
+<h5 id="enforcement_12">Enforcement<a class="headerlink" href="#enforcement_12" title="Permanent link">&para;</a></h5>
+<ul>
+<li>The compiler flags ambiguous use of identical concepts.</li>
+<li>Flag the definition of identical concepts.</li>
+</ul>
+<h3 id="t25-avoid-complementary-constraints"><a name="Rt-not"></a>T.25: Avoid complementary constraints<a class="headerlink" href="#t25-avoid-complementary-constraints" title="Permanent link">&para;</a></h3>
+<h5 id="reason_14">Reason<a class="headerlink" href="#reason_14" title="Permanent link">&para;</a></h5>
+<p>Clarity. Maintainability.
+Functions with complementary requirements expressed using negation are brittle.</p>
+<h5 id="example_15">Example<a class="headerlink" href="#example_15" title="Permanent link">&para;</a></h5>
+<p>Initially, people will try to define functions with complementary requirements:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    requires !C&lt;T&gt;    // bad
+void f();
+
+template&lt;typename T&gt;
+    requires C&lt;T&gt;
+void f();
+</code></pre></div>
+<p>This is better:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;   // general template
+    void f();
+
+template&lt;typename T&gt;   // specialization by concept
+    requires C&lt;T&gt;
+void f();
+</code></pre></div>
+<p>The compiler will choose the unconstrained template only when <code>C&lt;T&gt;</code> is
+unsatisfied. If you do not want to (or cannot) define an unconstrained
+version of <code>f()</code>, then delete it.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+void f() = delete;
+</code></pre></div>
+<p>The compiler will select the overload, or emit an appropriate error.</p>
+<h5 id="note_16">Note<a class="headerlink" href="#note_16" title="Permanent link">&para;</a></h5>
+<p>Complementary constraints are unfortunately common in <code>enable_if</code> code:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+enable_if&lt;!C&lt;T&gt;, void&gt;   // bad
+f();
+
+template&lt;typename T&gt;
+enable_if&lt;C&lt;T&gt;, void&gt;
+f();
+</code></pre></div>
+<h5 id="note_17">Note<a class="headerlink" href="#note_17" title="Permanent link">&para;</a></h5>
+<p>Complementary requirements on one requirement is sometimes (wrongly) considered manageable.
+However, for two or more requirements the number of definitions needs can go up exponentially (2,4,8,16,...):</p>
+<div class="language-text highlight"><pre><span></span><code>C1&lt;T&gt; &amp;&amp; C2&lt;T&gt;
+!C1&lt;T&gt; &amp;&amp; C2&lt;T&gt;
+C1&lt;T&gt; &amp;&amp; !C2&lt;T&gt;
+!C1&lt;T&gt; &amp;&amp; !C2&lt;T&gt;
+</code></pre></div>
+<p>Now the opportunities for errors multiply.</p>
+<h5 id="enforcement_13">Enforcement<a class="headerlink" href="#enforcement_13" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag pairs of functions with <code>C&lt;T&gt;</code> and <code>!C&lt;T&gt;</code> constraints</li>
+</ul>
+<h3 id="t26-prefer-to-define-concepts-in-terms-of-use-patterns-rather-than-simple-syntax"><a name="Rt-use"></a>T.26: Prefer to define concepts in terms of use-patterns rather than simple syntax<a class="headerlink" href="#t26-prefer-to-define-concepts-in-terms-of-use-patterns-rather-than-simple-syntax" title="Permanent link">&para;</a></h3>
+<h5 id="reason_15">Reason<a class="headerlink" href="#reason_15" title="Permanent link">&para;</a></h5>
+<p>The definition is more readable and corresponds directly to what a user has to write.
+Conversions are taken into account. You don't have to remember the names of all the type traits.</p>
+<h5 id="example_16">Example<a class="headerlink" href="#example_16" title="Permanent link">&para;</a></h5>
+<p>You might be tempted to define a concept <code>Equality</code> like this:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; concept Equality = has_equal&lt;T&gt; &amp;&amp; has_not_equal&lt;T&gt;;
+</code></pre></div>
+<p>Obviously, it would be better and easier just to use the standard <code>equality_comparable</code>,
+but - just as an example - if you had to define such a concept, prefer:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt; concept Equality = requires(T a, T b) {
+    { a == b } -&gt; std::convertible_to&lt;bool&gt;;
+    { a != b } -&gt; std::convertible_to&lt;bool&gt;;
+    // axiom { !(a == b) == (a != b) }
+    // axiom { a = b; =&gt; a == b }  // =&gt; means &quot;implies&quot;
+};
+</code></pre></div>
+<p>as opposed to defining two meaningless concepts <code>has_equal</code> and <code>has_not_equal</code> just as helpers in the definition of <code>Equality</code>.
+By "meaningless" we mean that we cannot specify the semantics of <code>has_equal</code> in isolation.</p>
+<h5 id="enforcement_14">Enforcement<a class="headerlink" href="#enforcement_14" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="template-interfaces"><a name="SS-temp-interface"></a>Template interfaces<a class="headerlink" href="#template-interfaces" title="Permanent link">&para;</a></h2>
+<p>Over the years, programming with templates have suffered from a weak distinction between the interface of a template
+and its implementation.
+Before concepts, that distinction had no direct language support.
+However, the interface to a template is a critical concept - a contract between a user and an implementer - and should be carefully designed.</p>
+<h3 id="t40-use-function-objects-to-pass-operations-to-algorithms"><a name="Rt-fo"></a>T.40: Use function objects to pass operations to algorithms<a class="headerlink" href="#t40-use-function-objects-to-pass-operations-to-algorithms" title="Permanent link">&para;</a></h3>
+<h5 id="reason_16">Reason<a class="headerlink" href="#reason_16" title="Permanent link">&para;</a></h5>
+<p>Function objects can carry more information through an interface than a "plain" pointer to function.
+In general, passing function objects gives better performance than passing pointers to functions.</p>
+<h5 id="example_17">Example<a class="headerlink" href="#example_17" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>bool greater(double x, double y) { return x &gt; y; }
+sort(v, greater);                                    // pointer to function: potentially slow
+sort(v, [](double x, double y) { return x &gt; y; });   // function object
+sort(v, std::greater{});                             // function object
+
+bool greater_than_7(double x) { return x &gt; 7; }
+auto x = find_if(v, greater_than_7);                 // pointer to function: inflexible
+auto y = find_if(v, [](double x) { return x &gt; 7; }); // function object: carries the needed data
+auto z = find_if(v, Greater_than&lt;double&gt;(7));        // function object: carries the needed data
+</code></pre></div>
+<p>You can, of course, generalize those functions using <code>auto</code> or concepts. For example:</p>
+<div class="language-text highlight"><pre><span></span><code>auto y1 = find_if(v, [](totally_ordered auto x) { return x &gt; 7; }); // require an ordered type
+auto z1 = find_if(v, [](auto x) { return x &gt; 7; });                 // hope that the type has a &gt;
+</code></pre></div>
+<h5 id="note_18">Note<a class="headerlink" href="#note_18" title="Permanent link">&para;</a></h5>
+<p>Lambdas generate function objects.</p>
+<h5 id="note_19">Note<a class="headerlink" href="#note_19" title="Permanent link">&para;</a></h5>
+<p>The performance argument depends on compiler and optimizer technology.</p>
+<h5 id="enforcement_15">Enforcement<a class="headerlink" href="#enforcement_15" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag pointer to function template arguments.</li>
+<li>Flag pointers to functions passed as arguments to a template (risk of false positives).</li>
+</ul>
+<h3 id="t41-require-only-essential-properties-in-a-templates-concepts"><a name="Rt-essential"></a>T.41: Require only essential properties in a template's concepts<a class="headerlink" href="#t41-require-only-essential-properties-in-a-templates-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_17">Reason<a class="headerlink" href="#reason_17" title="Permanent link">&para;</a></h5>
+<p>Keep interfaces simple and stable.</p>
+<h5 id="example_18">Example<a class="headerlink" href="#example_18" title="Permanent link">&para;</a></h5>
+<p>Consider, a <code>sort</code> instrumented with (oversimplified) simple debug support:</p>
+<div class="language-text highlight"><pre><span></span><code>void sort(sortable auto&amp; s)  // sort sequence s
+{
+    if (debug) cerr &lt;&lt; &quot;enter sort( &quot; &lt;&lt; s &lt;&lt;  &quot;)\n&quot;;
+    // ...
+    if (debug) cerr &lt;&lt; &quot;exit sort( &quot; &lt;&lt; s &lt;&lt;  &quot;)\n&quot;;
+}
+</code></pre></div>
+<p>Should this be rewritten to:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;sortable S&gt;
+    requires Streamable&lt;S&gt;
+void sort(S&amp; s)  // sort sequence s
+{
+    if (debug) cerr &lt;&lt; &quot;enter sort( &quot; &lt;&lt; s &lt;&lt;  &quot;)\n&quot;;
+    // ...
+    if (debug) cerr &lt;&lt; &quot;exit sort( &quot; &lt;&lt; s &lt;&lt;  &quot;)\n&quot;;
+}
+</code></pre></div>
+<p>After all, there is nothing in <code>sortable</code> that requires <code>iostream</code> support.
+On the other hand, there is nothing in the fundamental idea of sorting that says anything about debugging.</p>
+<h5 id="note_20">Note<a class="headerlink" href="#note_20" title="Permanent link">&para;</a></h5>
+<p>If we require every operation used to be listed among the requirements, the interface becomes unstable:
+Every time we change the debug facilities, the usage data gathering, testing support, error reporting, etc.,
+the definition of the template would need change and every use of the template would have to be recompiled.
+This is cumbersome, and in some environments infeasible.</p>
+<p>Conversely, if we use an operation in the implementation that is not guaranteed by concept checking,
+we might get a late compile-time error.</p>
+<p>By not using concept checking for properties of a template argument that is not considered essential,
+we delay checking until instantiation time.
+We consider this a worthwhile tradeoff.</p>
+<p>Note that using non-local, non-dependent names (such as <code>debug</code> and <code>cerr</code>) also introduces context dependencies that might lead to "mysterious" errors.</p>
+<h5 id="note_21">Note<a class="headerlink" href="#note_21" title="Permanent link">&para;</a></h5>
+<p>It can be hard to decide which properties of a type are essential and which are not.</p>
+<h5 id="enforcement_16">Enforcement<a class="headerlink" href="#enforcement_16" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t42-use-template-aliases-to-simplify-notation-and-hide-implementation-details"><a name="Rt-alias"></a>T.42: Use template aliases to simplify notation and hide implementation details<a class="headerlink" href="#t42-use-template-aliases-to-simplify-notation-and-hide-implementation-details" title="Permanent link">&para;</a></h3>
+<h5 id="reason_18">Reason<a class="headerlink" href="#reason_18" title="Permanent link">&para;</a></h5>
+<p>Improved readability.
+Implementation hiding.
+Note that template aliases replace many uses of traits to compute a type.
+They can also be used to wrap a trait.</p>
+<h5 id="example_19">Example<a class="headerlink" href="#example_19" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T, size_t N&gt;
+class Matrix {
+    // ...
+    using Iterator = typename std::vector&lt;T&gt;::iterator;
+    // ...
+};
+</code></pre></div>
+<p>This saves the user of <code>Matrix</code> from having to know that its elements are stored in a <code>vector</code> and also saves the user from repeatedly typing <code>typename std::vector&lt;T&gt;::</code>.</p>
+<h5 id="example_20">Example<a class="headerlink" href="#example_20" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+void user(T&amp; c)
+{
+    // ...
+    typename container_traits&lt;T&gt;::value_type x; // bad, verbose
+    // ...
+}
+
+template&lt;typename T&gt;
+using Value_type = typename container_traits&lt;T&gt;::value_type;
+</code></pre></div>
+<p>This saves the user of <code>Value_type</code> from having to know the technique used to implement <code>value_type</code>s.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+void user2(T&amp; c)
+{
+    // ...
+    Value_type&lt;T&gt; x;
+    // ...
+}
+</code></pre></div>
+<h5 id="note_22">Note<a class="headerlink" href="#note_22" title="Permanent link">&para;</a></h5>
+<p>A simple, common use could be expressed: "Wrap traits!"</p>
+<h5 id="enforcement_17">Enforcement<a class="headerlink" href="#enforcement_17" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag use of <code>typename</code> as a disambiguator outside <code>using</code> declarations.</li>
+<li>???</li>
+</ul>
+<h3 id="t43-prefer-using-over-typedef-for-defining-aliases"><a name="Rt-using"></a>T.43: Prefer <code>using</code> over <code>typedef</code> for defining aliases<a class="headerlink" href="#t43-prefer-using-over-typedef-for-defining-aliases" title="Permanent link">&para;</a></h3>
+<h5 id="reason_19">Reason<a class="headerlink" href="#reason_19" title="Permanent link">&para;</a></h5>
+<p>Improved readability: With <code>using</code>, the new name comes first rather than being embedded somewhere in a declaration.
+Generality: <code>using</code> can be used for template aliases, whereas <code>typedef</code>s can't easily be templates.
+Uniformity: <code>using</code> is syntactically similar to <code>auto</code>.</p>
+<h5 id="example_21">Example<a class="headerlink" href="#example_21" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>typedef int (*PFI)(int);   // OK, but convoluted
+
+using PFI2 = int (*)(int);   // OK, preferred
+
+template&lt;typename T&gt;
+typedef int (*PFT)(T);      // error
+
+template&lt;typename T&gt;
+using PFT2 = int (*)(T);   // OK
+</code></pre></div>
+<h5 id="enforcement_18">Enforcement<a class="headerlink" href="#enforcement_18" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag uses of <code>typedef</code>. This will give a lot of "hits" :-(</li>
+</ul>
+<h3 id="t44-use-function-templates-to-deduce-class-template-argument-types-where-feasible"><a name="Rt-deduce"></a>T.44: Use function templates to deduce class template argument types (where feasible)<a class="headerlink" href="#t44-use-function-templates-to-deduce-class-template-argument-types-where-feasible" title="Permanent link">&para;</a></h3>
+<h5 id="reason_20">Reason<a class="headerlink" href="#reason_20" title="Permanent link">&para;</a></h5>
+<p>Writing the template argument types explicitly can be tedious and unnecessarily verbose.</p>
+<h5 id="example_22">Example<a class="headerlink" href="#example_22" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>tuple&lt;int, string, double&gt; t1 = {1, &quot;Hamlet&quot;, 3.14};   // explicit type
+auto t2 = make_tuple(1, &quot;Ophelia&quot;s, 3.14);         // better; deduced type
+</code></pre></div>
+<p>Note the use of the <code>s</code> suffix to ensure that the string is a <code>std::string</code>, rather than a C-style string.</p>
+<h5 id="note_23">Note<a class="headerlink" href="#note_23" title="Permanent link">&para;</a></h5>
+<p>Since you can trivially write a <code>make_T</code> function, so could the compiler. Thus, <code>make_T</code> functions might become redundant in the future.</p>
+<h5 id="exception_1">Exception<a class="headerlink" href="#exception_1" title="Permanent link">&para;</a></h5>
+<p>Sometimes there isn't a good way of getting the template arguments deduced and sometimes, you want to specify the arguments explicitly:</p>
+<div class="language-text highlight"><pre><span></span><code>vector&lt;double&gt; v = { 1, 2, 3, 7.9, 15.99 };
+list&lt;Record*&gt; lst;
+</code></pre></div>
+<h5 id="note_24">Note<a class="headerlink" href="#note_24" title="Permanent link">&para;</a></h5>
+<p>Note that C++17 will make this rule redundant by allowing the template arguments to be deduced directly from constructor arguments:
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0091r1.html">Template parameter deduction for constructors (Rev. 3)</a>.
+For example:</p>
+<div class="language-text highlight"><pre><span></span><code>tuple t1 = {1, &quot;Hamlet&quot;s, 3.14}; // deduced: tuple&lt;int, string, double&gt;
+</code></pre></div>
+<h5 id="enforcement_19">Enforcement<a class="headerlink" href="#enforcement_19" title="Permanent link">&para;</a></h5>
+<p>Flag uses where an explicitly specialized type exactly matches the types of the arguments used.</p>
+<h3 id="t46-require-template-arguments-to-be-at-least-semiregular"><a name="Rt-regular"></a>T.46: Require template arguments to be at least semiregular<a class="headerlink" href="#t46-require-template-arguments-to-be-at-least-semiregular" title="Permanent link">&para;</a></h3>
+<h5 id="reason_21">Reason<a class="headerlink" href="#reason_21" title="Permanent link">&para;</a></h5>
+<p>Readability.
+Preventing surprises and errors.
+Most uses support that anyway.</p>
+<h5 id="example_23">Example<a class="headerlink" href="#example_23" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class X {
+public:
+    explicit X(int);
+    X(const X&amp;);            // copy
+    X operator=(const X&amp;);
+    X(X&amp;&amp;) noexcept;        // move
+    X&amp; operator=(X&amp;&amp;) noexcept;
+    ~X();
+    // ... no more constructors ...
+};
+
+X x {1};              // fine
+X y = x;              // fine
+std::vector&lt;X&gt; v(10); // error: no default constructor
+</code></pre></div>
+<h5 id="note_25">Note<a class="headerlink" href="#note_25" title="Permanent link">&para;</a></h5>
+<p>Semiregular requires default constructible.</p>
+<h5 id="enforcement_20">Enforcement<a class="headerlink" href="#enforcement_20" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag types used as template arguments that are not at least semiregular.</li>
+</ul>
+<h3 id="t47-avoid-highly-visible-unconstrained-templates-with-common-names"><a name="Rt-visible"></a>T.47: Avoid highly visible unconstrained templates with common names<a class="headerlink" href="#t47-avoid-highly-visible-unconstrained-templates-with-common-names" title="Permanent link">&para;</a></h3>
+<h5 id="reason_22">Reason<a class="headerlink" href="#reason_22" title="Permanent link">&para;</a></h5>
+<p>An unconstrained template argument is a perfect match for anything so such a template can be preferred over more specific types that require minor conversions.
+ This is particularly annoying/dangerous when ADL is used.
+ Common names make this problem more likely.</p>
+<h5 id="example_24">Example<a class="headerlink" href="#example_24" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>namespace Bad {
+    struct S { int m; };
+    template&lt;typename T1, typename T2&gt;
+    bool operator==(T1, T2) { cout &lt;&lt; &quot;Bad\n&quot;; return true; }
+}
+
+namespace T0 {
+    bool operator==(int, Bad::S) { cout &lt;&lt; &quot;T0\n&quot;; return true; }  // compare to int
+
+    void test()
+    {
+        Bad::S bad{ 1 };
+        vector&lt;int&gt; v(10);
+        bool b = 1 == bad;
+        bool b2 = v.size() == bad;
+    }
+}
+</code></pre></div>
+<p>This prints <code>T0</code> and <code>Bad</code>.</p>
+<p>Now the <code>==</code> in <code>Bad</code> was designed to cause trouble, but would you have spotted the problem in real code?
+The problem is that <code>v.size()</code> returns an <code>unsigned</code> integer so that a conversion is needed to call the local <code>==</code>;
+the <code>==</code> in <code>Bad</code> requires no conversions.
+Realistic types, such as the standard-library iterators can be made to exhibit similar anti-social tendencies.</p>
+<h5 id="note_26">Note<a class="headerlink" href="#note_26" title="Permanent link">&para;</a></h5>
+<p>If an unconstrained template is defined in the same namespace as a type,
+that unconstrained template can be found by ADL (as happened in the example).
+That is, it is highly visible.</p>
+<h5 id="note_27">Note<a class="headerlink" href="#note_27" title="Permanent link">&para;</a></h5>
+<p>This rule should not be necessary, but the committee cannot agree to exclude unconstrained templates from ADL.</p>
+<p>Unfortunately this will get many false positives; the standard library violates this widely, by putting many unconstrained templates and types into the single namespace <code>std</code>.</p>
+<h5 id="enforcement_21">Enforcement<a class="headerlink" href="#enforcement_21" title="Permanent link">&para;</a></h5>
+<p>Flag templates defined in a namespace where concrete types are also defined (maybe not feasible until we have concepts).</p>
+<h3 id="t48-if-your-compiler-does-not-support-concepts-fake-them-with-enable_if"><a name="Rt-concept-def"></a>T.48: If your compiler does not support concepts, fake them with <code>enable_if</code><a class="headerlink" href="#t48-if-your-compiler-does-not-support-concepts-fake-them-with-enable_if" title="Permanent link">&para;</a></h3>
+<h5 id="reason_23">Reason<a class="headerlink" href="#reason_23" title="Permanent link">&para;</a></h5>
+<p>Because that's the best we can do without direct concept support.
+<code>enable_if</code> can be used to conditionally define functions and to select among a set of functions.</p>
+<h5 id="example_25">Example<a class="headerlink" href="#example_25" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+enable_if_t&lt;is_integral_v&lt;T&gt;&gt;
+f(T v)
+{
+    // ...
+}
+
+// Equivalent to:
+template&lt;Integral T&gt;
+void f(T v)
+{
+    // ...
+}
+</code></pre></div>
+<h5 id="note_28">Note<a class="headerlink" href="#note_28" title="Permanent link">&para;</a></h5>
+<p>Beware of <a href="#Rt-not">complementary constraints</a>.
+Faking concept overloading using <code>enable_if</code> sometimes forces us to use that error-prone design technique.</p>
+<h5 id="enforcement_22">Enforcement<a class="headerlink" href="#enforcement_22" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t49-where-possible-avoid-type-erasure"><a name="Rt-erasure"></a>T.49: Where possible, avoid type-erasure<a class="headerlink" href="#t49-where-possible-avoid-type-erasure" title="Permanent link">&para;</a></h3>
+<h5 id="reason_24">Reason<a class="headerlink" href="#reason_24" title="Permanent link">&para;</a></h5>
+<p>Type erasure incurs an extra level of indirection by hiding type information behind a separate compilation boundary.</p>
+<h5 id="example_26">Example<a class="headerlink" href="#example_26" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<p><strong>Exceptions</strong>: Type erasure is sometimes appropriate, such as for <code>std::function</code>.</p>
+<h5 id="enforcement_23">Enforcement<a class="headerlink" href="#enforcement_23" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="note_29">Note<a class="headerlink" href="#note_29" title="Permanent link">&para;</a></h5>
+<h2 id="tdef-template-definitions"><a name="SS-temp-def"></a>T.def: Template definitions<a class="headerlink" href="#tdef-template-definitions" title="Permanent link">&para;</a></h2>
+<p>A template definition (class or function) can contain arbitrary code, so only a comprehensive review of C++ programming techniques would cover this topic.
+However, this section focuses on what is specific to template implementation.
+In particular, it focuses on a template definition's dependence on its context.</p>
+<h3 id="t60-minimize-a-templates-context-dependencies"><a name="Rt-depend"></a>T.60: Minimize a template's context dependencies<a class="headerlink" href="#t60-minimize-a-templates-context-dependencies" title="Permanent link">&para;</a></h3>
+<h5 id="reason_25">Reason<a class="headerlink" href="#reason_25" title="Permanent link">&para;</a></h5>
+<p>Eases understanding.
+Minimizes errors from unexpected dependencies.
+Eases tool creation.</p>
+<h5 id="example_27">Example<a class="headerlink" href="#example_27" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename C&gt;
+void sort(C&amp; c)
+{
+    std::sort(begin(c), end(c)); // necessary and useful dependency
+}
+
+template&lt;typename Iter&gt;
+Iter algo(Iter first, Iter last)
+{
+    for (; first != last; ++first) {
+        auto x = sqrt(*first); // potentially surprising dependency: which sqrt()?
+        helper(first, x);      // potentially surprising dependency:
+                               // helper is chosen based on first and x
+        TT var = 7;            // potentially surprising dependency: which TT?
+    }
+}
+</code></pre></div>
+<h5 id="note_30">Note<a class="headerlink" href="#note_30" title="Permanent link">&para;</a></h5>
+<p>Templates typically appear in header files so their context dependencies are more vulnerable to <code>#include</code> order dependencies than functions in <code>.cpp</code> files.</p>
+<h5 id="note_31">Note<a class="headerlink" href="#note_31" title="Permanent link">&para;</a></h5>
+<p>Having a template operate only on its arguments would be one way of reducing the number of dependencies to a minimum, but that would generally be unmanageable.
+For example, algorithms usually use other algorithms and invoke operations that do not exclusively operate on arguments.
+And don't get us started on macros!</p>
+<p><strong>See also</strong>: <a href="#Rt-customization">T.69</a></p>
+<h5 id="enforcement_24">Enforcement<a class="headerlink" href="#enforcement_24" title="Permanent link">&para;</a></h5>
+<p>??? Tricky</p>
+<h3 id="t61-do-not-over-parameterize-members-scary"><a name="Rt-scary"></a>T.61: Do not over-parameterize members (SCARY)<a class="headerlink" href="#t61-do-not-over-parameterize-members-scary" title="Permanent link">&para;</a></h3>
+<h5 id="reason_26">Reason<a class="headerlink" href="#reason_26" title="Permanent link">&para;</a></h5>
+<p>A member that does not depend on a template parameter cannot be used except for a specific template argument.
+This limits use and typically increases code size.</p>
+<h5 id="example-bad_4">Example, bad<a class="headerlink" href="#example-bad_4" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T, typename A = std::allocator&lt;T&gt;&gt;
+    // requires Regular&lt;T&gt; &amp;&amp; Allocator&lt;A&gt;
+class List {
+public:
+    struct Link {   // does not depend on A
+        T elem;
+        Link* pre;
+        Link* suc;
+    };
+
+    using iterator = Link*;
+
+    iterator first() const { return head; }
+
+    // ...
+private:
+    Link* head;
+};
+
+List&lt;int&gt; lst1;
+List&lt;int, My_allocator&gt; lst2;
+</code></pre></div>
+<p>This looks innocent enough, but now <code>Link</code> formally depends on the allocator (even though it doesn't use the allocator). This forces redundant instantiations that can be surprisingly costly in some real-world scenarios.
+Typically, the solution is to make what would have been a nested class non-local, with its own minimal set of template parameters.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+struct Link {
+    T elem;
+    Link* pre;
+    Link* suc;
+};
+
+template&lt;typename T, typename A = std::allocator&lt;T&gt;&gt;
+    // requires Regular&lt;T&gt; &amp;&amp; Allocator&lt;A&gt;
+class List2 {
+public:
+    using iterator = Link&lt;T&gt;*;
+
+    iterator first() const { return head; }
+
+    // ...
+private:
+    Link&lt;T&gt;* head;
+};
+
+List2&lt;int&gt; lst1;
+List2&lt;int, My_allocator&gt; lst2;
+</code></pre></div>
+<p>Some people found the idea that the <code>Link</code> no longer was hidden inside the list scary, so we named the technique
+<a href="http://www.open-std.org/jtc1/sc22/WG21/docs/papers/2009/n2911.pdf">SCARY</a>. From that academic paper:
+"The acronym SCARY describes assignments and initializations that are Seemingly erroneous (appearing Constrained by conflicting generic parameters), but Actually work with the Right implementation (unconstrained bY the conflict due to minimized dependencies)."</p>
+<h5 id="note_32">Note<a class="headerlink" href="#note_32" title="Permanent link">&para;</a></h5>
+<p>This also applies to lambdas that don't depend on all of the template parameters.</p>
+<h5 id="enforcement_25">Enforcement<a class="headerlink" href="#enforcement_25" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag member types that do not depend on every template parameter</li>
+<li>Flag member functions that do not depend on every template parameter</li>
+<li>Flag lambdas or variable templates that do not depend on every template parameter</li>
+</ul>
+<h3 id="t62-place-non-dependent-class-template-members-in-a-non-templated-base-class"><a name="Rt-nondependent"></a>T.62: Place non-dependent class template members in a non-templated base class<a class="headerlink" href="#t62-place-non-dependent-class-template-members-in-a-non-templated-base-class" title="Permanent link">&para;</a></h3>
+<h5 id="reason_27">Reason<a class="headerlink" href="#reason_27" title="Permanent link">&para;</a></h5>
+<p>Allow the base class members to be used without specifying template arguments and without template instantiation.</p>
+<h5 id="example_28">Example<a class="headerlink" href="#example_28" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+class Foo {
+public:
+    enum { v1, v2 };
+    // ...
+};
+</code></pre></div>
+<p>???</p>
+<div class="language-text highlight"><pre><span></span><code>struct Foo_base {
+    enum { v1, v2 };
+    // ...
+};
+
+template&lt;typename T&gt;
+class Foo : public Foo_base {
+public:
+    // ...
+};
+</code></pre></div>
+<h5 id="note_33">Note<a class="headerlink" href="#note_33" title="Permanent link">&para;</a></h5>
+<p>A more general version of this rule would be
+"If a class template member depends on only N template parameters out of M, place it in a base class with only N parameters."
+For N == 1, we have a choice of a base class of a class in the surrounding scope as in <a href="#Rt-scary">T.61</a>.</p>
+<p>??? What about constants? class statics?</p>
+<h5 id="enforcement_26">Enforcement<a class="headerlink" href="#enforcement_26" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag ???</li>
+</ul>
+<h3 id="t64-use-specialization-to-provide-alternative-implementations-of-class-templates"><a name="Rt-specialization"></a>T.64: Use specialization to provide alternative implementations of class templates<a class="headerlink" href="#t64-use-specialization-to-provide-alternative-implementations-of-class-templates" title="Permanent link">&para;</a></h3>
+<h5 id="reason_28">Reason<a class="headerlink" href="#reason_28" title="Permanent link">&para;</a></h5>
+<p>A template defines a general interface.
+Specialization offers a powerful mechanism for providing alternative implementations of that interface.</p>
+<h5 id="example_29">Example<a class="headerlink" href="#example_29" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? string specialization (==)
+
+??? representation specialization ?
+</code></pre></div>
+<h5 id="note_34">Note<a class="headerlink" href="#note_34" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="enforcement_27">Enforcement<a class="headerlink" href="#enforcement_27" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t65-use-tag-dispatch-to-provide-alternative-implementations-of-a-function"><a name="Rt-tag-dispatch"></a>T.65: Use tag dispatch to provide alternative implementations of a function<a class="headerlink" href="#t65-use-tag-dispatch-to-provide-alternative-implementations-of-a-function" title="Permanent link">&para;</a></h3>
+<h5 id="reason_29">Reason<a class="headerlink" href="#reason_29" title="Permanent link">&para;</a></h5>
+<ul>
+<li>A template defines a general interface.</li>
+<li>Tag dispatch allows us to select implementations based on specific properties of an argument type.</li>
+<li>Performance.</li>
+</ul>
+<h5 id="example_30">Example<a class="headerlink" href="#example_30" title="Permanent link">&para;</a></h5>
+<p>This is a simplified version of <code>std::copy</code> (ignoring the possibility of non-contiguous sequences)</p>
+<div class="language-text highlight"><pre><span></span><code>struct trivially_copyable_tag {};
+struct non_trivially_copyable_tag {};
+
+// T is not trivially copyable
+template&lt;class T&gt; struct copy_trait { using tag = non_trivially_copyable_tag; };
+// int is trivially copyable
+template&lt;&gt; struct copy_trait&lt;int&gt; { using tag = trivially_copyable_tag; };
+
+template&lt;class Iter&gt;
+Out copy_helper(Iter first, Iter last, Iter out, trivially_copyable_tag)
+{
+    // use memmove
+}
+
+template&lt;class Iter&gt;
+Out copy_helper(Iter first, Iter last, Iter out, non_trivially_copyable_tag)
+{
+    // use loop calling copy constructors
+}
+
+template&lt;class Iter&gt;
+Out copy(Iter first, Iter last, Iter out)
+{
+    using tag_type = typename copy_trait&lt;std::iter_value_t&lt;Iter&gt;&gt;;
+    return copy_helper(first, last, out, tag_type{})
+}
+
+void use(vector&lt;int&gt;&amp; vi, vector&lt;int&gt;&amp; vi2, vector&lt;string&gt;&amp; vs, vector&lt;string&gt;&amp; vs2)
+{
+    copy(vi.begin(), vi.end(), vi2.begin()); // uses memmove
+    copy(vs.begin(), vs.end(), vs2.begin()); // uses a loop calling copy constructors
+}
+</code></pre></div>
+<p>This is a general and powerful technique for compile-time algorithm selection.</p>
+<h5 id="note_35">Note<a class="headerlink" href="#note_35" title="Permanent link">&para;</a></h5>
+<p>With C++20 constraints, such alternatives can be distinguished directly:</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class Iter&gt;
+    requires std::is_trivially_copyable_v&lt;std::iter_value_t&lt;Iter&gt;&gt;
+Out copy_helper(In, first, In last, Out out)
+{
+    // use memmove
+}
+
+template&lt;class Iter&gt;
+Out copy_helper(In, first, In last, Out out)
+{
+    // use loop calling copy constructors
+}
+</code></pre></div>
+<h5 id="enforcement_28">Enforcement<a class="headerlink" href="#enforcement_28" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t67-use-specialization-to-provide-alternative-implementations-for-irregular-types"><a name="Rt-specialization2"></a>T.67: Use specialization to provide alternative implementations for irregular types<a class="headerlink" href="#t67-use-specialization-to-provide-alternative-implementations-for-irregular-types" title="Permanent link">&para;</a></h3>
+<h5 id="reason_30">Reason<a class="headerlink" href="#reason_30" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_31">Example<a class="headerlink" href="#example_31" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_29">Enforcement<a class="headerlink" href="#enforcement_29" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t68-use-rather-than-within-templates-to-avoid-ambiguities"><a name="Rt-cast"></a>T.68: Use <code>{}</code> rather than <code>()</code> within templates to avoid ambiguities<a class="headerlink" href="#t68-use-rather-than-within-templates-to-avoid-ambiguities" title="Permanent link">&para;</a></h3>
+<h5 id="reason_31">Reason<a class="headerlink" href="#reason_31" title="Permanent link">&para;</a></h5>
+<p><code>()</code> is vulnerable to grammar ambiguities.</p>
+<h5 id="example_32">Example<a class="headerlink" href="#example_32" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T, typename U&gt;
+void f(T t, U u)
+{
+    T v1(T(u));    // mistake: oops, v1 is a function not a variable
+    T v2{u};       // clear:   obviously a variable
+    auto x = T(u); // unclear: construction or cast?
+}
+
+f(1, &quot;asdf&quot;); // bad: cast from const char* to int
+</code></pre></div>
+<h5 id="enforcement_30">Enforcement<a class="headerlink" href="#enforcement_30" title="Permanent link">&para;</a></h5>
+<ul>
+<li>flag <code>()</code> initializers</li>
+<li>flag function-style casts</li>
+</ul>
+<h3 id="t69-inside-a-template-dont-make-an-unqualified-non-member-function-call-unless-you-intend-it-to-be-a-customization-point"><a name="Rt-customization"></a>T.69: Inside a template, don't make an unqualified non-member function call unless you intend it to be a customization point<a class="headerlink" href="#t69-inside-a-template-dont-make-an-unqualified-non-member-function-call-unless-you-intend-it-to-be-a-customization-point" title="Permanent link">&para;</a></h3>
+<h5 id="reason_32">Reason<a class="headerlink" href="#reason_32" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Provide only intended flexibility.</li>
+<li>Avoid vulnerability to accidental environmental changes.</li>
+</ul>
+<h5 id="example_33">Example<a class="headerlink" href="#example_33" title="Permanent link">&para;</a></h5>
+<p>There are three major ways to let calling code customize a template.</p>
+<div class="language-text highlight"><pre><span></span><code>template&lt;class T&gt;
+    // Call a member function
+void test1(T t)
+{
+    t.f();    // require T to provide f()
+}
+
+template&lt;class T&gt;
+void test2(T t)
+    // Call a non-member function without qualification
+{
+    f(t);     // require f(/*T*/) be available in caller&#39;s scope or in T&#39;s namespace
+}
+
+template&lt;class T&gt;
+void test3(T t)
+    // Invoke a &quot;trait&quot;
+{
+    test_traits&lt;T&gt;::f(t); // require customizing test_traits&lt;&gt;
+                          // to get non-default functions/types
+}
+</code></pre></div>
+<p>A trait is usually a type alias to compute a type,
+a <code>constexpr</code> function to compute a value,
+or a traditional traits template to be specialized on the user's type.</p>
+<h5 id="note_36">Note<a class="headerlink" href="#note_36" title="Permanent link">&para;</a></h5>
+<p>If you intend to call your own helper function <code>helper(t)</code> with a value <code>t</code> that depends on a template type parameter,
+put it in a <code>::detail</code> namespace and qualify the call as <code>detail::helper(t);</code>.
+An unqualified call becomes a customization point where any function <code>helper</code> in the namespace of <code>t</code>'s type can be invoked;
+this can cause problems like <a href="#Rt-visible">unintentionally invoking unconstrained function templates</a>.</p>
+<h5 id="enforcement_31">Enforcement<a class="headerlink" href="#enforcement_31" title="Permanent link">&para;</a></h5>
+<ul>
+<li>In a template, flag an unqualified call to a non-member function that passes a variable of dependent type when there is a non-member function of the same name in the template's namespace.</li>
+</ul>
+<h2 id="ttemp-hier-template-and-hierarchy-rules"><a name="SS-temp-hier"></a>T.temp-hier: Template and hierarchy rules:<a class="headerlink" href="#ttemp-hier-template-and-hierarchy-rules" title="Permanent link">&para;</a></h2>
+<p>Templates are the backbone of C++'s support for generic programming and class hierarchies the backbone of its support
+for object-oriented programming.
+The two language mechanisms can be used effectively in combination, but a few design pitfalls must be avoided.</p>
+<h3 id="t80-do-not-naively-templatize-a-class-hierarchy"><a name="Rt-hier"></a>T.80: Do not naively templatize a class hierarchy<a class="headerlink" href="#t80-do-not-naively-templatize-a-class-hierarchy" title="Permanent link">&para;</a></h3>
+<h5 id="reason_33">Reason<a class="headerlink" href="#reason_33" title="Permanent link">&para;</a></h5>
+<p>Templating a class hierarchy that has many functions, especially many virtual functions, can lead to code bloat.</p>
+<h5 id="example-bad_5">Example, bad<a class="headerlink" href="#example-bad_5" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+struct Container {         // an interface
+    virtual T* get(int i);
+    virtual T* first();
+    virtual T* next();
+    virtual void sort();
+};
+
+template&lt;typename T&gt;
+class Vector : public Container&lt;T&gt; {
+public:
+    // ...
+};
+
+Vector&lt;int&gt; vi;
+Vector&lt;string&gt; vs;
+</code></pre></div>
+<p>It is probably a bad idea to define a <code>sort</code> as a member function of a container, but it is not unheard of and it makes a good example of what not to do.</p>
+<p>Given this, the compiler cannot know if <code>vector&lt;int&gt;::sort()</code> is called, so it must generate code for it.
+Similar for <code>vector&lt;string&gt;::sort()</code>.
+Unless those two functions are called that's code bloat.
+Imagine what this would do to a class hierarchy with dozens of member functions and dozens of derived classes with many instantiations.</p>
+<h5 id="note_37">Note<a class="headerlink" href="#note_37" title="Permanent link">&para;</a></h5>
+<p>In many cases you can provide a stable interface by not parameterizing a base;
+see <a href="#Rt-abi">"stable base"</a> and <a href="#Rt-generic-oo">OO and GP</a></p>
+<h5 id="enforcement_32">Enforcement<a class="headerlink" href="#enforcement_32" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag virtual functions that depend on a template argument. ??? False positives</li>
+</ul>
+<h3 id="t81-do-not-mix-hierarchies-and-arrays"><a name="Rt-array"></a>T.81: Do not mix hierarchies and arrays<a class="headerlink" href="#t81-do-not-mix-hierarchies-and-arrays" title="Permanent link">&para;</a></h3>
+<h5 id="reason_34">Reason<a class="headerlink" href="#reason_34" title="Permanent link">&para;</a></h5>
+<p>An array of derived classes can implicitly "decay" to a pointer to a base class with potential disastrous results.</p>
+<h5 id="example_34">Example<a class="headerlink" href="#example_34" title="Permanent link">&para;</a></h5>
+<p>Assume that <code>Apple</code> and <code>Pear</code> are two kinds of <code>Fruit</code>s.</p>
+<div class="language-text highlight"><pre><span></span><code>void maul(Fruit* p)
+{
+    *p = Pear{};     // put a Pear into *p
+    p[1] = Pear{};   // put a Pear into p[1]
+}
+
+Apple aa [] = { an_apple, another_apple };   // aa contains Apples (obviously!)
+
+maul(aa);
+Apple&amp; a0 = &amp;aa[0];   // a Pear?
+Apple&amp; a1 = &amp;aa[1];   // a Pear?
+</code></pre></div>
+<p>Probably, <code>aa[0]</code> will be a <code>Pear</code> (without the use of a cast!).
+If <code>sizeof(Apple) != sizeof(Pear)</code> the access to <code>aa[1]</code> will not be aligned to the proper start of an object in the array.
+We have a type violation and possibly (probably) a memory corruption.
+Never write such code.</p>
+<p>Note that <code>maul()</code> violates the a <a href="#Rf-ptr"><code>T*</code> points to an individual object rule</a>.</p>
+<p><strong>Alternative</strong>: Use a proper (templatized) container:</p>
+<div class="language-text highlight"><pre><span></span><code>void maul2(Fruit* p)
+{
+    *p = Pear{};   // put a Pear into *p
+}
+
+vector&lt;Apple&gt; va = { an_apple, another_apple };   // va contains Apples (obviously!)
+
+maul2(va);       // error: cannot convert a vector&lt;Apple&gt; to a Fruit*
+maul2(&amp;va[0]);   // you asked for it
+
+Apple&amp; a0 = &amp;va[0];   // a Pear?
+</code></pre></div>
+<p>Note that the assignment in <code>maul2()</code> violated the <a href="#Res-slice">no-slicing rule</a>.</p>
+<h5 id="enforcement_33">Enforcement<a class="headerlink" href="#enforcement_33" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Detect this horror!</li>
+</ul>
+<h3 id="t82-linearize-a-hierarchy-when-virtual-functions-are-undesirable"><a name="Rt-linear"></a>T.82: Linearize a hierarchy when virtual functions are undesirable<a class="headerlink" href="#t82-linearize-a-hierarchy-when-virtual-functions-are-undesirable" title="Permanent link">&para;</a></h3>
+<h5 id="reason_35">Reason<a class="headerlink" href="#reason_35" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_35">Example<a class="headerlink" href="#example_35" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_34">Enforcement<a class="headerlink" href="#enforcement_34" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t83-do-not-declare-a-member-function-template-virtual"><a name="Rt-virtual"></a>T.83: Do not declare a member function template virtual<a class="headerlink" href="#t83-do-not-declare-a-member-function-template-virtual" title="Permanent link">&para;</a></h3>
+<h5 id="reason_36">Reason<a class="headerlink" href="#reason_36" title="Permanent link">&para;</a></h5>
+<p>C++ does not support that.
+If it did, vtbls could not be generated until link time.
+And in general, implementations must deal with dynamic linking.</p>
+<h5 id="example-dont">Example, don't<a class="headerlink" href="#example-dont" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class Shape {
+    // ...
+    template&lt;class T&gt;
+    virtual bool intersect(T* p);   // error: template cannot be virtual
+};
+</code></pre></div>
+<h5 id="note_38">Note<a class="headerlink" href="#note_38" title="Permanent link">&para;</a></h5>
+<p>We need a rule because people keep asking about this</p>
+<h5 id="alternative">Alternative<a class="headerlink" href="#alternative" title="Permanent link">&para;</a></h5>
+<p>Double dispatch, visitors, calculate which function to call</p>
+<h5 id="enforcement_35">Enforcement<a class="headerlink" href="#enforcement_35" title="Permanent link">&para;</a></h5>
+<p>The compiler handles that.</p>
+<h3 id="t84-use-a-non-template-core-implementation-to-provide-an-abi-stable-interface"><a name="Rt-abi"></a>T.84: Use a non-template core implementation to provide an ABI-stable interface<a class="headerlink" href="#t84-use-a-non-template-core-implementation-to-provide-an-abi-stable-interface" title="Permanent link">&para;</a></h3>
+<h5 id="reason_37">Reason<a class="headerlink" href="#reason_37" title="Permanent link">&para;</a></h5>
+<p>Improve stability of code.
+Avoid code bloat.</p>
+<h5 id="example_36">Example<a class="headerlink" href="#example_36" title="Permanent link">&para;</a></h5>
+<p>It could be a base class:</p>
+<div class="language-text highlight"><pre><span></span><code>struct Link_base {   // stable
+    Link_base* suc;
+    Link_base* pre;
+};
+
+template&lt;typename T&gt;   // templated wrapper to add type safety
+struct Link : Link_base {
+    T val;
+};
+
+struct List_base {
+    Link_base* first;   // first element (if any)
+    int sz;             // number of elements
+    void add_front(Link_base* p);
+    // ...
+};
+
+template&lt;typename T&gt;
+class List : List_base {
+public:
+    void put_front(const T&amp; e) { add_front(new Link&lt;T&gt;{e}); }   // implicit cast to Link_base
+    T&amp; front() { static_cast&lt;Link&lt;T&gt;*&gt;(first).val; }   // explicit cast back to Link&lt;T&gt;
+    // ...
+};
+
+List&lt;int&gt; li;
+List&lt;string&gt; ls;
+</code></pre></div>
+<p>Now there is only one copy of the operations linking and unlinking elements of a <code>List</code>.
+The <code>Link</code> and <code>List</code> classes do nothing but type manipulation.</p>
+<p>Instead of using a separate "base" type, another common technique is to specialize for <code>void</code> or <code>void*</code> and have the general template for <code>T</code> be just the safely-encapsulated casts to and from the core <code>void</code> implementation.</p>
+<p><strong>Alternative</strong>: Use a <a href="#Ri-pimpl">Pimpl</a> implementation.</p>
+<h5 id="enforcement_36">Enforcement<a class="headerlink" href="#enforcement_36" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="tvar-variadic-template-rules"><a name="SS-variadic"></a>T.var: Variadic template rules<a class="headerlink" href="#tvar-variadic-template-rules" title="Permanent link">&para;</a></h2>
+<p>???</p>
+<h3 id="t100-use-variadic-templates-when-you-need-a-function-that-takes-a-variable-number-of-arguments-of-a-variety-of-types"><a name="Rt-variadic"></a>T.100: Use variadic templates when you need a function that takes a variable number of arguments of a variety of types<a class="headerlink" href="#t100-use-variadic-templates-when-you-need-a-function-that-takes-a-variable-number-of-arguments-of-a-variety-of-types" title="Permanent link">&para;</a></h3>
+<h5 id="reason_38">Reason<a class="headerlink" href="#reason_38" title="Permanent link">&para;</a></h5>
+<p>Variadic templates is the most general mechanism for that, and is both efficient and type-safe. Don't use C varargs.</p>
+<h5 id="example_37">Example<a class="headerlink" href="#example_37" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? printf
+</code></pre></div>
+<h5 id="enforcement_37">Enforcement<a class="headerlink" href="#enforcement_37" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag uses of <code>va_arg</code> in user code.</li>
+</ul>
+<h3 id="t101-how-to-pass-arguments-to-a-variadic-template"><a name="Rt-variadic-pass"></a>T.101: ??? How to pass arguments to a variadic template ???<a class="headerlink" href="#t101-how-to-pass-arguments-to-a-variadic-template" title="Permanent link">&para;</a></h3>
+<h5 id="reason_39">Reason<a class="headerlink" href="#reason_39" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_38">Example<a class="headerlink" href="#example_38" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? beware of move-only and reference arguments
+</code></pre></div>
+<h5 id="enforcement_38">Enforcement<a class="headerlink" href="#enforcement_38" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t102-how-to-process-arguments-to-a-variadic-template"><a name="Rt-variadic-process"></a>T.102: How to process arguments to a variadic template<a class="headerlink" href="#t102-how-to-process-arguments-to-a-variadic-template" title="Permanent link">&para;</a></h3>
+<h5 id="reason_40">Reason<a class="headerlink" href="#reason_40" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h5 id="example_39">Example<a class="headerlink" href="#example_39" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? forwarding, type checking, references
+</code></pre></div>
+<h5 id="enforcement_39">Enforcement<a class="headerlink" href="#enforcement_39" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t103-dont-use-variadic-templates-for-homogeneous-argument-lists"><a name="Rt-variadic-not"></a>T.103: Don't use variadic templates for homogeneous argument lists<a class="headerlink" href="#t103-dont-use-variadic-templates-for-homogeneous-argument-lists" title="Permanent link">&para;</a></h3>
+<h5 id="reason_41">Reason<a class="headerlink" href="#reason_41" title="Permanent link">&para;</a></h5>
+<p>There are more precise ways of specifying a homogeneous sequence, such as an <code>initializer_list</code>.</p>
+<h5 id="example_40">Example<a class="headerlink" href="#example_40" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_40">Enforcement<a class="headerlink" href="#enforcement_40" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="tmeta-template-metaprogramming-tmp"><a name="SS-meta"></a>T.meta: Template metaprogramming (TMP)<a class="headerlink" href="#tmeta-template-metaprogramming-tmp" title="Permanent link">&para;</a></h2>
+<p>Templates provide a general mechanism for compile-time programming.</p>
+<p>Metaprogramming is programming where at least one input or one result is a type.
+Templates offer Turing-complete (modulo memory capacity) duck typing at compile time.
+The syntax and techniques needed are pretty horrendous.</p>
+<h3 id="t120-use-template-metaprogramming-only-when-you-really-need-to"><a name="Rt-metameta"></a>T.120: Use template metaprogramming only when you really need to<a class="headerlink" href="#t120-use-template-metaprogramming-only-when-you-really-need-to" title="Permanent link">&para;</a></h3>
+<h5 id="reason_42">Reason<a class="headerlink" href="#reason_42" title="Permanent link">&para;</a></h5>
+<p>Template metaprogramming is hard to get right, slows down compilation, and is often very hard to maintain.
+However, there are real-world examples where template metaprogramming provides better performance than any alternative short of expert-level assembly code.
+Also, there are real-world examples where template metaprogramming expresses the fundamental ideas better than run-time code.
+For example, if you really need AST manipulation at compile time (e.g., for optional matrix operation folding) there might be no other way in C++.</p>
+<h5 id="example-bad_6">Example, bad<a class="headerlink" href="#example-bad_6" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="example-bad_7">Example, bad<a class="headerlink" href="#example-bad_7" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>enable_if
+</code></pre></div>
+<p>Instead, use concepts. But see <a href="#Rt-emulate">How to emulate concepts if you don't have language support</a>.</p>
+<h5 id="example_41">Example<a class="headerlink" href="#example_41" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? good
+</code></pre></div>
+<p><strong>Alternative</strong>: If the result is a value, rather than a type, use a <a href="#Rt-fct"><code>constexpr</code> function</a>.</p>
+<h5 id="note_39">Note<a class="headerlink" href="#note_39" title="Permanent link">&para;</a></h5>
+<p>If you feel the need to hide your template metaprogramming in macros, you have probably gone too far.</p>
+<h3 id="t121-use-template-metaprogramming-primarily-to-emulate-concepts"><a name="Rt-emulate"></a>T.121: Use template metaprogramming primarily to emulate concepts<a class="headerlink" href="#t121-use-template-metaprogramming-primarily-to-emulate-concepts" title="Permanent link">&para;</a></h3>
+<h5 id="reason_43">Reason<a class="headerlink" href="#reason_43" title="Permanent link">&para;</a></h5>
+<p>Where C++20 is not available, we need to emulate them using TMP.
+Use cases that require concepts (e.g. overloading based on concepts) are among the most common (and simple) uses of TMP.</p>
+<h5 id="example_42">Example<a class="headerlink" href="#example_42" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename Iter&gt;
+    /*requires*/ enable_if&lt;random_access_iterator&lt;Iter&gt;, void&gt;
+advance(Iter p, int n) { p += n; }
+
+template&lt;typename Iter&gt;
+    /*requires*/ enable_if&lt;forward_iterator&lt;Iter&gt;, void&gt;
+advance(Iter p, int n) { assert(n &gt;= 0); while (n--) ++p;}
+</code></pre></div>
+<h5 id="note_40">Note<a class="headerlink" href="#note_40" title="Permanent link">&para;</a></h5>
+<p>Such code is much simpler using concepts:</p>
+<div class="language-text highlight"><pre><span></span><code>void advance(random_access_iterator auto p, int n) { p += n; }
+
+void advance(forward_iterator auto p, int n) { assert(n &gt;= 0); while (n--) ++p;}
+</code></pre></div>
+<h5 id="enforcement_41">Enforcement<a class="headerlink" href="#enforcement_41" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t122-use-templates-usually-template-aliases-to-compute-types-at-compile-time"><a name="Rt-tmp"></a>T.122: Use templates (usually template aliases) to compute types at compile time<a class="headerlink" href="#t122-use-templates-usually-template-aliases-to-compute-types-at-compile-time" title="Permanent link">&para;</a></h3>
+<h5 id="reason_44">Reason<a class="headerlink" href="#reason_44" title="Permanent link">&para;</a></h5>
+<p>Template metaprogramming is the only directly supported and half-way principled way of generating types at compile time.</p>
+<h5 id="note_41">Note<a class="headerlink" href="#note_41" title="Permanent link">&para;</a></h5>
+<p>"Traits" techniques are mostly replaced by template aliases to compute types and <code>constexpr</code> functions to compute values.</p>
+<h5 id="example_43">Example<a class="headerlink" href="#example_43" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>??? big object / small object optimization
+</code></pre></div>
+<h5 id="enforcement_42">Enforcement<a class="headerlink" href="#enforcement_42" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t123-use-constexpr-functions-to-compute-values-at-compile-time"><a name="Rt-fct"></a>T.123: Use <code>constexpr</code> functions to compute values at compile time<a class="headerlink" href="#t123-use-constexpr-functions-to-compute-values-at-compile-time" title="Permanent link">&para;</a></h3>
+<h5 id="reason_45">Reason<a class="headerlink" href="#reason_45" title="Permanent link">&para;</a></h5>
+<p>A function is the most obvious and conventional way of expressing the computation of a value.
+Often a <code>constexpr</code> function implies less compile-time overhead than alternatives.</p>
+<h5 id="note_42">Note<a class="headerlink" href="#note_42" title="Permanent link">&para;</a></h5>
+<p>"Traits" techniques are mostly replaced by template aliases to compute types and <code>constexpr</code> functions to compute values.</p>
+<h5 id="example_44">Example<a class="headerlink" href="#example_44" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>template&lt;typename T&gt;
+    // requires Number&lt;T&gt;
+constexpr T pow(T v, int n)   // power/exponential
+{
+    T res = 1;
+    while (n--) res *= v;
+    return res;
+}
+
+constexpr auto f7 = pow(pi, 7);
+</code></pre></div>
+<h5 id="enforcement_43">Enforcement<a class="headerlink" href="#enforcement_43" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag template metaprograms yielding a value. These should be replaced with <code>constexpr</code> functions.</li>
+</ul>
+<h3 id="t124-prefer-to-use-standard-library-tmp-facilities"><a name="Rt-std-tmp"></a>T.124: Prefer to use standard-library TMP facilities<a class="headerlink" href="#t124-prefer-to-use-standard-library-tmp-facilities" title="Permanent link">&para;</a></h3>
+<h5 id="reason_46">Reason<a class="headerlink" href="#reason_46" title="Permanent link">&para;</a></h5>
+<p>Facilities defined in the standard, such as <code>conditional</code>, <code>enable_if</code>, and <code>tuple</code>, are portable and can be assumed to be known.</p>
+<h5 id="example_45">Example<a class="headerlink" href="#example_45" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_44">Enforcement<a class="headerlink" href="#enforcement_44" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t125-if-you-need-to-go-beyond-the-standard-library-tmp-facilities-use-an-existing-library"><a name="Rt-lib"></a>T.125: If you need to go beyond the standard-library TMP facilities, use an existing library<a class="headerlink" href="#t125-if-you-need-to-go-beyond-the-standard-library-tmp-facilities-use-an-existing-library" title="Permanent link">&para;</a></h3>
+<h5 id="reason_47">Reason<a class="headerlink" href="#reason_47" title="Permanent link">&para;</a></h5>
+<p>Getting advanced TMP facilities is not easy and using a library makes you part of a (hopefully supportive) community.
+Write your own "advanced TMP support" only if you really have to.</p>
+<h5 id="example_46">Example<a class="headerlink" href="#example_46" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_45">Enforcement<a class="headerlink" href="#enforcement_45" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h2 id="other-template-rules"><a name="SS-temp-other"></a>Other template rules<a class="headerlink" href="#other-template-rules" title="Permanent link">&para;</a></h2>
+<h3 id="t140-if-an-operation-can-be-reused-give-it-a-name"><a name="Rt-name"></a>T.140: If an operation can be reused, give it a name<a class="headerlink" href="#t140-if-an-operation-can-be-reused-give-it-a-name" title="Permanent link">&para;</a></h3>
+<p>See <a href="#Rf-name">F.10</a></p>
+<h3 id="t141-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only"><a name="Rt-lambda"></a>T.141: Use an unnamed lambda if you need a simple function object in one place only<a class="headerlink" href="#t141-use-an-unnamed-lambda-if-you-need-a-simple-function-object-in-one-place-only" title="Permanent link">&para;</a></h3>
+<p>See <a href="#Rf-lambda">F.11</a></p>
+<h3 id="t142-use-template-variables-to-simplify-notation"><a name="Rt-var"></a>T.142?: Use template variables to simplify notation<a class="headerlink" href="#t142-use-template-variables-to-simplify-notation" title="Permanent link">&para;</a></h3>
+<h5 id="reason_48">Reason<a class="headerlink" href="#reason_48" title="Permanent link">&para;</a></h5>
+<p>Improved readability.</p>
+<h5 id="example_47">Example<a class="headerlink" href="#example_47" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<h5 id="enforcement_46">Enforcement<a class="headerlink" href="#enforcement_46" title="Permanent link">&para;</a></h5>
+<p>???</p>
+<h3 id="t143-dont-write-unintentionally-non-generic-code"><a name="Rt-non-generic"></a>T.143: Don't write unintentionally non-generic code<a class="headerlink" href="#t143-dont-write-unintentionally-non-generic-code" title="Permanent link">&para;</a></h3>
+<h5 id="reason_49">Reason<a class="headerlink" href="#reason_49" title="Permanent link">&para;</a></h5>
+<p>Generality. Reusability. Don't gratuitously commit to details; use the most general facilities available.</p>
+<h5 id="example_48">Example<a class="headerlink" href="#example_48" title="Permanent link">&para;</a></h5>
+<p>Use <code>!=</code> instead of <code>&lt;</code> to compare iterators; <code>!=</code> works for more objects because it doesn't rely on ordering.</p>
+<div class="language-text highlight"><pre><span></span><code>for (auto i = first; i &lt; last; ++i) {   // less generic
+    // ...
+}
+
+for (auto i = first; i != last; ++i) {   // good; more generic
+    // ...
+}
+</code></pre></div>
+<p>Of course, range-<code>for</code> is better still where it does what you want.</p>
+<h5 id="example_49">Example<a class="headerlink" href="#example_49" title="Permanent link">&para;</a></h5>
+<p>Use the least-derived class that has the functionality you need.</p>
+<div class="language-text highlight"><pre><span></span><code>class Base {
+public:
+    Bar f();
+    Bar g();
+};
+
+class Derived1 : public Base {
+public:
+    Bar h();
+};
+
+class Derived2 : public Base {
+public:
+    Bar j();
+};
+
+// bad, unless there is a specific reason for limiting to Derived1 objects only
+void my_func(Derived1&amp; param)
+{
+    use(param.f());
+    use(param.g());
+}
+
+// good, uses only Base interface so only commit to that
+void my_func(Base&amp; param)
+{
+    use(param.f());
+    use(param.g());
+}
+</code></pre></div>
+<h5 id="enforcement_47">Enforcement<a class="headerlink" href="#enforcement_47" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag comparison of iterators using <code>&lt;</code> instead of <code>!=</code>.</li>
+<li>Flag <code>x.size() == 0</code> when <code>x.empty()</code> or <code>x.is_empty()</code> is available. Emptiness works for more containers than size(), because some containers don't know their size or are conceptually of unbounded size.</li>
+<li>Flag functions that take a pointer or reference to a more-derived type but only use functions declared in a base type.</li>
+</ul>
+<h3 id="t144-dont-specialize-function-templates"><a name="Rt-specialize-function"></a>T.144: Don't specialize function templates<a class="headerlink" href="#t144-dont-specialize-function-templates" title="Permanent link">&para;</a></h3>
+<h5 id="reason_50">Reason<a class="headerlink" href="#reason_50" title="Permanent link">&para;</a></h5>
+<p>You can't partially specialize a function template per language rules. You can fully specialize a function template but you almost certainly want to overload instead -- because function template specializations don't participate in overloading, they don't act as you probably wanted. Rarely, you should actually specialize by delegating to a class template that you can specialize properly.</p>
+<h5 id="example_50">Example<a class="headerlink" href="#example_50" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>???
+</code></pre></div>
+<p><strong>Exceptions</strong>: If you do have a valid reason to specialize a function template, just write a single function template that delegates to a class template, then specialize the class template (including the ability to write partial specializations).</p>
+<h5 id="enforcement_48">Enforcement<a class="headerlink" href="#enforcement_48" title="Permanent link">&para;</a></h5>
+<ul>
+<li>Flag all specializations of a function template. Overload instead.</li>
+</ul>
+<h3 id="t150-check-that-a-class-matches-a-concept-using-static_assert"><a name="Rt-check-class"></a>T.150: Check that a class matches a concept using <code>static_assert</code><a class="headerlink" href="#t150-check-that-a-class-matches-a-concept-using-static_assert" title="Permanent link">&para;</a></h3>
+<h5 id="reason_51">Reason<a class="headerlink" href="#reason_51" title="Permanent link">&para;</a></h5>
+<p>If you intend for a class to match a concept, verifying that early saves users' pain.</p>
+<h5 id="example_51">Example<a class="headerlink" href="#example_51" title="Permanent link">&para;</a></h5>
+<div class="language-text highlight"><pre><span></span><code>class X {
+public:
+    X() = delete;
+    X(const X&amp;) = default;
+    X(X&amp;&amp;) = default;
+    X&amp; operator=(const X&amp;) = default;
+    // ...
+};
+</code></pre></div>
+<p>Somewhere, possibly in an implementation file, let the compiler check the desired properties of <code>X</code>:</p>
+<div class="language-text highlight"><pre><span></span><code>static_assert(Default_constructible&lt;X&gt;);    // error: X has no default constructor
+static_assert(Copyable&lt;X&gt;);                 // error: we forgot to define X&#39;s move constructor
+</code></pre></div>
+<h5 id="enforcement_49">Enforcement<a class="headerlink" href="#enforcement_49" title="Permanent link">&para;</a></h5>
+<p>Not feasible.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+        <script src="../js/open_in_new_tab.js"></script>
+      
+    
+  </body>
+</html>
